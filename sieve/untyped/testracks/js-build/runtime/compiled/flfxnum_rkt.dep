@@ -1,0 +1,1 @@
+("6.8" ("7bf845776ac4a89f646a52ed308a95ae1ae0b055" . "dfe0f20bee31acece2a236e70fff6c28becd6775") (collects #"racket" #"runtime-config.rkt") (collects #"racketscript" #"boot" #"lang" #"reader.rkt") (collects #"racketscript" #"boot.rkt") (collects #"racketscript" #"interop.rkt"))
