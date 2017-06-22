@@ -1,5 +1,8 @@
 // this is equivalent to collide.rkt
 
+/// <reference path='DataClasses.ts'/>
+/// <reference path='GameConsts.ts'/>
+
 // is the snake colliding with any of the walls?
 
 var is_snake_wall_collide = function( snk: Snake): boolean {

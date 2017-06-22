@@ -10,7 +10,7 @@ class Pair<A, B> {
 	}
 };
 
-type Posn = Pair<number, number>;
+//type Posn = Pair<number, number>;
 
 // type NEListof<A> = Pair<A, A[]>;
 
@@ -33,13 +33,13 @@ class Posn {
 }
 
 class Snake {
-	dir: Direction;
+	dir: Dir;
 	segs: Pair<Posn, Posn[]>;
 
-	constructor(d: Direction, s: Pair<Posn, Posn[]>) {
+	constructor(d: Dir, s: Pair<Posn, Posn[]>) {
 		this.dir = d;
 		this.segs.x = s.x;
-		for (var i: number = 0; i < s.length; i++) {
+		for (var i: number = 0; i < s.y.length; i++) {
 			this.segs.y.push( s.y[ i]);
 		}
 	}

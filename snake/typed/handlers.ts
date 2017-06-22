@@ -1,5 +1,8 @@
 // this is equivalent to handlers.rkt
 
+/// <reference path='DataClasses.ts'/>
+/// <reference path='collide.ts'/>
+
 var handle_key = function( w: World, ke: string): World {
 	switch( ke) {
 		case( "w"):

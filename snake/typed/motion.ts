@@ -1,5 +1,10 @@
 // this is equivalent to motion.rkt
 
+/// <reference path='DataClasses.ts'/>
+/// <reference path='motion_helpers.ts'/>
+/// <reference path='GameConsts.ts'/>
+
+declare var require: any;
 var gen = require('random-seed');
 var pls;
 
@@ -12,7 +17,7 @@ var world_to_world = function( w: World): World {
 	if ( is_eating( w)) {
 		return snake_eat( w);
 	} else {
-		return new World( snake_slither( w.snake), w.food));
+		return new World( snake_slither( w.snake), w.food);
 	}
 }
 

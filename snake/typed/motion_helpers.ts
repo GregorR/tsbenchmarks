@@ -2,6 +2,8 @@
 // i also put the cut-tail method (from cut-tail.rkt) in here too
 // since there doesn't really seem to be much point of having it in its own file
 
+/// <reference path='DataClasses.ts'/>
+
 // compute the next position for head
 var next_head = function( seg: Posn, dir: Dir): Posn {
 
