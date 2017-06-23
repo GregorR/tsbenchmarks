@@ -1,0 +1,1 @@
+("6.6" ("20d822938396aef01cb68c5dc282fe579930a8a4" . "1a088f240fe8f5ecb20f9965e4304f6d047a70bf") #"/Users/dstri/Documents/TypeScriptStuff/morse/morse-code-trainer-rkt/morse-code-table.rkt" (collects #"racket" #"base.rkt") (collects #"racket" #"runtime-config.rkt"))

@@ -1,8 +1,9 @@
-#lang typed/racket
+#lang racket/base
 
 ;; Copyright 2014 John Clements, except the portion that comes from wikipedia!
 
 (provide char-table)
+(require racket/match)
 
 (define wikipedia-text
 #<<#
@@ -64,11 +65,9 @@
 )
 
 ;; the lines of the wikipedia text
-(: lines (Listof String))
 (define lines (regexp-split #px"\n" wikipedia-text))
 
 ;; replace some unicode chars with ascii ones in the wikipedia patterns
-(: clean-pattern (String -> String))
 (define (clean-pattern pat)
   (regexp-replace*
    #px"·"
@@ -79,25 +78,23 @@
    "."))
 
 ;; parse the wikipedia text into a table mapping characters to their morse code representations
-(: char-table (HashTable Char String))
 (define char-table
 (make-hash
- (for/list: : (Listof (Pair Char String))
-   ([l : String lines])
+ (for/list
+   ([l lines])
     (match 
-        (ann (regexp-match #px"^\\| \\{\\{[^|]*\\|[^|]*\\|(.)\\}\\} \\|\\| '''([^']*)'''" l)
-             (U False (Pairof String (Listof (U False String)))))
+        (regexp-match #px"^\\| \\{\\{[^|]*\\|[^|]*\\|(.)\\}\\} \\|\\| '''([^']*)'''" l)
       [#f
        (match 
            (regexp-match #px"^\\| \\[\\[[^]]*\\]\\] \\[([^]]*)\\] \\|\\| '''([^']*)'''" l)
          [(list whole-match char pattern)
           (cond [(and char pattern)
-                 (cons (first (string->list char)) (clean-pattern pattern))]
+                 (cons (car (string->list char)) (clean-pattern pattern))]
                 [else
                  (error 'char-table "broken regexp")])]
          [#f (error 'char-table "what goes here?")])
        ]
       [(list whole-match letter pattern) 
        (cond [(and letter pattern)
-              (cons (char-downcase (first (string->list letter))) (clean-pattern pattern))]
+              (cons (char-downcase (car (string->list letter))) (clean-pattern pattern))]
              [else (error 'char-table "broken regexp 2")])]))))
