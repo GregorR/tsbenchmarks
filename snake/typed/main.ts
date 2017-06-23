@@ -4,19 +4,26 @@
 /// <reference path='motion.ts'/>
 /// <reference path='DataClasses.ts'/>
 
-var replay = function( w0: World, hist: any[]): void {
-	reset();
+import gc = require('./GameConsts');
+
+import * as Mo from './motion';
+import * as Ha from './handlers';
+import * as DC from './DataClasses';
+
+var replay = function( w0: DC.World, hist: any[]): void {
+	Mo.reset();
 
 	while ( hist.length > 0) {
 		var curCom: string = hist[ hist.length - 1];
 
 		switch( curCom) {
 			case( "(on-tick)"):
-				w0 = world_to_world( w0);
+				w0 = Mo.world_to_world( w0);
 				break;
 			case( "(stop-when)"):
-				var b: boolean = is_game_over( w0);
+				var b: boolean = Ha.is_game_over( w0);
 				if( b) {
+					console.log("YOOO");
 					return;
 				}
 				break;
@@ -24,7 +31,7 @@ var replay = function( w0: World, hist: any[]): void {
 				// the string is (on-key "k")
 				// the key is the 10th letter
 				var theKey: string = curCom[ 9] + "";
-				w0 = handle_key( w0, theKey);
+				w0 = Ha.handle_key( w0, theKey);
 		}
 
 		hist = hist.splice( 0, hist.length - 1);
@@ -33,14 +40,17 @@ var replay = function( w0: World, hist: any[]): void {
 
 var main = function() {
 
-	var g: GameConsts = new GameConsts();
+	var g: gc.GameConsts = new gc.GameConsts();
 
-	var w0: World = GameConsts.WORLD;	
-	var raw_hist: string[] = GameConsts.plsAr;
+	var w0: DC.World = gc.GameConsts.WORLD;	
+	var raw_hist: string[] = gc.GameConsts.plsAr;
 
-	for( var i: number = 0; i < 100; i ++) {
+	for( var i: number = 0; i < 5; i ++) {
+		console.log( "Here!");
+		console.log( raw_hist.length);
 		replay( w0, raw_hist); // don't need to reverse bc read backwards in loop
-		console.log( w0);
+		//console.log( w0);
 	}
-
 }
+
+main();

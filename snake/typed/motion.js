@@ -1,35 +1,47 @@
+"use strict";
 // this is equivalent to motion.rkt
+exports.__esModule = true;
 /// <reference path='DataClasses.ts'/>
 /// <reference path='motion_helpers.ts'/>
-/// <reference path='GameConsts.ts'/>
-var gen = require('random-seed');
+// import mh = require('./motion_helpers');
+var gc = require("./GameConsts");
+var MH = require("./motion_helpers");
+var DC = require("./DataClasses");
+// declare var require: NodeRequire;
+var gen = require("random-seed");
 var pls;
-var reset = function () {
+function reset() {
     pls = new gen(1324);
-};
-var world_to_world = function (w) {
+}
+exports.reset = reset;
+function world_to_world(w) {
     if (is_eating(w)) {
         return snake_eat(w);
     }
     else {
-        return new World(snake_slither(w.snake), w.food);
+        return new DC.World(MH.snake_slither(w.snake), w.food);
     }
-};
+}
+exports.world_to_world = world_to_world;
 // is the snake eating the food in the world?
-var is_eating = function (w) {
+function is_eating(w) {
     return (w.food).equals(w.snake.segs.x);
-};
+}
+exports.is_eating = is_eating;
 // change the direction of the snake
-var snake_change_direction = function (snk, dir) {
-    return new Snake(dir, snk.segs);
-};
+function snake_change_direction(snk, dir) {
+    return new DC.Snake(dir, snk.segs);
+}
+exports.snake_change_direction = snake_change_direction;
 // change the direction of the world
-var world_change_direction = function (w, dir) {
-    return new World(snake_change_direction(w.snake, dir), w.food);
-};
+function world_change_direction(w, dir) {
+    return new DC.World(snake_change_direction(w.snake, dir), w.food);
+}
+exports.world_change_direction = world_change_direction;
 // eat the food and generate a new one
-var snake_eat = function (w) {
-    var i = Math.floor(pls.random() * GameConsts.BOARD_WIDTH);
-    var j = Math.floor(pls.random() * GameConsts.BOARD_HEIGHT);
-    return new World(snake_grow(w.snake), new Posn(i, j));
-};
+function snake_eat(w) {
+    var i = Math.floor(pls.random() * gc.GameConsts.BOARD_WIDTH);
+    var j = Math.floor(pls.random() * gc.GameConsts.BOARD_HEIGHT);
+    return new DC.World(MH.snake_grow(w.snake), new DC.Posn(i, j));
+}
+exports.snake_eat = snake_eat;

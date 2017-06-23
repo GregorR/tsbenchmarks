@@ -1,6 +1,6 @@
 // equivalent to the data.rkt file from the typed racket version
 
-class Pair<A, B> {
+export class Pair<A, B> {
 	x: A;
 	y: B;
 
@@ -14,11 +14,11 @@ class Pair<A, B> {
 
 // type NEListof<A> = Pair<A, A[]>;
 
-enum Dir {
+export enum Dir {
 	up = 1, down, left, right
 };
 
-class Posn {
+export class Posn {
 	x: number;
 	y:number;
 
@@ -32,12 +32,14 @@ class Posn {
 	}
 }
 
-class Snake {
+export class Snake {
 	dir: Dir;
 	segs: Pair<Posn, Posn[]>;
 
 	constructor(d: Dir, s: Pair<Posn, Posn[]>) {
 		this.dir = d;
+		this.segs = new Pair<Posn, Posn[]>( new Posn(0, 0), []);
+		
 		this.segs.x = s.x;
 		for (var i: number = 0; i < s.y.length; i++) {
 			this.segs.y.push( s.y[ i]);
@@ -45,7 +47,7 @@ class Snake {
 	}
 };
 
-class World {
+export class World {
 	snake: Snake;
 	food: Posn;
 
