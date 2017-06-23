@@ -28,7 +28,7 @@ export function next_head( seg: DC.Posn, dir: DC.Dir): DC.Posn {
 // but they use a recursive method so i should also use a recursive method
 export function cut_tail( segs: DC.Posn[]): DC.Posn[] {
 	
-	if (segs.length <= 2) {
+	if (segs.length < 2) {
 		return [];
 	} else {
 		return [ segs[0]].concat( cut_tail( segs.splice(1, -1)));
@@ -42,6 +42,7 @@ export function snake_slither( snk: DC.Snake): DC.Snake {
 	var newPos: DC.Posn = next_head( snk.segs.x, d);
 
 	var newTail: DC.Posn[] = cut_tail( [snk.segs.x].concat(snk.segs.y));
+	//console.log( newTail);
 
 	return new DC.Snake( d, new DC.Pair<DC.Posn, DC.Posn[]>( newPos, newTail));
 }
@@ -54,6 +55,9 @@ export function snake_grow( snk: DC.Snake): DC.Snake {
 
 	var newTail: DC.Posn[] = [snk.segs.x].concat(snk.segs.y);
 
-	return new DC.Snake( d, new DC.Pair<DC.Posn, DC.Posn[]>( newPos, newTail));
+	var newSnk: DC.Snake = new DC.Snake( d, new DC.Pair<DC.Posn, DC.Posn[]>( newPos, newTail));
+	// console.log( newSnk);
+
+	return newSnk;
 }
 
