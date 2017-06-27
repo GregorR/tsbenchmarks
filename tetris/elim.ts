@@ -14,7 +14,9 @@ function elimRow( bs, i, offset) {
     elimRow( bs, i-1, offset+1)
   }
   else {
-    // TODO: i am terrified of this code
+    // [else (blocks-union (elim-row bs (sub1 i) offset)
+    //                     (blocks-move 0 offset (blocks-row
+    //                                            bs i)))]
     elimRow( bs, i-1, offset)
     bset.blocksMove( 0, offset, bset.blocksRow( bs, i))
   }
@@ -22,7 +24,8 @@ function elimRow( bs, i, offset) {
 
 // eliminate all full rows
 function eliminateFullRows( bs) {
+  // console.log("Here. eliminateFullRows") // DEBUG
   elimRow( bs, consts.boardHeight, 0)
 }
 
-export { eliminateFullRows } 
+export { eliminateFullRows }

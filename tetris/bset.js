@@ -8,12 +8,13 @@
 
 */
 exports.__esModule = true;
+var data = require("./data");
 var block = require("./block");
 var consts = require("./consts");
 // does blockset bs contain b?
 function blocksContains(bs, b) {
-    for (var c in bs) {
-        if (block.blocksEqual(b, c))
+    for (var i = 0; i < blocksCount(bs); i++) {
+        if (block.blocksEqual(b, bs[i]))
             return true;
     }
     return false;
@@ -21,8 +22,8 @@ function blocksContains(bs, b) {
 exports.blocksContains = blocksContains;
 // is blockset bs1 a subset of blockset 2?
 function isBlocksSubset(bs1, bs2) {
-    for (var b in bs1) {
-        if (!blocksContains(bs2, b))
+    for (var i = 0; i < blocksCount(bs1); i++) {
+        if (!blocksContains(bs2, bs1[i]))
             return false;
     }
     return true;
@@ -36,9 +37,9 @@ exports.blockSetsEqual = blockSetsEqual;
 // return bs1 intersect bs2
 function blocksIntersect(bs1, bs2) {
     var r = [];
-    for (var b in bs1) {
-        if (blocksContains(bs2, b)) {
-            r.push(b);
+    for (var i = 0; i < blocksCount(bs1); i++) {
+        if (blocksContains(bs2, bs1[i])) {
+            r.push(bs1[i]);
         }
     }
     return r;
@@ -75,7 +76,7 @@ exports.blocksRotateCW = blocksRotateCW;
 // c: Color, bs: BlockSet
 function blocksChangeColor(bs, c) {
     for (var i = 0; i < blocksCount(bs); i++) {
-        bs[i] = { x: bs[i].x, y: bs[i].y, color: c.getColor() };
+        bs[i] = { x: bs[i].x, y: bs[i].y, color: data.colorCopy(c) };
     }
 }
 exports.blocksChangeColor = blocksChangeColor;

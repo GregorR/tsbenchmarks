@@ -8,6 +8,13 @@ var Posn = (function () {
     return Posn;
 }());
 exports.Posn = Posn;
+function posnCopy(p) {
+    return {
+        x: p.x,
+        y: p.y
+    };
+}
+exports.posnCopy = posnCopy;
 function equalPosns(p1, p2) {
     return p1.x == p2.x && p1.y == p2.y;
 }
@@ -19,6 +26,26 @@ var Block = (function () {
     return Block;
 }());
 exports.Block = Block;
+function blockCopy(b) {
+    return {
+        x: b.x,
+        y: b.y,
+        color: {
+            r: b.color.r,
+            g: b.color.g,
+            b: b.color.b
+        }
+    };
+}
+exports.blockCopy = blockCopy;
+function blocksCopy(bs) {
+    var newBlocks = [];
+    for (var i = 0; i < bs.length; i++) {
+        newBlocks.push(blockCopy(bs[i]));
+    }
+    return newBlocks;
+}
+exports.blocksCopy = blocksCopy;
 // (struct tetra (center blocks))
 var Tetra = (function () {
     function Tetra() {
@@ -26,6 +53,13 @@ var Tetra = (function () {
     return Tetra;
 }());
 exports.Tetra = Tetra;
+function tetraCopy(t) {
+    return {
+        center: posnCopy(t.center),
+        blocks: blocksCopy(t.blocks)
+    };
+}
+exports.tetraCopy = tetraCopy;
 // (struct world (tetra blocks))
 var World = (function () {
     function World() {
@@ -33,18 +67,25 @@ var World = (function () {
     return World;
 }());
 exports.World = World;
+function worldCopy(w) {
+    return {
+        tetra: tetraCopy(w.tetra),
+        blocks: blocksCopy(w.blocks)
+    };
+}
+exports.worldCopy = worldCopy;
 // this is b/c I don't think JS has a color library
 var Color = (function () {
     function Color() {
-        this.setColor = function (rn, gn, bn) {
-            this.r = rn;
-            this.g = gn;
-            this.b = bn;
-        };
-        this.getColor = function () {
-            return [this.r, this.b, this.g];
-        };
     }
     return Color;
 }());
 exports.Color = Color;
+function colorCopy(c) {
+    return {
+        r: c.r,
+        g: c.g,
+        b: c.b
+    };
+}
+exports.colorCopy = colorCopy;
