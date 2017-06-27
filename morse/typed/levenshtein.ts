@@ -1,4 +1,6 @@
 /*
+Modified to add types.
+
 Copyright (c) 2011 Andrei Mackenzie
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
@@ -6,14 +8,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 // Compute the edit distance between the two given strings
-exports.getEditDistance = function(a, b){
+export function getEditDistance(a: string, b: string) : number {
   if(a.length == 0) return b.length;
   if(b.length == 0) return a.length;
 
-  var matrix = [];
+  var matrix : number[][] = [];
 
   // increment along the first column of each row
-  var i;
+  var i : number;
   for(i = 0; i <= b.length; i++){
     matrix[i] = [i];
   }

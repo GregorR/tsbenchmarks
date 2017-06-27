@@ -1,6 +1,5 @@
 "use strict";
 exports.__esModule = true;
-// imports
 var levDist = require('./levenshtein');
 var morse_code_strings_1 = require("./morse-code-strings");
 var fs = require('fs');
@@ -23,7 +22,7 @@ for (var i = 0; i < freqFileSplit.length; i += 2) {
     wordsSmall[i / 2] = [freqFileSplit[i], freqFileSplit[i + 1]];
 }
 // finally, the main EVENT
-var main = function (words) {
+function main(words) {
     for (var i = 0; i < words.length; i++) {
         for (var j = 0; j < words.length; j++) {
             var s2m1 = morse_code_strings_1.stringToMorse(words[i][0]);
@@ -32,7 +31,7 @@ var main = function (words) {
             var lev2t1 = levDist.getEditDistance(s2m2, s2m1);
         }
     }
-};
+}
 var now = require("performance-now");
 var t0 = now();
 main(wordsSmall);

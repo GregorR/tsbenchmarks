@@ -2,17 +2,17 @@
 import { charTable } from './morse-code-table'
 
 // lookup in charTable
-var charToDitDahString = function ( theLetter) {
+function charToDitDahString( theLetter: string) : string {
   return charTable[ theLetter.toUpperCase()]
 }
 
 // convert an entire string to morse
 // note: no spaces
 // ex:   aa -> .-.- and not .- .-
-var stringToMorse = function( theString) {
-  var out = ""
-  for (let index in theString) {
-      out += charToDitDahString( theString[index])
+function stringToMorse( theString : string) : string {
+  let out : string = ""
+  for (var i : number = 0; i < theString.length; i++) {
+      out += charToDitDahString( theString[i])
   }
   return out
 }
