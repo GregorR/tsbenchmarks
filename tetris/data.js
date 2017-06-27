@@ -33,3 +33,18 @@ var World = (function () {
     return World;
 }());
 exports.World = World;
+// this is b/c I don't think JS has a color library
+var Color = (function () {
+    function Color() {
+        this.setColor = function (rn, gn, bn) {
+            this.r = rn;
+            this.g = gn;
+            this.b = bn;
+        };
+        this.getColor = function () {
+            return [this.r, this.b, this.g];
+        };
+    }
+    return Color;
+}());
+exports.Color = Color;
