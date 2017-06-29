@@ -4,7 +4,7 @@
 
 
 numRuns=30 # run each test 30 times
-tests=`echo sieve morse snake`
+tests=`echo sieve morse tetris snake`
 fileName='testOutput.txt'
 
 echo "Beginning tests" > $fileName

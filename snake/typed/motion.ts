@@ -12,8 +12,49 @@ import * as DC from './DataClasses';
 import gen = require('random-seed');
 var pls;
 
+/**
+ * Modified from from https://gist.github.com/blixt/f17b47c62508be59987b
+ *
+ *
+ * Creates a pseudo-random value generator. The seed must be an integer.
+ *
+ * Uses an optimized version of the Park-Miller PRNG.
+ * http://www.firstpr.com.au/dsp/rand31/
+ */
+
+class RandGen {
+	
+	seed: number;
+
+	constructor( s: number) {
+		this.setSeed( s);
+	}
+
+	public setSeed(s: number): void {
+		this.seed = s % 2147483647;
+
+		if (this.seed <= 0) {
+			this.seed += 2147483646;
+		}
+
+		this.random();
+	}
+
+	/**
+	 * Returns a pseudo-random value in range [0, 1).
+	 */
+	public random(): number {
+		this.seed = (this.seed * 16807) % 2147483647;
+		return ((this.seed - 1.0) / 2147483646.0);
+	}
+
+};
+
+// back to my code
+
 export function reset(): void {
-	pls = new gen( 1324);
+	pls = new RandGen( 1324);
+	// pls = new gen(1324);
 }
 
 
@@ -42,6 +83,7 @@ export function world_change_direction( w: DC.World, dir: DC.Dir): DC.World {
 
 // eat the food and generate a new one
 export function snake_eat( w: DC.World): DC.World {
+	// console.log( pls.random());
 	var i: number = Math.floor( pls.random() * gc.GameConsts.BOARD_WIDTH);
 	var j: number = Math.floor( pls.random() * gc.GameConsts.BOARD_HEIGHT);
 
