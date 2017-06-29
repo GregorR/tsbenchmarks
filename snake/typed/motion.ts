@@ -9,7 +9,7 @@ import * as MH from './motion_helpers';
 import * as DC from './DataClasses';
 
 // declare var require: NodeRequire;
-import gen = require('random-seed');
+// import gen = require('random-seed');
 var pls;
 
 /**
