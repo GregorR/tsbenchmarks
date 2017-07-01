@@ -6,11 +6,37 @@ import * as tetras from "./tetras"
 declare function require(name:string)
 
 // random number generator, seeded as in benchmarks
-var seedrandom = require('seedrandom')
-var rng = seedrandom(43453)
+class RandGen {
+
+	seed: number;
+
+	constructor( s: number) {
+		this.setSeed( s);
+	}
+
+	public setSeed(s: number): void {
+		this.seed = s % 2147483647;
+
+		if (this.seed <= 0) {
+			this.seed += 2147483646;
+		}
+
+		this.random();
+	}
+
+	/**
+	 * Returns a pseudo-random value in range [0, 1).
+	 */
+	public random(): number {
+		this.seed = (this.seed * 16807) % 2147483647;
+		return ((this.seed - 1.0) / 2147483646.0);
+	}
+
+}
 
 function listPickRandom( ls : data.Tetra[]) : data.Tetra {
-  var index : number = Math.floor( rng() * ls.length)
+  var randGen : RandGen = new RandGen( 43453)
+  var index : number = Math.floor( randGen.random() * ls.length)
   return ls[ index]
 }
 
