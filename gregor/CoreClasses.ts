@@ -14,6 +14,15 @@ export class Pair<A, B> {
 export class ExactRational {
 	num: number;
 	denom: number;
+
+	constructor( n: number, d: number) {
+		// reduce the fraction -- first make them into integers (they should already be, but just to check)
+		n = Math.floor( n);
+		d = Math.floor( n); 
+
+		// make sure the fraction is in lowest terms
+		
+	}
 };
 
 export enum Month {
@@ -46,6 +55,14 @@ export class Date {
 	constructor( tymd: YMD, tdjn: number) {
 		this.ymd = new YMD( tymd.y, tymd.m, tymd.d);
 		this.jdn = tdjn;
+	}
+
+	public equals(d: Date): boolean {
+		return ( this.jdn == d.jdn);
+	}
+
+	public lte( d: Date): boolean {
+		return ( this.jdn <= d.jdn);
 	}
 };
 
