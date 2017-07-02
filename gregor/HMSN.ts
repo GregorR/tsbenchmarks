@@ -1,4 +1,5 @@
 import * as D from './CoreClasses'
+import * as C from './HMSN';
 
 export class Consts {
 
@@ -19,28 +20,29 @@ export class Consts {
 		this.MILLI_DAY = this.NS_DAY / this.NS_MILLI;
 		this.DAYS_NS = new D.ExactRational( 1, this.NS_DAY); 
 	}
+
+	public day_ns_c( hmsn: D.HMSN): number {
+		var h: number = hmsn.h;
+		var m: number = hmsn.m;
+		var s: number = hmsn.s;
+		var n: number = hmsn.n;
+
+		var c: C.Consts = new C.Consts();
+
+		return ( c.NS_HOUR * h + c.NS_MINUTE * m + c.NS_SECOND * s + n);
+	} 
+
+	public day_ns_to_hmsn( ns: number): D.HMSN {
+		var c: C.Consts = new C.Consts();
+
+		var h: number = Math.floor( ns / c.NS_HOUR);
+		ns -= h * c.NS_HOUR;
+		var m: number = Math.floor( ns / c.NS_MINUTE);
+		ns -= m * c.NS_MINUTE;
+		var s: number = Math.floor( ns / c.NS_SECOND);
+		ns -= s * c.NS_MINUTE;
+
+		return new D.HMSN( h, m, s, ns);
+	}
 		
 };
-
-// ;; (define day-ns/c (integer-in 0 (sub1 NS/DAY)))
-// ;; Codomain of hmsn->day-ns should be a day-ns/c
-// (: hmsn->day-ns (-> HMSN Natural))
-// (define (hmsn->day-ns hmsn)
-//   (match-define (HMSN h m s n) hmsn)
-//   (define r (+ (* NS/HOUR h)
-//                (* NS/MINUTE m)
-//                (* NS/SECOND s)
-//                n))
-//   (unless (index? r)
-//     (error "nope"))
-//   r)
-
-// (: day-ns->hmsn (-> Natural HMSN))
-// (define (day-ns->hmsn ns)
-//   (let* ([h (quotient ns NS/HOUR)]
-//          [ns (- ns (* h NS/HOUR))]
-//          [m (quotient ns NS/MINUTE)]
-//          [ns (- ns (* m NS/MINUTE))]
-//          [s (quotient ns NS/SECOND)]
-//          [ns (- ns (* s NS/SECOND))])
-//     (HMSN h m s ns)))
