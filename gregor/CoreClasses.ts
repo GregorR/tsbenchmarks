@@ -21,7 +21,43 @@ export class ExactRational {
 		d = Math.floor( n); 
 
 		// make sure the fraction is in lowest terms
-		
+  		var gcdd: number = this.gcd( n, d);
+
+  		this.num = n/gcdd;
+  		this.denom = d/gcdd;
+	}
+
+	public reduce(): void {
+		var gcdd: number = this.gcd( this.num, this.denom);
+		this.num = this.num/gcdd;
+  		this.denom = this.denom/gcdd;
+	}
+
+	public gcd( a: number, b: number): number {
+		return b ? this.gcd(b, a % b) : a;
+	}
+
+	public ieEval(): number {
+		return this.num/(this.denom + 0.0);
+	}
+
+	public add( e: ExactRational): ExactRational {
+		var gcdDenoms: number = this.gcd( this.denom, e.denom);
+		var tNum: number = this.num * gcdDenoms + e.num * gcdDenoms;
+
+		return new ExactRational( tNum, gcdDenoms);;
+	}
+
+	public divide( e: ExactRational): ExactRational { 
+		// a/b / c/d = ad / bc
+		var newNum = this.num * e.denom;
+		var newDenom = this.denom * e.num;
+
+		return new ExactRational( newNum, newDenom);
+	}
+
+	public mul( e: ExactRational): ExactRational {
+		return new ExactRational( this.num * e.num, this.denom * e.denom);
 	}
 };
 
@@ -46,6 +82,13 @@ export class HMSN {
 	m: number;
 	s: number;
 	n: number;
+
+	constructor( ht, mt, st, nt) {
+		this.h = ht;
+		this.m = mt;
+		this.s = st;
+		this.n = nt;
+	}
 };
 
 export class Date {
@@ -69,12 +112,35 @@ export class Date {
 export class Time {
 	hmsn: HMSN;
 	ns: number;
+
+	constructor( h: HMSN, n: number) {
+		this.ns = n;
+		this.hmsn = h;
+	}
 };
 
 export class DateTime {
 	date: Date;
 	time: Time;
 	jd: ExactRational;
+
+	constructor( d: Date, t: Time, j: ExactRational) {
+		this.date = new Date( d.ymd, d.jdn);
+		this.time = new Time( t.hmsn, t.ns);
+		this.jd = new ExactRational( j.num, j.denom);
+	}
+
+	public equals( d: DateTime): boolean {
+		return ( this.jd.num == d.jd.num && this.jd.denom == d.jd.denom);
+	}
+
+	public lt( d: DateTime): boolean {
+		return ( this.jd.ieEval() < d.jd.ieEval());
+	}
+
+	public lte( d: DateTime): boolean {
+		return ( this.equals( d) || this.lt( d));
+	}
 };
 
 export class Moment {

@@ -4,87 +4,138 @@
 // i figured i'd do it this way
 
 import * as D from './CoreClasses';
+import * as DH from './DateHelpers';
+import * as C from './HMSN';
 
-export function date_equal_proc( d1: D.DateTime, d2: D.DateTime): boolean {
-	return ((d1.jd.num == d2.jd.num) && (d1.jd.denom == d2.jd.denom)); // this assumes all the fractions are fully reduced
+export function datetime_equal_proc( d1: D.DateTime, d2: D.DateTime): boolean {
+	return ((d1.jd.num == d2.jd.num) && (d1.jd.denom == d2.jd.denom)); // this assumes all the fractions are fully reduced (this happens in ExactRational constructor)
 }
 
-export function date_hash_proc( x: D.Date, fn: (n: number) => number): number {
-	return fn( x.jdn);
+export function datetime_hash_proc( x: D.DateTime, fn: (n: D.ExactRational) => number): number {
+	return fn( x.jd);
 }
 
 // this is temporary, and probably needs to take an output channel
 // to better match the racket and to actually make sense
-export function date_write_proc( d: D.Date): void {
-	console.log( "<date " + date_to_iso8601( d) + ">");
+export function datetime_write_proc( d: D.DateTime): void {
+	console.log( "<datetime " + datetime_to_iso8601( d) + ">");
 }
 
-export function isDate( d: any): boolean {
-	return (d instanceof D.Date);
+export function isDateTime( d: any): boolean {
+	return (d instanceof D.DateTime);
 }
 
-export function date( y: number, m = D.Month.jan, d = 1): D.Date {
-	var ymd = new D.YMD( y, m, d);
-	return new D.Date( ymd, ymd_to_jdn( ymd));
+export function dateTime_to_date( d: D.DateTime): D.Date {
+	return d.date;
 }
 
-export function date_to_ymd( d: D.Date): D.YMD {
-	return d.ymd;
+export function dateTime_to_time( d: D.DateTime): D.Time {
+	return d.time;
 }
 
-export function date_to_jdn( d: D.Date): number {
-	return d.jdn;
+export function dateTime_to_jd( d: any): D.ExactRational {
+	if (isDateTime( d)) {
+		return (<D.DateTime> d).jd;
+	} 
+	else return new D.ExactRational(-1, 1); // this means error
 }
 
-export function ymd_to_date( ymd: D.YMD): D.Date {
-	return date( ymd.y, ymd.m, ymd.d);
+export function dateTime_to_posix( d: D.DateTime): D.ExactRational {
+	return jd_to_posix( d.jd);
 }
 
-export function jdn_to_date( jdn: number): D.Date {
-	return new D.Date( jnd_to_ymd( jdn), jdn);
+export function posix_to_dateTime( p: D.ExactRational): D.DateTime {
+	return jd_to_datetime( posix_to_jd( new D.ExactRational( round( p.ieEval()), 1)));
 }
 
-export function date_to_iso_week( d: D.Date): number {
-	return date_to_iso_week_wyear( d).x;
+export function date_and_time_to_dateTime( d: D.Date, t: D.Time): D.DateTime {
+	return new D.DateTime( d, t, date_and_time_to_jd( d, t));
 }
 
-export function date_to_iso_wyear( d: D.Date): number {
-	return date_to_iso_week_wyear( d).x;
+export function jd_to_dateTime( jd: number): D.DateTime {
+	var ejd: number = round( jd);
+	var d_t: D.Pair<D.Date, D.Time> = jd_to_date_and_time( new D.ExactRational( ejd, 1));
+
+	return date_and_time_to_dateTime( d_t.x, d_t.y);
 }
 
-export function date_to_iso_week_wyear( d: D.Date): D.Pair<number, number> {
-	var ymd: D.YMD = date_to_ymd( d);
-	var yday: number = ymd_to_yday( ymd);
-	var iso_yday: number = jdn_to_iso_wday( date_to_jdn( d));
-	var y: number = ymd.y;
-	var w: number = Math.floor( (yday + (- iso_yday) + 10) / 7.0);
+export function datetime( year: number, month = D.Month.jan, day = 1, hour = 0, minute = 0, second = 0, nano = 0): D.DateTime {
+	var date: D.Date = DH.date( year, month, day);
+	var time: D.Time = new D.Time( new D.HMSN( hour, minute, second, nano), nano);
 
-	if ( w == 0) {
-		var y_1: number = y - 1;
-		return new D.Pair<number, number>( iso_weeks_in_year( y_1), y_1);
-	} else if ( ( w == 53) && ( w > iso_weeks_in_year( y))) {
-		return new D.Pair<number, number>( 1, y);
-	} else {
-		return new D.Pair<number, number>( w, y);
+	return date_and_time_to_dateTime( date, time);	
+}
+
+export function datetime_to_iso8601( d: D.DateTime): string {
+	var di: string = DH.date_to_iso8601( dateTime_to_date( d));
+	var ti: string = time_to_iso8601( dateTime_to_time( d));
+
+	return (di + "T" + ti); 
+}
+
+export function date_and_time_to_jd( d: D.Date, t: D.Time): D.ExactRational {
+	var jdn: D.ExactRational = new D.ExactRational( d.jdn, 1);
+	var day_ns: D.ExactRational = new D.ExactRational( t.ns, 1);
+
+	var consts: C.Consts = new C.Consts();
+
+	return (jdn.add( new D.ExactRational( -1, 2))).add( day_ns.divide(new D.ExactRational( consts.NS_DAY, 1)));
+}
+
+export function jd_to_date_and_time( jd: D.ExactRational): D.Pair<D.Date, D.Time> {
+	var jdn: number = jd_to_jdn( jd);
+	var d: D.Date = jdn_to_date( jdn);
+	var day_ns: number = jd_to_day_ns( jd);
+	var t: D.Time = day_ns_to_time( day_ns);
+
+	return new D.Pair<D.Date, D.Time>(d, t);
+}
+
+export function jd_to_jdn( jd: D.ExactRational): D.ExactRational {
+	var lo: number = Math.floor( jd.ieEval());
+
+	if( (jd.ieEval() - lo) >= 0.5) {
+		lo ++;
 	}
+
+	return new D.ExactRational( lo, 1);
 }
 
-function f( n: number, len: number): string {
-	var instr: string = n + "";
-	var curLen: number = instr.length;
+export function round( n: number): number {
+	var s: number = n < 0 ? -1 : 1;
+	var f: number = Math.floor( Math.abs( n));
 
-	for( var i: number = 0; i < (len - curLen); i ++) {
-		instr = "0" + instr;
-	}
+	var diff: number = Math.abs( n) - f;
 
-	return instr;
+	if( diff >= 0.5) 
+		f++;
+
+	return f*s;
 }
 
-export function date_to_iso8601( d: D.Date): string {
-	var yd: number = d.ymd.y;
-	var md: number = d.ymd.m;
-	var dd: number = d.ymd.d;
+export function jd_to_day_ns( jd: D.ExactRational): number {
 
-	return (f( yd, 4) + "-" + f( md, 2) + "-" + f( dd, 2));
+	var base: D.ExactRational = jd.add( new D.ExactRational( -1, 2));
+	var frac: D.ExactRational = base.add( new D.ExactRational( Math.floor(base.ieEval()), 1));
+
+	var r: number = round( frac.ieEval() * (new C.Consts()).NS_DAY);
+	return r;
 }
+
+export function jd_to_posix( jd: D.ExactRational): D.ExactRational {
+	return (jd.add((new D.ExactRational(-2440587, 1)).add(new D.ExactRational(-1, 2)))).mul(new D.ExactRational( 86400, 1));
+}
+
+export function posix_to_jd( posix: D.ExactRational): D.ExactRational {
+	return ( posix.divide( new D.ExactRational( 86400, 1))).add((new D.ExactRational( 2440587, 1)).add( new D.ExactRational( 1, 2)))
+}
+
+export function dateTime_add_nanoseconds( dt: D.DateTime, n: number): D.DateTime {
+	return jd_to_dateTime(( (dateTime_to_jd( dt)).add( (new D.ExactRational( n, 1)).divide( new D.ExactRational( ( new C.Consts()).NS_DAY, 1)))).ieEval());
+}
+
+export function dateTime_add_seconds( dt: D.DateTime, n: number): D.DateTime {
+	return dateTime_add_nanoseconds( dt, (new C.Consts()).NS_DAY * n);
+}
+
 
