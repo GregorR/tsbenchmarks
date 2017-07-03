@@ -5,10 +5,6 @@
 
 import * as D from './CoreClasses';
 
-export function date_equal_proc( d1: D.Date, d2: D.Date): boolean {
-	return (d1.jdn == d2.jdn);
-}
-
 export function date_hash_proc( x: D.Date, fn: (n: number) => number): number {
 	return fn( x.jdn);
 }

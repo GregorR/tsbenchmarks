@@ -1,5 +1,8 @@
 // equivalent to the core_structs.rkt file from the racket version
 // and also the gregor_structs.rkt
+// and also the moment_base.rkt
+
+import * as DTH from './DateTimeHelpers';
 
 export class Pair<A, B> {
 	x: A;
@@ -83,7 +86,7 @@ export class HMSN {
 	s: number;
 	n: number;
 
-	constructor( ht, mt, st, nt) {
+	constructor( ht: number, mt: number, st: number, nt: number) {
 		this.h = ht;
 		this.m = mt;
 		this.s = st;
@@ -117,6 +120,18 @@ export class Time {
 		this.ns = n;
 		this.hmsn = h;
 	}
+
+	public equals( t: Time) {
+		return ( this.ns == t.ns);
+	}
+
+	public lte( t: Time) {
+		return ( this.ns <= t.ns);
+	}
+
+	public lt( t: Time) {
+		return ( this.ns < t.ns);
+	}
 };
 
 export class DateTime {
@@ -147,4 +162,43 @@ export class Moment {
 	dateTimeLocal: DateTime;
 	UTCOffset: number;
 	zone: string; // in racket it's union of string and false; here, if the string is empty this will be considered false
+
+	constructor( dt: DateTime, off: number, z: string) {
+		this.dateTimeLocal = new DateTime( dt.date, dt.time, dt.jd);
+		this.UTCOffset = off;
+		this.zone = z;
+	}
+
+	public moment_to_iso8601_tzid( m: Moment): string {
+		var iso: string = this.moment_to_iso8601( m);
+		if( m.zone != "") {
+			iso += "[" + m.zone + "]";
+		}
+		return iso;
+	}
+
+	public moment_to_iso8601( m: Moment): string {
+		if( m.UTCOffset == 0) {
+			return DTH.datetime_to_iso8601( m.dateTimeLocal) + "Z";
+		}
+
+		var sign: string = m.UTCOffset < 0? "-" : "+";
+		var sec: number = Math.abs( m.UTCOffset);
+		var hrs: number = Math.floor( sec / 3600);
+		var min: number = Math.floor( (sec - ( hrs * 3600)) / 60);
+
+		return DTH.datetime_to_iso8601( m.dateTimeLocal) + sign + this.f( hrs, 2) + ":" + this.f( min, 2);
+	}
+
+	private f( n: number, len: number): string {
+		var instr: string = n + "";
+		var curLen: number = instr.length;
+
+		for( var i: number = 0; i < (len - curLen); i ++) {
+			instr = "0" + instr;
+		}
+
+		return instr;
+	}
 };
+
