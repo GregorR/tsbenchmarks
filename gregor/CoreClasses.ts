@@ -3,6 +3,7 @@
 // and also the moment_base.rkt
 
 import * as DTH from './DateTimeHelpers';
+import * as MH from './MomentHelpers';
 
 export class Pair<A, B> {
 	x: A;
@@ -61,6 +62,18 @@ export class ExactRational {
 
 	public mul( e: ExactRational): ExactRational {
 		return new ExactRational( this.num * e.num, this.denom * e.denom);
+	}
+
+	public equals( e: ExactRational): boolean {
+		return (this.num == e.num && this.denom == e.denom);
+	}
+
+	public lt( e: ExactRational): boolean {
+		return ( this.ieEval() < e.ieEval());
+	}
+
+	public lte( e: ExactRational): boolean {
+		return (this.equals( e) || this.lt( e));
 	}
 };
 
@@ -199,6 +212,18 @@ export class Moment {
 		}
 
 		return instr;
+	}
+
+	public equals( m: Moment): boolean {
+		return MH.moment_to_jd(this).equals( MH.moment_to_jd( m));
+	}
+
+	public lt( m: Moment): boolean {
+		return MH.moment_to_jd(this).lt( MH.moment_to_jd( m));
+	}
+
+	public lte( m: Moment): boolean {
+		return MH.moment_to_jd(this).lte( MH.moment_to_jd( m));
 	}
 };
 
