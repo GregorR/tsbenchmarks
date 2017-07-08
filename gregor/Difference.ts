@@ -4,6 +4,7 @@ import * as D from './CoreClasses';
 import * as DTH from './DateTimeHelpers';
 import * as DH from './DateHelpers';
 import * as C from './HMSN';
+import * as B from './BigInteger';
 
 export function datetime_months_between( dt1: D.DateTime, dt2: D.DateTime): number {
 	if( dt2.lt( dt1)) {
@@ -54,7 +55,7 @@ export function dateTime_nanoseconds_between( dt1: D.DateTime, dt2: D.DateTime):
 	console.log( dateTime_to_jdns( dt2) - dateTime_to_jdns( dt1))
 	console.log( "CLOROX IS MY BEVERAGE OF CHOICE");
 
-	return (dateTime_to_jdns( dt2) - dateTime_to_jdns( dt1));
+	return ( B.bigInt( dateTime_to_jdns( dt2)).minus( B.bigInt( dateTime_to_jdns( dt1))));
 }
 
 export function dateTime_to_jdns( dt: D.DateTime): number {

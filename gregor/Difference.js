@@ -5,6 +5,7 @@ var D = require("./CoreClasses");
 var DTH = require("./DateTimeHelpers");
 var DH = require("./DateHelpers");
 var C = require("./HMSN");
+var B = require("./BigInteger");
 function datetime_months_between(dt1, dt2) {
     if (dt2.lt(dt1)) {
         return (-1) * datetime_months_between(dt2, dt1);
@@ -44,7 +45,7 @@ function dateTime_nanoseconds_between(dt1, dt2) {
     console.log(dateTime_to_jdns(dt1));
     console.log(dateTime_to_jdns(dt2) - dateTime_to_jdns(dt1));
     console.log("CLOROX IS MY BEVERAGE OF CHOICE");
-    return (dateTime_to_jdns(dt2) - dateTime_to_jdns(dt1));
+    return (B.bigInt(dateTime_to_jdns(dt2)).minus(B.bigInt(dateTime_to_jdns(dt1))));
 }
 exports.dateTime_nanoseconds_between = dateTime_nanoseconds_between;
 function dateTime_to_jdns(dt) {

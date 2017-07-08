@@ -54,9 +54,10 @@ export class BigInt {
         for( var i = 0; i < theMin; i ++) {
             toRet.arrayValue.push( this.arrayValue[ (this.arrayValue.length - 1) - i]*this.sign + bi.arrayValue[ (bi.arrayValue.length - 1) - i]*bi.sign);
         }
+        toRet.trimZeros();
 
-        var theMaxAr: number[] = theMin == this.arrayValue.length ? this.arrayValue : bi.arrayValue;
-        var theMaxSign: number = theMin == this.arrayValue.length ? this.sign : bi.sign;
+        var theMaxAr: number[] = theMin == this.arrayValue.length ? bi.arrayValue : this.arrayValue;
+        var theMaxSign: number = theMin == this.arrayValue.length ? bi.sign : this.sign;
         for( i = theMin; i < theMin + theDiff; i ++) {
             toRet.arrayValue.push( theMaxAr[ (theMaxAr.length - 1) - i]*theMaxSign);
         }
@@ -90,6 +91,17 @@ export class BigInt {
         return toRet;
     }
 
+    public sub( bi: BigInt): BigInt {
+        var toRet = new BigInt( 0);
+        for( var i = 0; i < bi.arrayValue.length; i ++) {
+            toRet.arrayValue.push( bi.arrayValue[ i]);
+        }
+
+        toRet.sign = bi.sign*(-1);
+        toRet.value = toRet.getValue();
+        return this.add( toRet);
+    }
+
     private trimZeros(): void {
         var newAr: number[] = [];
         var i: number = 0;
@@ -119,13 +131,13 @@ export class BigInt {
 
 };
 
-function main() {
-    var a: BigInt = new BigInt( 105);
-    var b: BigInt = new BigInt( -21);
+// function main() {
+//     var a: BigInt = new BigInt( -1078932425);
+//     var b: BigInt = new BigInt( -21783924);
 
-    console.log( a);
-    console.log( b);
-    console.log( a.add( b));
-}
+//     console.log( a);
+//     console.log( b);
+//     console.log( a.sub( b));
+// }
 
-main();
+// main();
