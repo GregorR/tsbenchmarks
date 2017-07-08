@@ -3,7 +3,7 @@
 // and also the moment_base.rkt
 
 import * as DTH from './DateTimeHelpers';
-import * as MH from './MomentHelpers';
+// import * as MH from './MomentHelpers';
 
 export class Pair<A, B> {
 	x: A;
@@ -22,7 +22,12 @@ export class ExactRational {
 	constructor( n: number, d: number) {
 		// reduce the fraction -- first make them into integers (they should already be, but just to check)
 		n = Math.floor( n);
-		d = Math.floor( n); 
+		d = Math.floor( d); 
+
+		// console.log( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+  // 		console.log( n);
+  // 		console.log( d);
+  // 		console.log( "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
 
 		// make sure the fraction is in lowest terms
   		var gcdd: number = this.gcd( n, d);
@@ -46,10 +51,10 @@ export class ExactRational {
 	}
 
 	public add( e: ExactRational): ExactRational {
-		var gcdDenoms: number = this.gcd( this.denom, e.denom);
-		var tNum: number = this.num * gcdDenoms + e.num * gcdDenoms;
+		var gcmDenoms: number = this.denom * e.denom;
+		var tNum: number = this.num * e.denom + e.num * this.denom;
 
-		return new ExactRational( tNum, gcdDenoms);;
+		return new ExactRational( tNum, gcmDenoms);;
 	}
 
 	public divide( e: ExactRational): ExactRational { 
@@ -214,16 +219,16 @@ export class Moment {
 		return instr;
 	}
 
-	public equals( m: Moment): boolean {
-		return MH.moment_to_jd(this).equals( MH.moment_to_jd( m));
-	}
+	// public equals( m: Moment): boolean {
+	// 	return MH.moment_to_jd(this).equals( MH.moment_to_jd( m));
+	// }
 
-	public lt( m: Moment): boolean {
-		return MH.moment_to_jd(this).lt( MH.moment_to_jd( m));
-	}
+	// public lt( m: Moment): boolean {
+	// 	return MH.moment_to_jd(this).lt( MH.moment_to_jd( m));
+	// }
 
-	public lte( m: Moment): boolean {
-		return MH.moment_to_jd(this).lte( MH.moment_to_jd( m));
-	}
+	// public lte( m: Moment): boolean {
+	// 	return MH.moment_to_jd(this).lte( MH.moment_to_jd( m));
+	// }
 };
 

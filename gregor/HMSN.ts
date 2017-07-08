@@ -21,7 +21,7 @@ export class Consts {
 		this.DAYS_NS = new D.ExactRational( 1, this.NS_DAY); 
 	}
 
-	public day_ns_c( hmsn: D.HMSN): number {
+	public hmns_to_day_ns( hmsn: D.HMSN): number {
 		var h: number = hmsn.h;
 		var m: number = hmsn.m;
 		var s: number = hmsn.s;

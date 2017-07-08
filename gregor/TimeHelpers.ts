@@ -7,6 +7,7 @@ import * as D from './CoreClasses';
 import * as DH from './DateHelpers';
 import * as DTH from './DateTimeHelpers';
 import * as C from './HMSN';
+// import * as Y from './YMD';
 
 
 
@@ -33,11 +34,13 @@ export function time_to_ns( t: any): number {
 }
 
 export function hmsn_to_time( hmsn: D.HMSN): D.Time {
-	return new D.Time( hmsn, hmsn_to_day_ns( hmsn));
+	var c: C.Consts = new C.Consts();
+	return new D.Time( hmsn, c.hmns_to_day_ns( hmsn));
 }
 
 export function day_ns_to_time( ns: number): D.Time {
-	return new D.Time( day_ns_to_hmsn( ns), ns);
+	var c: C.Consts = new C.Consts();
+	return new D.Time( c.day_ns_to_hmsn( ns), ns);
 }
 
 export function time( h: number, m = 0, s = 0, n = 0): D.Time {

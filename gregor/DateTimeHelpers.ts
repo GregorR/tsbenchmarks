@@ -6,6 +6,8 @@
 import * as D from './CoreClasses';
 import * as DH from './DateHelpers';
 import * as C from './HMSN';
+import * as Y from './YMD';
+import * as T from './TimeHelpers';
 
 export function datetime_equal_proc( d1: D.DateTime, d2: D.DateTime): boolean {
 	return ((d1.jd.num == d2.jd.num) && (d1.jd.denom == d2.jd.denom)); // this assumes all the fractions are fully reduced (this happens in ExactRational constructor)
@@ -44,6 +46,13 @@ export function dateTime_to_posix( d: D.DateTime): D.ExactRational {
 	return jd_to_posix( d.jd);
 }
 
+export function jd_to_datetime( jd: D.ExactRational): D.DateTime {
+	var ejd: number = round( jd.ieEval());
+	var p: D.Pair< D.Date, D.Time> = jd_to_date_and_time( new D.ExactRational( ejd, 1));
+
+	return date_and_time_to_dateTime( p.x, p.y);
+}
+
 export function posix_to_dateTime( p: D.ExactRational): D.DateTime {
 	return jd_to_datetime( posix_to_jd( new D.ExactRational( round( p.ieEval()), 1)));
 }
@@ -68,25 +77,31 @@ export function datetime( year: number, month = D.Month.jan, day = 1, hour = 0, 
 
 export function datetime_to_iso8601( d: D.DateTime): string {
 	var di: string = DH.date_to_iso8601( dateTime_to_date( d));
-	var ti: string = time_to_iso8601( dateTime_to_time( d));
+	var ti: string = T.time_to_iso8601( dateTime_to_time( d));
 
 	return (di + "T" + ti); 
 }
 
 export function date_and_time_to_jd( d: D.Date, t: D.Time): D.ExactRational {
 	var jdn: D.ExactRational = new D.ExactRational( d.jdn, 1);
-	var day_ns: D.ExactRational = new D.ExactRational( t.ns, 1);
 
 	var consts: C.Consts = new C.Consts();
+	var day_ns: D.ExactRational = new D.ExactRational( consts.hmns_to_day_ns( t.hmsn), 1);
 
-	return (jdn.add( new D.ExactRational( -1, 2))).add( day_ns.divide(new D.ExactRational( consts.NS_DAY, 1)));
+	var toRet = (jdn.add( new D.ExactRational( -1, 2))).add( day_ns.divide(new D.ExactRational( consts.NS_DAY, 1)));
+	// console.log( "KILL ME");
+	// // console.log( day_ns.divide(new D.ExactRational( consts.NS_DAY, 1)));
+	// console.log( toRet);
+	// console.log( "I EMBRACE DEATH");
+
+	return toRet;
 }
 
 export function jd_to_date_and_time( jd: D.ExactRational): D.Pair<D.Date, D.Time> {
-	var jdn: number = jd_to_jdn( jd);
-	var d: D.Date = jdn_to_date( jdn);
+	var jdn: number = jd_to_jdn( jd).ieEval();
+	var d: D.Date = DH.jdn_to_date( jdn);
 	var day_ns: number = jd_to_day_ns( jd);
-	var t: D.Time = day_ns_to_time( day_ns);
+	var t: D.Time = T.day_ns_to_time( day_ns);
 
 	return new D.Pair<D.Date, D.Time>(d, t);
 }

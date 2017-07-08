@@ -4,6 +4,7 @@
 // i figured i'd do it this way
 
 import * as D from './CoreClasses';
+import * as Y from './YMD';
 
 export function date_hash_proc( x: D.Date, fn: (n: number) => number): number {
 	return fn( x.jdn);
@@ -21,7 +22,7 @@ export function isDate( d: any): boolean {
 
 export function date( y: number, m = D.Month.jan, d = 1): D.Date {
 	var ymd = new D.YMD( y, m, d);
-	return new D.Date( ymd, ymd_to_jdn( ymd));
+	return new D.Date( ymd, Y.ymd_to_jdn( ymd).ieEval());
 }
 
 export function date_to_ymd( d: D.Date): D.YMD {
@@ -37,7 +38,7 @@ export function ymd_to_date( ymd: D.YMD): D.Date {
 }
 
 export function jdn_to_date( jdn: number): D.Date {
-	return new D.Date( jnd_to_ymd( jdn), jdn);
+	return new D.Date( Y.jdn_to_ymd( new D.ExactRational( jdn, 1)), jdn);
 }
 
 export function date_to_iso_week( d: D.Date): number {
@@ -50,15 +51,15 @@ export function date_to_iso_wyear( d: D.Date): number {
 
 export function date_to_iso_week_wyear( d: D.Date): D.Pair<number, number> {
 	var ymd: D.YMD = date_to_ymd( d);
-	var yday: number = ymd_to_yday( ymd);
-	var iso_yday: number = jdn_to_iso_wday( date_to_jdn( d));
+	var yday: number = Y.ymd_yday( ymd);
+	var iso_yday: number = Y.jdn_to_iso_wday( date_to_jdn( d));
 	var y: number = ymd.y;
 	var w: number = Math.floor( (yday + (- iso_yday) + 10) / 7.0);
 
 	if ( w == 0) {
 		var y_1: number = y - 1;
-		return new D.Pair<number, number>( iso_weeks_in_year( y_1), y_1);
-	} else if ( ( w == 53) && ( w > iso_weeks_in_year( y))) {
+		return new D.Pair<number, number>( Y.iso_weeks_in_year( y_1), y_1);
+	} else if ( ( w == 53) && ( w > Y.iso_weeks_in_year( y))) {
 		return new D.Pair<number, number>( 1, y);
 	} else {
 		return new D.Pair<number, number>( w, y);

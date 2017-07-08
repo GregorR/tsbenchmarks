@@ -19,7 +19,7 @@ export function datetime_months_between( dt1: D.DateTime, dt2: D.DateTime): numb
 	var y1: number = ymd1.y;
 	var y2: number = ymd2.y;
 	var m1: number = ymd1.m;
-	var m2: number = ymd1.m;
+	var m2: number = ymd2.m;
 	var dd1: number = ymd1.d;
 	var dd2: number = ymd2.d;
 
@@ -27,7 +27,7 @@ export function datetime_months_between( dt1: D.DateTime, dt2: D.DateTime): numb
 
 	var start_dom: number = ((dd1 > dd2) && ( days_in_month( y2, m2) == dd2))? dd2: dd1;
 
-	var dt1a: D.DateTime = DTH.date_and_time_to_dateTime( DH.date( y1, m2, start_dom), DTH.dateTime_to_time( dt1));
+	var dt1a: D.DateTime = DTH.date_and_time_to_dateTime( DH.date( y1, m1, start_dom), DTH.dateTime_to_time( dt1));
 
 	var ts1: D.ExactRational = DTH.dateTime_to_jd( dt1a).add( ( new D.ExactRational( -1, 1)).mul(DTH.dateTime_to_jd( DTH.datetime( y1, m1))));
 	var ts2: D.ExactRational = DTH.dateTime_to_jd( dt2).add( ( new D.ExactRational( -1, 1)).mul(DTH.dateTime_to_jd( DTH.datetime( y2, m2))));
@@ -40,16 +40,28 @@ export function datetime_months_between( dt1: D.DateTime, dt2: D.DateTime): numb
 }
 
 export function dateTime_days_between( dt1: D.DateTime, dt2: D.DateTime): number {
+	// console.log( "kill me");
+	// console.log( DTH.dateTime_to_jd( dt2));
+	// console.log( "wtf boi");
 	return Math.floor( DTH.dateTime_to_jd( dt2).ieEval() - DTH.dateTime_to_jd( dt1).ieEval());
+	// return DTH.dateTime_to_jd( dt2).ieEval() - DTH.dateTime_to_jd( dt1).ieEval();
 }
 
 export function dateTime_nanoseconds_between( dt1: D.DateTime, dt2: D.DateTime): number {
+	console.log( "PLS END MY LIFE");
+	console.log( dateTime_to_jdns( dt2));
+	console.log( dateTime_to_jdns( dt1));
+	console.log( dateTime_to_jdns( dt2) - dateTime_to_jdns( dt1))
+	console.log( "CLOROX IS MY BEVERAGE OF CHOICE");
+
 	return (dateTime_to_jdns( dt2) - dateTime_to_jdns( dt1));
 }
 
 export function dateTime_to_jdns( dt: D.DateTime): number {
 	var c: C.Consts = new C.Consts();
 	return Math.floor( DTH.dateTime_to_jd( dt).ieEval() * c.NS_DAY);
+	// console.log( dt);
+	// return DTH.dateTime_to_jd( dt).ieEval() * c.NS_DAY;
 }
 
 export function days_in_month( y: number, m: number): number {
