@@ -1,7 +1,7 @@
 "use strict";
 exports.__esModule = true;
 var lcs_1 = require("./lcs");
-var debug = ["hello", "hel"];
+var debug = ["hell", "hel"];
 var smallTest = "King Francis was a hearty king, and loved a royal sport, #\
 And one day as his lions fought, sat looking on the court; #\
 The nobles filled the benches, and the ladies in their pride, #\

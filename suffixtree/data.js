@@ -71,9 +71,9 @@ var Label = (function () {
     Label.prototype.toStringRemovingSentinel = function () {
         return this.datum.substr(this.i, Math.min(this.j, this.datum.length - 1));
     };
-    Label.prototype.copy = function () {
-        return new Label(this.datum, this.i, this.j);
-    };
+    // copy() {
+    //   return new Label( this.datum, this.i, this.j)
+    // }
     Label.prototype.labelRefAtEnd = function (offset) {
         return this.length() == offset;
     };
@@ -107,7 +107,7 @@ function deepCopyLabelSTNodeArray(a) {
     var ret = [];
     for (var i = 0; i < a.length; i++) {
         var curNode = a[i];
-        ret.push(curNode.copy());
+        ret.push(curNode); // copy curNode
     }
     return ret;
 }
@@ -131,16 +131,21 @@ var STNode = (function () {
         }
         console.log('--- ' + this.spID + ': End Node ---');
     };
-    STNode.prototype.copy = function () {
-        var retNode;
-        if (this.suffixLink != undefined) {
-            retNode = new STNode(this.upLabel.copy(), this.parent, deepCopyLabelSTNodeArray(this.children), this.suffixLink.copy());
-        }
-        else {
-            retNode = new STNode(this.upLabel.copy(), this.parent, deepCopyLabelSTNodeArray(this.children), this.suffixLink);
-        }
-        return retNode;
-    };
+    // copy() {
+    //   let retNode : STNode;
+    //   if (this.suffixLink != undefined) {
+    //     retNode = new STNode(  this.upLabel.copy(),
+    //                            this.parent,
+    //                            deepCopyLabelSTNodeArray(this.children),
+    //                            this.suffixLink.copy());
+    //   } else {
+    //     retNode = new STNode(  this.upLabel.copy(),
+    //                            this.parent,
+    //                            deepCopyLabelSTNodeArray(this.children),
+    //                            this.suffixLink);
+    //   }
+    //   return retNode;
+    // }
     // the root node is the node w/o a parent
     STNode.prototype.nodeRoot = function () {
         return this.parent == undefined;
@@ -252,7 +257,7 @@ var STNode = (function () {
                 }
             }
         };
-        return NODEk(this, originalLabel.copy(), 0);
+        return NODEk(this, originalLabel, 0); // copy originalLabel
     };
     STNode.prototype.positionAtEnd = function (offset) {
         return this.upLabel.labelRefAtEnd(offset);

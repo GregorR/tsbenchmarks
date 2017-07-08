@@ -54,6 +54,7 @@ function longestCommonSublabel( label1: Label, label2: Label) : Label {
   let absorbChildrenMarks = function( node: STNode, depth: number) {
     for ( var i : number = 0; i < node.children.length; i++) {
       let child : STNode = node.children[ i];
+      // console.log( "label1Marks[ child.spID]: " + label1Marks[ child.spID])
       if ( label1Marks[ child.spID]) { // if its marked
         label1Marks[ node.spID] = true;
       }
@@ -70,7 +71,10 @@ function longestCommonSublabel( label1: Label, label2: Label) : Label {
   }
 
   let markUpInnerNodesBang = function( node: STNode, depth: number) : void {
-    if ( node.children == []) {
+    console.log("..............hello?")
+    console.log("node.children: ");
+    console.log(node.children);
+    if ( node.children.length == 0) {
       console.log("48712947892173490128309128301283 PLS")
       if ( node.upLabel.isSourceEqual( label1)) {
         label1Marks[ node.spID] = true;
@@ -96,8 +100,16 @@ function longestCommonSublabel( label1: Label, label2: Label) : Label {
     console.log("label2: " + label2);
     console.log("                                          BEFORE  1 !!!!!")
     suffixTreeAddBang( tree, label1);
+
+    console.log("+++++ After first label added: ")
+    tree.printComplete();
+
     console.log("                                          BETWEEN 1 and 2")
     suffixTreeAddBang( tree, label2);
+
+    console.log("+++++ After second label added: ")
+    tree.printComplete();
+
     console.log("                                          AFTER   2 !!!!!")
     console.log("Logging tree...:")
     tree.printComplete();
@@ -120,4 +132,6 @@ function longestCommonSublabel( label1: Label, label2: Label) : Label {
 export function longestCommonSubstring( s1: string, s2: string) : string {
   return longestCommonSublabel( labelLib.stringToLabelWithSentinel( s1),
                                 labelLib.stringToLabelWithSentinel( s2)).toString();
+  // return longestCommonSublabel( labelLib.stringToLabel( s1),
+  //                               labelLib.stringToLabel( s2)).toString();
 }

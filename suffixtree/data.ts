@@ -75,9 +75,9 @@ export class Label {
     return this.datum.substr( this.i, Math.min( this.j, this.datum.length - 1))
   }
 
-  copy() {
-    return new Label( this.datum, this.i, this.j)
-  }
+  // copy() {
+  //   return new Label( this.datum, this.i, this.j)
+  // }
 
   labelRefAtEnd( offset : number) : boolean {
     return this.length() == offset
@@ -121,7 +121,7 @@ function deepCopyLabelSTNodeArray( a : STNode[]) : STNode[]{
 
   for ( var i : number = 0; i < a.length; i++) {
     let curNode : STNode = a[ i];
-    ret.push( curNode.copy());
+    ret.push( curNode); // copy curNode
   }
 
   return ret;
@@ -159,21 +159,21 @@ export class STNode {
     console.log('--- ' + this.spID + ': End Node ---')
   }
 
-  copy() {
-    let retNode : STNode;
-    if (this.suffixLink != undefined) {
-      retNode = new STNode(  this.upLabel.copy(),
-                             this.parent,
-                             deepCopyLabelSTNodeArray(this.children),
-                             this.suffixLink.copy());
-    } else {
-      retNode = new STNode(  this.upLabel.copy(),
-                             this.parent,
-                             deepCopyLabelSTNodeArray(this.children),
-                             this.suffixLink);
-    }
-    return retNode;
-  }
+  // copy() {
+  //   let retNode : STNode;
+  //   if (this.suffixLink != undefined) {
+  //     retNode = new STNode(  this.upLabel.copy(),
+  //                            this.parent,
+  //                            deepCopyLabelSTNodeArray(this.children),
+  //                            this.suffixLink.copy());
+  //   } else {
+  //     retNode = new STNode(  this.upLabel.copy(),
+  //                            this.parent,
+  //                            deepCopyLabelSTNodeArray(this.children),
+  //                            this.suffixLink);
+  //   }
+  //   return retNode;
+  // }
 
   // the root node is the node w/o a parent
   nodeRoot() {
@@ -296,7 +296,7 @@ export class STNode {
       }
     }
 
-    return NODEk( this, originalLabel.copy(), 0)
+    return NODEk( this, originalLabel, 0) // copy originalLabel
 
   }
 
