@@ -39,7 +39,7 @@ exports.vectorToLabel = vectorToLabel;
 // stick a sentinel on the end of the character
 function vectorToLabelWithSentinel(inVal) {
     var theDatum = catenateStrings(inVal);
-    return new data.Label(theDatum + makeSentinel(), 0, theDatum.length + 1);
+    return new data.Label(theDatum + makeSentinel(), 0, theDatum.length);
 }
 exports.vectorToLabelWithSentinel = vectorToLabelWithSentinel;
 function stringToLabel(inVal) {

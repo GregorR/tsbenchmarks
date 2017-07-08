@@ -25,11 +25,18 @@ var dummyNode = new data_1.STNode(new data_1.Label("dummy"), undefined, [], unde
 // }
 function skipCountHelper(node, label, k, N) {
     var idiomaticRecursiveLoopFun = function (node, k) {
-        console.log(label.labelRef(k));
+        // console.log(" ---- ------------------------ ----")
+        // console.log( "looking for: " + label.labelRef( k))
+        // console.log("\nComplete print:\n")
+        // node.printComplete();
+        // console.log("\nChildren print:\n")
+        // for ( var i = 0; i < node.children.length; i++) {
+        //   node.children[ i].printComplete();
+        // }
         var child = node.findChild(label.labelRef(k));
-        if (child == undefined) {
-            console.log("BAD");
-        }
+        // if ( child == undefined) {
+        //   console.log("BAD")
+        // }
         var childLabel = child.upLabel;
         var childLabelLength = childLabel.length();
         var restOfCharsLeftToSkip = N - k;
@@ -107,19 +114,23 @@ function findNextExtensionPointAndAddSuffixLinkBang(node, label, initialI, j) {
     var N = label.length();
     var findExtensionInEdge = function (skippedNode, skipOffset, i) {
         if (label.labelRef(i) == skippedNode.upLabel.labelRef(skipOffset)) {
+            console.log("[1]");
             var n = i + 1;
             return loopRest(n);
         }
         else {
+            console.log("[2]");
             return [skippedNode, skipOffset, i];
         }
     };
     var findExtensionAtEndBang = function (skippedNode, skipOffset, i) {
-        if (skippedNode.findChild(label.labelRef(i))) {
+        if (skippedNode.findChild(label.labelRef(i)) != undefined) {
+            console.log("[3]");
             var n = i + 1;
             return loopRest(n);
         }
         else {
+            console.log("[4]");
             return [skippedNode, skipOffset, i];
         }
     };
@@ -133,9 +144,17 @@ function findNextExtensionPointAndAddSuffixLinkBang(node, label, initialI, j) {
             var skippedOffset = tmp_1[1];
             firstShot(skippedNode, skippedOffset);
             if (skippedNode.positionAtEnd(skippedOffset)) {
+                // yup
+                console.log("\n\n\t\t\t ===== \n\
+                      \t\t\t atEnd \n\
+                      \t\t\t =====\n\n");
                 return findExtensionAtEndBang(skippedNode, skippedOffset, i);
             }
             else {
+                // yup
+                console.log("\n\n\t\t\t ===== \n\
+                      \t\t\t inEdge \n\
+                      \t\t\t =====\n\n");
                 return findExtensionInEdge(skippedNode, skippedOffset, i);
             }
         }
@@ -159,8 +178,12 @@ function findNextExtensionPointAndAddSuffixLinkBang(node, label, initialI, j) {
 function extendAtPointBang(node, offset, label, i) {
     var spliceWithInternalNodeBang = function (node, offset, label, i) {
         var tmp = node.upSpliceLeaf(offset, label.sublabel(i));
+        console.log("spliceWithInternalNodeBang: splitNode is....");
         var splitNode = tmp[0];
+        console.log(splitNode);
         var leaf = tmp[1];
+        console.log("spliceWithInternalNodeBang: and leaf is....");
+        console.log(leaf);
         return splitNode;
     };
     var attachAsLeafBang = function (node, label, i) {
@@ -172,9 +195,11 @@ function extendAtPointBang(node, offset, label, i) {
     };
     var mainLogic = function (node, offset, label, i) {
         if (shouldExtendAsLeaf(node, offset)) {
+            console.log(" !!!!!!!!!!!!! Should extend as leaf!");
             return attachAsLeafBang(node, label, i);
         }
         else {
+            console.log(" !!!!!!!!!!!!! Should NOT extend as leaf!");
             return spliceWithInternalNodeBang(node, offset, label, i);
         }
     };
@@ -186,16 +211,36 @@ function suffixTreeAddBang(tree, label) {
         return [dummyNode, 0];
     };
     var addRestSuffixesLoopBang = function (label, N, i, j, activeNode) {
+        console.log("in addRestSuffixesLoopBang -- activeNode.cutePrint():");
+        activeNode.cutePrint("");
+        // checked, right
+        console.log("\n\n\t\t\tSome numbers -- j: " + j + ", N: " + N + "\n\n");
         if (j < N) {
             var tmp = findNextExtensionPointAndAddSuffixLinkBang(activeNode, label, i, j);
+            console.log("tmp: ");
+            console.log(tmp);
             var nextExtensionNode = tmp[0];
             var nextExtensionOffset = tmp[1];
             var iStar = tmp[2];
+            console.log("i*: " + iStar);
+            if (typeof iStar == "boolean" || typeof nextExtensionNode == "boolean"
+                || typeof nextExtensionOffset == "boolean") {
+                console.log("\n\n\n\n\n\n\n\n\n\n If pigs could fly, at least my code would run. \n\n\n\n\n\n\n\n\n\n");
+            }
             if (typeof iStar != "boolean") {
                 if ((typeof nextExtensionNode != "boolean") &&
                     (typeof nextExtensionOffset != "boolean")) {
-                    //
+                    // so if the data is valid
+                    console.log('================================\n************************\n================================');
+                    console.log(nextExtensionNode);
+                    console.log(nextExtensionOffset);
+                    console.log(label);
+                    console.log(iStar);
+                    console.log('================================\n************************\n================================');
                     var newActiveNode = extendAtPointBang(nextExtensionNode, nextExtensionOffset, label, iStar);
+                    console.log('================================\n                        \n================================');
+                    console.log(newActiveNode);
+                    console.log('================================\n                        \n================================');
                     tryToSetSuffixEdgeBang(activeNode, newActiveNode);
                     addRestSuffixesLoopBang(label, N, Math.max(iStar, j + 1), j + 1, newActiveNode);
                 }
@@ -233,16 +278,17 @@ function suffixTreeAddBang(tree, label) {
         // console.log(tree.root); // DEBUG
         // console.log("after...")
         var res = tree.root.nodeFollowK(label, matchedAtNode, matchedInNode, mismatchedAtNode, mismatchedInNode);
+        console.log("tree after firstSuffixBangarang:");
+        tree.cutePrint();
         return res;
     };
     var doConstructionBang = function (tree, label) {
         var pr = addFirstSuffixBang(tree, label);
-        console.log("pr: " + pr); // DEBUG
-        console.log("pr[0]: ");
-        console.log(pr[0]); // DEBUG
+        // console.log( "pr: " + pr); // DEBUG
+        // console.log( "pr[0]: "); console.log( pr[0]); // DEBUG
         var startingNode = pr[0];
         var startingOffset = pr[1];
-        return addRestSuffixesBang(label, startingNode, startingOffset);
+        addRestSuffixesBang(label, startingNode, startingOffset);
     };
     doConstructionBang(tree, label);
 }

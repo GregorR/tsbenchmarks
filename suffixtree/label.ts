@@ -43,7 +43,7 @@ export function vectorToLabel( inVal : string[]) : data.Label {
 // stick a sentinel on the end of the character
 export function vectorToLabelWithSentinel( inVal : string[]) : data.Label {
   let theDatum : string = catenateStrings( inVal);
-  return new data.Label( theDatum + makeSentinel(), 0, theDatum.length + 1)
+  return new data.Label( theDatum + makeSentinel(), 0, theDatum.length)
 }
 
 export function stringToLabel( inVal : string) : data.Label {

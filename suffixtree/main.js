@@ -1,7 +1,7 @@
 "use strict";
 exports.__esModule = true;
 var lcs_1 = require("./lcs");
-var debug = ["hell", "hel"];
+var debug = ["hat", "ha"];
 var smallTest = "King Francis was a hearty king, and loved a royal sport, #\
 And one day as his lions fought, sat looking on the court; #\
 The nobles filled the benches, and the ladies in their pride, #\
@@ -39,6 +39,7 @@ function main(testExpr) {
         }
     }
 }
-main(smallTest);
+// main( smallTest);
 // main( largeTest);
 // main( kcfaTest);
+console.log("the substring is: " + lcs_1.longestCommonSubstring("aa", "a"));

@@ -33,15 +33,19 @@ function pathLabel( node: STNode) : Label {
   }
 
   let collectLoop = function( currentNode: STNode, collectedLabels: Label[], totalLength: number) : Label {
+    // console.log("to infinity... and beyond!")
     if ( currentNode) { // if its not undefined
       collectedLabels.push( currentNode.upLabel);
       return collectLoop( currentNode.parent, collectedLabels, totalLength + currentNode.upLabel.length());
     } else {
+      console.log("collected labels:");
+      console.log(collectedLabels)
+      console.log(totalLength)
       return buildNewLabel( collectedLabels, totalLength);
     }
   }
 
-  return collectLoop( node, [], 0); // TODO: do
+  return collectLoop( node, [], 0);
 }
 
 function longestCommonSublabel( label1: Label, label2: Label) : Label {
@@ -62,6 +66,14 @@ function longestCommonSublabel( label1: Label, label2: Label) : Label {
         label2Marks[ node.spID] = true;
       }
     }
+
+    console.log("BEG Logging in absorbChildrenMarks: ")
+    console.log( label1Marks[ node.spID])
+    console.log( label2Marks[ node.spID])
+    console.log( "depth: " + depth);
+    console.log( "deepestDepth: " + deepestDepth);
+    console.log("END Logging in absorbChildrenMarks. ")
+
     if ( (label1Marks[ node.spID] && label2Marks[ node.spID]) &&
          (depth > deepestDepth)) {
       //
@@ -75,11 +87,13 @@ function longestCommonSublabel( label1: Label, label2: Label) : Label {
     console.log("node.children: ");
     console.log(node.children);
     if ( node.children.length == 0) {
-      console.log("48712947892173490128309128301283 PLS")
+      // console.log("48712947892173490128309128301283 PLS")
       if ( node.upLabel.isSourceEqual( label1)) {
+        console.log( "marked 1");
         label1Marks[ node.spID] = true;
       }
       if ( node.upLabel.isSourceEqual( label2)) {
+        console.log( "marked 2");
         label2Marks[ node.spID] = true;
       }
     } else {
@@ -89,7 +103,7 @@ function longestCommonSublabel( label1: Label, label2: Label) : Label {
         markUpInnerNodesBang( child, k);
       }
       absorbChildrenMarks( node, depth);
-
+      console.log("left absorbChildrenMarks");
     }
   }
 
@@ -101,19 +115,22 @@ function longestCommonSublabel( label1: Label, label2: Label) : Label {
     console.log("                                          BEFORE  1 !!!!!")
     suffixTreeAddBang( tree, label1);
 
-    console.log("+++++ After first label added: ")
-    tree.printComplete();
-
+    console.log(" ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+    console.log(" +++++ After first label added: ");
+    //tree.printComplete();
+    tree.cutePrint();
+    
     console.log("                                          BETWEEN 1 and 2")
     suffixTreeAddBang( tree, label2);
 
-    console.log("+++++ After second label added: ")
-    tree.printComplete();
+    // console.log("+++++ After second label added: ")
+    // tree.printComplete();
 
     console.log("                                          AFTER   2 !!!!!")
-    console.log("Logging tree...:")
-    tree.printComplete();
+    // console.log("Logging tree...:")
+    // tree.printComplete();
     markUpInnerNodesBang( tree.root, 0);
+    console.log("pre return...")
     return pathLabel( deepestNode);
   }
 

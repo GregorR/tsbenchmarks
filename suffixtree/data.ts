@@ -16,6 +16,18 @@ export class Label {
     }
   }
 
+  simpleToString() {
+    return this.datum.substring( this.i, this.j);
+  }
+
+  actualToString() {
+    return '['
+            + ' datum: ' + this.datum
+            + ', i: ' + this.i
+            + ', j: ' + this.j
+            + ']'
+  }
+
   length() {
     return this.j - this.i
   }
@@ -27,19 +39,21 @@ export class Label {
   // no check rn if its a valid sublabel
   sublabel( start: number, end = undefined) {
     if (end == undefined) {
-      return new Label( this.datum, start + this.i, this.length())
+      return this.sublabel( start, this.length())
     } else {
+      if (!(start <= end)) {
+        console.log("there's a problem???");
+      }
       return new Label( this.datum, start + this.i, end + this.i)
     }
   }
 
   sublabelBang( start: number, end = undefined) {
     if ( end == undefined) {
-      this.i = start + this.i;
-      this.j = this.length() + this.j;
+      this.sublabelBang(start, this.length());
     } else {
-      this.i = start + this.i;
       this.j = end + this.i;
+      this.i = start + this.i;
     }
   }
 
@@ -75,9 +89,9 @@ export class Label {
     return this.datum.substr( this.i, Math.min( this.j, this.datum.length - 1))
   }
 
-  // copy() {
-  //   return new Label( this.datum, this.i, this.j)
-  // }
+  copy() {
+    return new Label( this.datum, this.i, this.j)
+  }
 
   labelRefAtEnd( offset : number) : boolean {
     return this.length() == offset
@@ -99,6 +113,13 @@ export class SuffixTree {
                             undefined,
                             [],
                             undefined);
+  }
+
+  cutePrint() {
+    console.log("~~~ Root CUTE PRINT     ~~~")
+    let tabs : string = "\t";
+    this.root.cutePrint(tabs);
+    console.log("~~~ End Root CUTE PRINT ~~~")
   }
 
   printComplete() {
@@ -149,14 +170,33 @@ export class STNode {
     nodeID++;
   }
 
+  cutePrint( tl) {
+    var ret = tl + '{ spID:' + this.spID + ', ' + this.upLabel.actualToString() + '}'
+    console.log(ret);
+    tl = tl + "\t";
+    for ( var i = 0; i < this.children.length; i++) {
+      this.children[ i].cutePrint( tl);
+    }
+  }
+
   printComplete() {
     console.log('--- ' + this.spID + ': Node     ---')
-    console.log('    upLabel:' + this.upLabel);
-    console.log('    sufLink:' + this.suffixLink);
+    console.log('    upLabel:');
+    console.log( this.upLabel.simpleToString());
+    if ( this.suffixLink) {
+      console.log('    sufLink:');
+      console.log( this.suffixLink.simpleStr());
+    }
+    console.log('    children: {\n');
     for (var i = 0; i < this.children.length; i++) {
       this.children[ i].printComplete();
     }
+    console.log('}');
     console.log('--- ' + this.spID + ': End Node ---')
+  }
+
+  simpleStr() {
+    return '{ upLabel: ' + this.upLabel.simpleToString() + ', spID: ' + this.spID + '}'
   }
 
   // copy() {
@@ -189,6 +229,11 @@ export class STNode {
 
   addChildBang( iNode : STNode) {
     this.children.push( iNode);
+    // console.log("\n\n kiddies: ");
+    // for ( var i = 0 ; i < this.children.length; i++) {
+    //   console.log( this.children[ i].simpleStr())
+    // }
+    // console.log( this.children);
   }
 
   removeChildBang( iChild : STNode) {
@@ -212,13 +257,13 @@ export class STNode {
       }
       return undefined;
     } else if ( typeof toFind == "string") {
-      console.log("here i am dont tread on me")
-      console.log( toFind);
+      // console.log("here i am dont tread on me")
+      // console.log( toFind);
 
       for ( var i : number = 0; i < this.children.length; i++) {
-        console.log("i said here i am dont tread on me")
+        // console.log("i said here i am dont tread on me")
         let tmpLabel : Label = this.children[ i].upLabel;
-        console.log(tmpLabel.labelRef( 0))
+        // console.log(tmpLabel.labelRef( 0))
         if (tmpLabel.labelRef( 0) == toFind) {
           return this.children[ i];
         }
@@ -296,7 +341,7 @@ export class STNode {
       }
     }
 
-    return NODEk( this, originalLabel, 0) // copy originalLabel
+    return NODEk( this, originalLabel.copy(), 0) // copy originalLabel
 
   }
 

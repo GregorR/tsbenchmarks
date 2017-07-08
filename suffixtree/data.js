@@ -16,6 +16,16 @@ var Label = (function () {
             this.j = jIn;
         }
     }
+    Label.prototype.simpleToString = function () {
+        return this.datum.substring(this.i, this.j);
+    };
+    Label.prototype.actualToString = function () {
+        return '['
+            + ' datum: ' + this.datum
+            + ', i: ' + this.i
+            + ', j: ' + this.j
+            + ']';
+    };
     Label.prototype.length = function () {
         return this.j - this.i;
     };
@@ -26,21 +36,23 @@ var Label = (function () {
     Label.prototype.sublabel = function (start, end) {
         if (end === void 0) { end = undefined; }
         if (end == undefined) {
-            return new Label(this.datum, start + this.i, this.length());
+            return this.sublabel(start, this.length());
         }
         else {
+            if (!(start <= end)) {
+                console.log("there's a problem???");
+            }
             return new Label(this.datum, start + this.i, end + this.i);
         }
     };
     Label.prototype.sublabelBang = function (start, end) {
         if (end === void 0) { end = undefined; }
         if (end == undefined) {
-            this.i = start + this.i;
-            this.j = this.length() + this.j;
+            this.sublabelBang(start, this.length());
         }
         else {
-            this.i = start + this.i;
             this.j = end + this.i;
+            this.i = start + this.i;
         }
     };
     Label.prototype.isPrefix = function (otherLabel) {
@@ -71,9 +83,9 @@ var Label = (function () {
     Label.prototype.toStringRemovingSentinel = function () {
         return this.datum.substr(this.i, Math.min(this.j, this.datum.length - 1));
     };
-    // copy() {
-    //   return new Label( this.datum, this.i, this.j)
-    // }
+    Label.prototype.copy = function () {
+        return new Label(this.datum, this.i, this.j);
+    };
     Label.prototype.labelRefAtEnd = function (offset) {
         return this.length() == offset;
     };
@@ -89,6 +101,12 @@ var SuffixTree = (function () {
         // children.  Its suffix link is invalid, but we set it to #f.
         this.root = new STNode(new Label("", 0, 0), undefined, [], undefined);
     }
+    SuffixTree.prototype.cutePrint = function () {
+        console.log("~~~ Root CUTE PRINT     ~~~");
+        var tabs = "\t";
+        this.root.cutePrint(tabs);
+        console.log("~~~ End Root CUTE PRINT ~~~");
+    };
     SuffixTree.prototype.printComplete = function () {
         console.log("~~~ Root     ~~~");
         this.root.printComplete();
@@ -122,14 +140,31 @@ var STNode = (function () {
         this.spID = nodeID;
         nodeID++;
     }
+    STNode.prototype.cutePrint = function (tl) {
+        var ret = tl + '{ spID:' + this.spID + ', ' + this.upLabel.actualToString() + '}';
+        console.log(ret);
+        tl = tl + "\t";
+        for (var i = 0; i < this.children.length; i++) {
+            this.children[i].cutePrint(tl);
+        }
+    };
     STNode.prototype.printComplete = function () {
         console.log('--- ' + this.spID + ': Node     ---');
-        console.log('    upLabel:' + this.upLabel);
-        console.log('    sufLink:' + this.suffixLink);
+        console.log('    upLabel:');
+        console.log(this.upLabel.simpleToString());
+        if (this.suffixLink) {
+            console.log('    sufLink:');
+            console.log(this.suffixLink.simpleStr());
+        }
+        console.log('    children: {\n');
         for (var i = 0; i < this.children.length; i++) {
             this.children[i].printComplete();
         }
+        console.log('}');
         console.log('--- ' + this.spID + ': End Node ---');
+    };
+    STNode.prototype.simpleStr = function () {
+        return '{ upLabel: ' + this.upLabel.simpleToString() + ', spID: ' + this.spID + '}';
     };
     // copy() {
     //   let retNode : STNode;
@@ -158,6 +193,11 @@ var STNode = (function () {
     };
     STNode.prototype.addChildBang = function (iNode) {
         this.children.push(iNode);
+        // console.log("\n\n kiddies: ");
+        // for ( var i = 0 ; i < this.children.length; i++) {
+        //   console.log( this.children[ i].simpleStr())
+        // }
+        // console.log( this.children);
     };
     STNode.prototype.removeChildBang = function (iChild) {
         var theIndex = this.children.indexOf(iChild);
@@ -179,12 +219,12 @@ var STNode = (function () {
             return undefined;
         }
         else if (typeof toFind == "string") {
-            console.log("here i am dont tread on me");
-            console.log(toFind);
+            // console.log("here i am dont tread on me")
+            // console.log( toFind);
             for (var i = 0; i < this.children.length; i++) {
-                console.log("i said here i am dont tread on me");
+                // console.log("i said here i am dont tread on me")
                 var tmpLabel = this.children[i].upLabel;
-                console.log(tmpLabel.labelRef(0));
+                // console.log(tmpLabel.labelRef( 0))
                 if (tmpLabel.labelRef(0) == toFind) {
                     return this.children[i];
                 }
@@ -257,7 +297,7 @@ var STNode = (function () {
                 }
             }
         };
-        return NODEk(this, originalLabel, 0); // copy originalLabel
+        return NODEk(this, originalLabel.copy(), 0); // copy originalLabel
     };
     STNode.prototype.positionAtEnd = function (offset) {
         return this.upLabel.labelRefAtEnd(offset);

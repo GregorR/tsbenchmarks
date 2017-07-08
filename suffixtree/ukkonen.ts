@@ -27,11 +27,18 @@ let dummyNode = new STNode( new Label("dummy"), undefined, [], undefined);
 
 function skipCountHelper( node: STNode, label: Label, k: number, N: number) : [STNode, number] {
   let idiomaticRecursiveLoopFun = function( node: STNode, k: number) {
-    console.log( label.labelRef( k))
+    // console.log(" ---- ------------------------ ----")
+    // console.log( "looking for: " + label.labelRef( k))
+    // console.log("\nComplete print:\n")
+    // node.printComplete();
+    // console.log("\nChildren print:\n")
+    // for ( var i = 0; i < node.children.length; i++) {
+    //   node.children[ i].printComplete();
+    // }
     let child : STNode = node.findChild(label.labelRef( k));
-    if ( child == undefined) {
-      console.log("BAD")
-    }
+    // if ( child == undefined) {
+    //   console.log("BAD")
+    // }
     let childLabel : Label = child.upLabel;
     let childLabelLength : number = childLabel.length();
     let restOfCharsLeftToSkip : number = N - k;
@@ -92,7 +99,7 @@ function findNextExtensionPointAndAddSuffixLinkBang ( node: STNode,
     } else {
       i = j;
     }
-    return i
+    return i;
   }
 
   let tmp : [STNode, number | boolean] = jumpToSuffix( node);
@@ -115,19 +122,29 @@ function findNextExtensionPointAndAddSuffixLinkBang ( node: STNode,
   let N : number = label.length();
 
   let findExtensionInEdge = function( skippedNode: STNode, skipOffset: number, i: number) : [STNode | boolean, number | boolean, number | boolean] {
+    console.log(  "\n\n\t\t\t ===== \n\
+                  \t\t\t inEdge \n\
+                  \t\t\t =====\n\n");
     if ( label.labelRef( i) == skippedNode.upLabel.labelRef( skipOffset)) {
+      console.log("[1]")
       let n : number = i + 1;
       return loopRest( n);
     } else {
+      console.log("[2]")
       return [skippedNode, skipOffset, i];
     }
   }
 
   let findExtensionAtEndBang = function( skippedNode: STNode, skipOffset: number, i: number) : [STNode | boolean, number | boolean, number | boolean] {
-    if ( skippedNode.findChild( label.labelRef( i))) {
+    console.log(  "\n\n\t\t\t ===== \n\
+                  \t\t\t atEnd \n\
+                  \t\t\t =====\n\n");
+    if ( skippedNode.findChild( label.labelRef( i)) != undefined) { // if there is a child
+      console.log("[3]")
       let n : number = i + 1;
       return loopRest( n);
     } else {
+      console.log("[4]")
       return [skippedNode, skipOffset, i];
     }
   }
@@ -141,8 +158,10 @@ function findNextExtensionPointAndAddSuffixLinkBang ( node: STNode,
       let skippedOffset : number = tmp[ 1];
       firstShot( skippedNode, skippedOffset);
       if ( skippedNode.positionAtEnd( skippedOffset)) {
+        // yup
         return findExtensionAtEndBang( skippedNode, skippedOffset, i);
       } else {
+        // yup
         return findExtensionInEdge( skippedNode, skippedOffset, i);
       }
     }
@@ -172,8 +191,12 @@ function extendAtPointBang( node: STNode, offset: number, label: Label, i: numbe
 
   let spliceWithInternalNodeBang = function( node: STNode, offset: number, label: Label, i: number) : STNode {
     let tmp : [STNode, STNode] = node.upSpliceLeaf( offset, label.sublabel(i));
-    let splitNode : STNode = tmp[ 0]
+    console.log("spliceWithInternalNodeBang: splitNode is....")
+    let splitNode : STNode = tmp[ 0];
+    console.log( splitNode);
     let leaf : STNode = tmp[ 1];
+    console.log("spliceWithInternalNodeBang: and leaf is....")
+    console.log( leaf);
     return splitNode;
   }
 
@@ -188,8 +211,10 @@ function extendAtPointBang( node: STNode, offset: number, label: Label, i: numbe
 
   let mainLogic = function( node: STNode, offset: number, label: Label, i: number) : STNode {
     if (shouldExtendAsLeaf( node, offset)) {
+      console.log(" !!!!!!!!!!!!! Should extend as leaf!")
       return attachAsLeafBang( node, label, i);
     } else {
+      console.log(" !!!!!!!!!!!!! Should NOT extend as leaf!")
       return spliceWithInternalNodeBang( node, offset, label, i);
     }
   }
@@ -204,17 +229,42 @@ export function suffixTreeAddBang( tree: SuffixTree, label: Label) : void {
   }
 
   let addRestSuffixesLoopBang = function( label: Label, N: number, i: number, j: number, activeNode: STNode) {
+
+    console.log("in addRestSuffixesLoopBang -- activeNode.cutePrint():");
+    activeNode.cutePrint("");
+
+    // checked, right
+    console.log("\n\n\t\t\tSome numbers -- j: " + j + ", N: " + N + "\n\n");
+
     if (j < N) {
       let tmp : [STNode | boolean, number | boolean, number | boolean] =
         findNextExtensionPointAndAddSuffixLinkBang( activeNode, label, i, j);
+      console.log("tmp: ");
+      console.log( tmp);
       let nextExtensionNode : STNode | boolean = tmp[ 0];
       let nextExtensionOffset : number | boolean = tmp[ 1];
       let iStar : number | boolean = tmp[ 2];
+      console.log( "i*: " + iStar);
+
+      if ( typeof iStar == "boolean" || typeof nextExtensionNode == "boolean"
+           || typeof nextExtensionOffset == "boolean") {
+        console.log("\n\n\n\n\n\n\n\n\n\n If pigs could fly, at least my code would run. \n\n\n\n\n\n\n\n\n\n");
+      }
+
       if ( typeof iStar != "boolean") { // if it was bool, it would be false
         if ( (typeof nextExtensionNode != "boolean") &&
              (typeof nextExtensionOffset != "boolean")) {
-          //
+          // so if the data is valid
+          console.log('================================\n************************\n================================')
+          console.log(nextExtensionNode)
+          console.log(nextExtensionOffset)
+          console.log(label)
+          console.log(iStar)
+          console.log('================================\n************************\n================================')
           let newActiveNode : STNode = extendAtPointBang( nextExtensionNode, nextExtensionOffset, label, iStar);
+          console.log('================================\n                        \n================================')
+          console.log( newActiveNode);
+          console.log('================================\n                        \n================================')
           tryToSetSuffixEdgeBang( activeNode, newActiveNode);
           addRestSuffixesLoopBang(
             label,
@@ -272,16 +322,19 @@ export function suffixTreeAddBang( tree: SuffixTree, label: Label) : void {
 
     let res : [STNode, number] = tree.root.nodeFollowK( label, matchedAtNode, matchedInNode,
                                                         mismatchedAtNode, mismatchedInNode);
+
+    console.log("tree after firstSuffixBangarang:")
+    tree.cutePrint();
     return res;
   }
 
   let doConstructionBang = function( tree: SuffixTree, label: Label) {
     let pr : [STNode, number] = addFirstSuffixBang( tree, label);
-    console.log( "pr: " + pr); // DEBUG
-    console.log( "pr[0]: "); console.log( pr[0]); // DEBUG
+    // console.log( "pr: " + pr); // DEBUG
+    // console.log( "pr[0]: "); console.log( pr[0]); // DEBUG
     let startingNode : STNode = pr[ 0];
     let startingOffset : number = pr[ 1];
-    return addRestSuffixesBang( label, startingNode, startingOffset);
+    addRestSuffixesBang( label, startingNode, startingOffset);
   }
 
   doConstructionBang( tree, label);

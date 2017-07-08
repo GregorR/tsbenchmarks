@@ -1,6 +1,6 @@
 import {longestCommonSubstring} from "./lcs"
 
-let debug : string[] = ["hell", "hel"]
+let debug : string[] = ["hat", "ha"]
 
 let smallTest : string = "King Francis was a hearty king, and loved a royal sport, #\
 And one day as his lions fought, sat looking on the court; #\
@@ -42,6 +42,8 @@ function main( testExpr: string) : void {
   }
 }
 
-main( smallTest);
+// main( smallTest);
 // main( largeTest);
 // main( kcfaTest);
+
+console.log("the substring is: " + longestCommonSubstring( "aa", "a"));
