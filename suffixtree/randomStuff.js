@@ -1,7 +1,5 @@
 "use strict";
 exports.__esModule = true;
-var data_1 = require("./data");
-var ukkonen_1 = require("./ukkonen");
 // let a = []
 //
 // if ( a === []) {
@@ -18,7 +16,13 @@ var ukkonen_1 = require("./ukkonen");
 // if ( l1.isPrefix( l2)) {
 //   console.log("color me unsurprised")
 // }
-var tree = new data_1.SuffixTree();
-ukkonen_1.suffixTreeAddBang(tree, new data_1.Label("boba#"));
-console.log("\n\n\n\n\n\nFinal Tree Print:");
-tree.printComplete();
+//
+// let tree : SuffixTree = new SuffixTree();
+// suffixTreeAddBang( tree, new Label("boba#"))
+//
+// console.log("\n\n\n\n\n\nFinal Tree Print:");
+// tree.printComplete();
+//
+var anArray = [1, 2, 3, 4, 5];
+console.log(anArray);
+console.log(anArray.slice(0));

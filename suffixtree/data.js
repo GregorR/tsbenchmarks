@@ -40,7 +40,7 @@ var Label = (function () {
         }
         else {
             if (!(start <= end)) {
-                console.log("there's a problem???");
+                // console.log("there's a problem???");
             }
             return new Label(this.datum, start + this.i, end + this.i);
         }
@@ -108,9 +108,9 @@ var SuffixTree = (function () {
         console.log("~~~ End Root CUTE PRINT ~~~");
     };
     SuffixTree.prototype.printComplete = function () {
-        console.log("~~~ Root     ~~~");
+        // console.log("~~~ Root     ~~~")
         this.root.printComplete();
-        console.log("~~~ End Root ~~~");
+        // console.log("~~~ End Root ~~~")
     };
     // somewhat a simplification of what node-follow does.
     // instead of using continuations, just returns boolean values
@@ -149,19 +149,19 @@ var STNode = (function () {
         }
     };
     STNode.prototype.printComplete = function () {
-        console.log('--- ' + this.spID + ': Node     ---');
-        console.log('    upLabel:');
-        console.log(this.upLabel.simpleToString());
+        // console.log('--- ' + this.spID + ': Node     ---')
+        // console.log('    upLabel:');
+        // console.log( this.upLabel.simpleToString());
         if (this.suffixLink) {
-            console.log('    sufLink:');
-            console.log(this.suffixLink.simpleStr());
+            // console.log('    sufLink:');
+            // console.log( this.suffixLink.simpleStr());
         }
-        console.log('    children: {\n');
+        // console.log('    children: {\n');
         for (var i = 0; i < this.children.length; i++) {
             this.children[i].printComplete();
         }
-        console.log('}');
-        console.log('--- ' + this.spID + ': End Node ---');
+        // console.log('}');
+        // console.log('--- ' + this.spID + ': End Node ---')
     };
     STNode.prototype.simpleStr = function () {
         return '{ upLabel: ' + this.upLabel.simpleToString() + ', spID: ' + this.spID + '}';
@@ -193,11 +193,11 @@ var STNode = (function () {
     };
     STNode.prototype.addChildBang = function (iNode) {
         this.children.push(iNode);
-        // console.log("\n\n kiddies: ");
+        // // console.log("\n\n kiddies: ");
         // for ( var i = 0 ; i < this.children.length; i++) {
-        //   console.log( this.children[ i].simpleStr())
+        //   // console.log( this.children[ i].simpleStr())
         // }
-        // console.log( this.children);
+        // // console.log( this.children);
     };
     STNode.prototype.removeChildBang = function (iChild) {
         var theIndex = this.children.indexOf(iChild);
@@ -209,7 +209,7 @@ var STNode = (function () {
     // produces undefined if nothing can be found
     STNode.prototype.findChild = function (toFind) {
         if (toFind instanceof Label) {
-            console.log("...here????");
+            // console.log("...here????")
             for (var i = 0; i < this.children.length; i++) {
                 var tmpLabel = this.children[i].upLabel;
                 if (tmpLabel.labelRef(0) == toFind.labelRef(0)) {
@@ -219,19 +219,19 @@ var STNode = (function () {
             return undefined;
         }
         else if (typeof toFind == "string") {
-            // console.log("here i am dont tread on me")
-            // console.log( toFind);
+            // // console.log("here i am dont tread on me")
+            // // console.log( toFind);
             for (var i = 0; i < this.children.length; i++) {
-                // console.log("i said here i am dont tread on me")
+                // // console.log("i said here i am dont tread on me")
                 var tmpLabel = this.children[i].upLabel;
-                // console.log(tmpLabel.labelRef( 0))
+                // // console.log(tmpLabel.labelRef( 0))
                 if (tmpLabel.labelRef(0) == toFind) {
                     return this.children[i];
                 }
             }
             return undefined;
         }
-        console.log("this hsould never happen........");
+        // console.log("this hsould never happen........")
     };
     // returns the inserted node
     STNode.prototype.upSplit = function (offset) {
@@ -239,7 +239,21 @@ var STNode = (function () {
         var preLabel = label.sublabel(0, offset);
         var postLabel = label.sublabel(offset);
         var parent = this.parent;
-        var newNode = new STNode(preLabel, parent, deepCopyLabelSTNodeArray(this.children.slice(0)), undefined);
+        var newNode = new STNode(preLabel, parent, [this], // heck
+        undefined);
+        console.log("\n\nin upSplit. printing everything.");
+        console.log("first, the node (this)'s children:");
+        console.log(this.children);
+        console.log("label");
+        console.log(label);
+        console.log("preLabel");
+        console.log(preLabel);
+        console.log("postLabel");
+        console.log(postLabel);
+        console.log("parent");
+        console.log(parent);
+        console.log("newNode's children");
+        console.log(newNode.children);
         this.upLabel = postLabel;
         parent.removeChildBang(this);
         this.parent = newNode;
@@ -250,6 +264,11 @@ var STNode = (function () {
     STNode.prototype.upSpliceLeaf = function (offset, leafLabel) {
         var splitNode = this.upSplit(offset);
         var leaf = splitNode.addLeafBang(leafLabel);
+        console.log("----------------\nin upSpliceLeaf");
+        console.log("splitNode: ");
+        splitNode.cutePrint("");
+        console.log("leaf: ");
+        leaf.cutePrint("");
         return [splitNode, leaf];
     };
     STNode.prototype.nodeFollowK = function (originalLabel, matnK, mateK, misnK, miseK) {
@@ -263,16 +282,16 @@ var STNode = (function () {
                     return NODEk(theNode, label, kLabelOffset);
                 }
                 else if (kLabelOffset == label.length()) {
-                    console.log("coconut");
+                    // console.log("coconut")
                     return mateK(theNode, k);
                     // return mateK;
                 }
                 else if (upLabel.labelRef(k) == label.labelRef(kLabelOffset)) {
-                    console.log("yooo: " + k + " and " + originalLabel.length());
+                    // console.log("yooo: " + k + " and " + originalLabel.length());
                     // continue
                 }
                 else {
-                    console.log("dragonfruit");
+                    // console.log("dragonfruit")
                     return miseK(theNode, k, label, kLabelOffset);
                     // return miseK;
                 }
@@ -280,7 +299,7 @@ var STNode = (function () {
         };
         var NODEk = function (theNode, label, labelOffset) {
             if (label.length() == labelOffset) {
-                console.log("apple");
+                // console.log("apple")
                 return matnK(theNode);
                 // return matnK;
             }
@@ -291,7 +310,7 @@ var STNode = (function () {
                     return EDGEk(child, label, labelOffset);
                 }
                 else {
-                    console.log("banana");
+                    // console.log("banana")
                     return misnK(theNode, label, labelOffset);
                     // return misnK;
                 }
