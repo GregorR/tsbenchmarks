@@ -1,4 +1,5 @@
-if (0) {
+var a = [];
+if (a === []) {
     console.log("hur");
 }
 else {

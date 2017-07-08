@@ -1,4 +1,6 @@
-if ( 0) {
+let a = []
+
+if ( a === []) {
   console.log("hur");
 } else {
   console.log("poop");

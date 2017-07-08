@@ -1,6 +1,6 @@
 import {longestCommonSubstring} from "./lcs"
 
-let debug : string[] = ["hello", "hel"]
+let debug : string[] = ["hell", "hel"]
 
 let smallTest : string = "King Francis was a hearty king, and loved a royal sport, #\
 And one day as his lions fought, sat looking on the court; #\
