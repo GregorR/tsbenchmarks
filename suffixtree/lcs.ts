@@ -21,19 +21,32 @@ function pathLabel( node: STNode) : Label {
     let v : string[] = [];
 
     // very safe
-    let i : number = 0;
-    while( true) {
-      if ( i >= labels.length) {
-        return labelLib.vectorToLabel( v);
-      } else {
-        vectorBlitBang( labels[i], v, i);
-        i += labels[i].length();
+    // let i : number = 0;
+    // while( true) {
+    //   //console.log("safety first")
+    //   if ( i >= labels.length) {
+    //     return labelLib.vectorToLabel( v);
+    //   } else {
+    //     vectorBlitBang( labels[i], v, i);
+    //     i += labels[i].length();
+    //   }
+    // }
+
+    let retStr : string = "";
+
+    for ( var i : number = 0; i < labels.length; i++) {
+      let curLab : Label = labels[i];
+      console.log( curLab);
+      for ( var j : number = 0; j < curLab.length(); j++) {
+        retStr += curLab.labelRef( j);
       }
     }
+
+    return new Label(retStr)
+
   }
 
   let collectLoop = function( currentNode: STNode, collectedLabels: Label[], totalLength: number) : Label {
-    // // console.log("to infinity... and beyond!")
     if ( currentNode) { // if its not undefined
       collectedLabels.push( currentNode.upLabel);
       return collectLoop( currentNode.parent, collectedLabels, totalLength + currentNode.upLabel.length());
@@ -41,6 +54,7 @@ function pathLabel( node: STNode) : Label {
       // console.log("collected labels:");
       // console.log(collectedLabels)
       // console.log(totalLength)
+      console.log( collectedLabels);
       return buildNewLabel( collectedLabels, totalLength);
     }
   }
@@ -140,8 +154,16 @@ function longestCommonSublabel( label1: Label, label2: Label) : Label {
     // console.log("                                          AFTER   2 !!!!!")
     // // console.log("Logging tree...:")
     // tree.printComplete();
+    console.log("before markUp")
     markUpInnerNodesBang( tree.root, 0);
+    console.log("after markUp")
     // console.log("pre return...")
+
+    console.log("\n\n\n\n\nthe dicts: ");
+    console.log( label1Marks);
+    console.log( label2Marks);
+    console.log("..........................................");
+
     return pathLabel( deepestNode);
   }
 
@@ -149,10 +171,6 @@ function longestCommonSublabel( label1: Label, label2: Label) : Label {
     return labelLib.stringToLabel("");
   } else {
     let ret: Label = main();
-    // console.log("\n\n\n\n\nthe dicts: ");
-    // console.log( label1Marks);
-    // console.log( label2Marks);
-    // console.log("..........................................");
     return ret;
   }
 }
