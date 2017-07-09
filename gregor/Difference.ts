@@ -49,18 +49,43 @@ export function dateTime_days_between( dt1: D.DateTime, dt2: D.DateTime): number
 }
 
 export function dateTime_nanoseconds_between( dt1: D.DateTime, dt2: D.DateTime): number {
-	console.log( "PLS END MY LIFE");
-	console.log( dateTime_to_jdns( dt2));
-	console.log( dateTime_to_jdns( dt1));
-	console.log( dateTime_to_jdns( dt2) - dateTime_to_jdns( dt1))
-	console.log( "CLOROX IS MY BEVERAGE OF CHOICE");
 
-	return ( B.bigInt( dateTime_to_jdns( dt2)).minus( B.bigInt( dateTime_to_jdns( dt1))));
+	var bi1: B.BigInt = new B.BigInt( dateTime_to_jdns( dt1));
+	var bi2: B.BigInt = new B.BigInt( dateTime_to_jdns( dt2));
+	var toRet: B.BigInt = bi2.sub( bi1);
+
+	// console.log( "PLS END MY LIFE");
+	// console.log( bi2.getValue());
+	// console.log( bi1.getValue());
+	// console.log( toRet.getValue());
+	// console.log( toRet.getValue());
+	// console.log( "CLOROX IS MY BEVERAGE OF CHOICE");
+
+	// console.log( toRet.printable());
+	return toRet.getValue(); //Number( toRet.printable());
 }
 
 export function dateTime_to_jdns( dt: D.DateTime): number {
 	var c: C.Consts = new C.Consts();
-	return Math.floor( DTH.dateTime_to_jd( dt).ieEval() * c.NS_DAY);
+
+	var bNum: B.BigInt = new B.BigInt( DTH.dateTime_to_jd( dt).num);
+	var bDenom: B.BigInt = new B.BigInt( DTH.dateTime_to_jd( dt).denom);
+	var intFrac: B.BigInt = bNum.divide( bDenom);
+
+	// console.log( "Here!!");
+	// console.log( bNum.getValue());
+	// console.log( bDenom.getValue());
+	// console.log( intFrac.getValue());
+	// console.log( c.NS_DAY);
+
+	var end: B.BigInt = intFrac.multiply( new B.BigInt( c.NS_DAY));
+	
+
+
+	
+	// return Math.floor( DTH.dateTime_to_jd( dt).ieEval() * c.NS_DAY);
+	// console.log( "!!!!!!!!!!!!!!!!!!!   " + end.printable());
+	return end.getValue();
 	// console.log( dt);
 	// return DTH.dateTime_to_jd( dt).ieEval() * c.NS_DAY;
 }

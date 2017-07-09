@@ -11,15 +11,15 @@ import * as C from './HMSN';
 export var current_timezone: string = "America/Toronto Eastern";
 
 // leaving out offset resolver potential OHNO
-export function moment( year: number, month = D.Month.jan, day = 1, hour = 0, minute = 0, second = 0, nano = 0, tz = current_timezone): D.Moment {
-	return datetime_tz_to_moment( DTH.datetime( year, month, day, hour, minute, second, nano), tz);
-}
+// export function moment( year: number, month = D.Month.jan, day = 1, hour = 0, minute = 0, second = 0, nano = 0, tz = current_timezone): D.Moment {
+// 	return datetime_tz_to_moment( DTH.datetime( year, month, day, hour, minute, second, nano), tz);
+// }
 
-export function datetime_tz_to_moment( dt: D.DateTime, zone: string): D.Moment {
-	if( zone != "") {
+// export function datetime_tz_to_moment( dt: D.DateTime, zone: string): D.Moment {
+// 	if( zone != "") {
 		
-	}
-}
+// 	}
+// }
 
 
 
