@@ -5,21 +5,21 @@ var labelLib = require("./label");
 var ukkonen_1 = require("./ukkonen");
 // this import is for hashing
 function pathLabel(node) {
-    var vectorBlitBang = function (srcLabel, dstVector, destOffset) {
-        for (var i = 0; i < srcLabel.length(); i++) {
-            var index = i + destOffset;
-            if (i < srcLabel.length()) {
-                dstVector[index] = srcLabel.labelRef(i);
-                // loop
-            }
-        }
-    };
+    // let vectorBlitBang = function( srcLabel: Label, dstVector: string[], destOffset: number) : void {
+    //   for ( var i : number = 0; i < srcLabel.length(); i++) {
+    //     let index : number = i + destOffset;
+    //     if ( i < srcLabel.length()) { // which it is...
+    //       dstVector[ index] = srcLabel.labelRef( i);
+    //       // loop
+    //     }
+    //   }
+    // }
     var buildNewLabel = function (labels, totalLength) {
         var v = [];
         // very safe
         // let i : number = 0;
         // while( true) {
-        //   //console.log("safety first")
+        //   //// console.log("safety first")
         //   if ( i >= labels.length) {
         //     return labelLib.vectorToLabel( v);
         //   } else {
@@ -28,9 +28,9 @@ function pathLabel(node) {
         //   }
         // }
         var retStr = "";
-        for (var i = 0; i < labels.length; i++) {
+        for (var i = labels.length - 1; i >= 0; i--) {
             var curLab = labels[i];
-            console.log(curLab);
+            // console.log( curLab);
             for (var j = 0; j < curLab.length(); j++) {
                 retStr += curLab.labelRef(j);
             }
@@ -43,10 +43,10 @@ function pathLabel(node) {
             return collectLoop(currentNode.parent, collectedLabels, totalLength + currentNode.upLabel.length());
         }
         else {
-            // console.log("collected labels:");
-            // console.log(collectedLabels)
-            // console.log(totalLength)
-            console.log(collectedLabels);
+            // // console.log("collected labels:");
+            // // console.log(collectedLabels)
+            // // console.log(totalLength)
+            // // console.log( collectedLabels);
             return buildNewLabel(collectedLabels, totalLength);
         }
     };
@@ -60,7 +60,7 @@ function longestCommonSublabel(label1, label2) {
     var absorbChildrenMarks = function (node, depth) {
         for (var i = 0; i < node.children.length; i++) {
             var child = node.children[i];
-            // // console.log( "label1Marks[ child.spID]: " + label1Marks[ child.spID])
+            // // // console.log( "label1Marks[ child.spID]: " + label1Marks[ child.spID])
             if (label1Marks[child.spID]) {
                 label1Marks[node.spID] = true;
             }
@@ -68,12 +68,12 @@ function longestCommonSublabel(label1, label2) {
                 label2Marks[node.spID] = true;
             }
         }
-        // console.log("BEG Logging in absorbChildrenMarks: ")
-        // console.log( label1Marks[ node.spID])
-        // console.log( label2Marks[ node.spID])
-        // console.log( "depth: " + depth);
-        // console.log( "deepestDepth: " + deepestDepth);
-        // console.log("END Logging in absorbChildrenMarks. ")
+        // // console.log("BEG Logging in absorbChildrenMarks: ")
+        // // console.log( label1Marks[ node.spID])
+        // // console.log( label2Marks[ node.spID])
+        // // console.log( "depth: " + depth);
+        // // console.log( "deepestDepth: " + deepestDepth);
+        // // console.log("END Logging in absorbChildrenMarks. ")
         if ((label1Marks[node.spID] && label2Marks[node.spID]) &&
             (depth > deepestDepth)) {
             //
@@ -82,17 +82,17 @@ function longestCommonSublabel(label1, label2) {
         }
     };
     var markUpInnerNodesBang = function (node, depth) {
-        // console.log("..............hello?")
-        // console.log("node.children: ");
-        // console.log(node.children);
+        // // console.log("..............hello?")
+        // // console.log("node.children: ");
+        // // console.log(node.children);
         if (node.children.length == 0) {
-            // // console.log("48712947892173490128309128301283 PLS")
+            // // // console.log("48712947892173490128309128301283 PLS")
             if (node.upLabel.isSourceEqual(label1)) {
-                // console.log( "marked 1");
+                // // console.log( "marked 1");
                 label1Marks[node.spID] = true;
             }
             if (node.upLabel.isSourceEqual(label2)) {
-                // console.log( "marked 2");
+                // // console.log( "marked 2");
                 label2Marks[node.spID] = true;
             }
         }
@@ -103,42 +103,42 @@ function longestCommonSublabel(label1, label2) {
                 markUpInnerNodesBang(child, k);
             }
             absorbChildrenMarks(node, depth);
-            // console.log("left absorbChildrenMarks");
+            // // console.log("left absorbChildrenMarks");
         }
     };
     var main = function () {
-        console.log("longestCommonSublabel.main: in");
+        // console.log("longestCommonSublabel.main: in");
         var tree = new data_1.SuffixTree();
-        // console.log(" -----------------------------------------------------------------");
-        // console.log("label1: " + label1);
-        // console.log("label2: " + label2);
-        // console.log("                                          BEFORE  1 !!!!!")
+        // // console.log(" -----------------------------------------------------------------");
+        // // console.log("label1: " + label1);
+        // // console.log("label2: " + label2);
+        // // console.log("                                          BEFORE  1 !!!!!")
         ukkonen_1.suffixTreeAddBang(tree, label1);
-        console.log("after suffixTreeAddBang( tree, label1), tree is:");
+        // console.log("after suffixTreeAddBang( tree, label1), tree is:");
         tree.cutePrint();
-        console.log("\n\n\n\n\n"); // add some space between adds
-        // console.log(" ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        // console.log(" +++++ After first label added: ");
+        // console.log("\n\n\n\n\n"); // add some space between adds
+        // // console.log(" ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        // // console.log(" +++++ After first label added: ");
         //tree.printComplete();
         // tree.cutePrint();
-        // console.log("                                          BETWEEN 1 and 2")
+        // // console.log("                                          BETWEEN 1 and 2")
         ukkonen_1.suffixTreeAddBang(tree, label2);
-        console.log("after suffixTreeAddBang( tree, label2), tree is:");
+        // console.log("after suffixTreeAddBang( tree, label2), tree is:");
         tree.cutePrint();
-        console.log("\n\n\n\n\n"); // add some space between adds
-        // // console.log("+++++ After second label added: ")
+        // console.log("\n\n\n\n\n"); // add some space between adds
+        // // // console.log("+++++ After second label added: ")
         // tree.printComplete();
-        // console.log("                                          AFTER   2 !!!!!")
-        // // console.log("Logging tree...:")
+        // // console.log("                                          AFTER   2 !!!!!")
+        // // // console.log("Logging tree...:")
         // tree.printComplete();
-        console.log("before markUp");
+        // console.log("before markUp")
         markUpInnerNodesBang(tree.root, 0);
-        console.log("after markUp");
-        // console.log("pre return...")
-        console.log("\n\n\n\n\nthe dicts: ");
-        console.log(label1Marks);
-        console.log(label2Marks);
-        console.log("..........................................");
+        // console.log("after markUp")
+        // // console.log("pre return...")
+        // console.log("\n\n\n\n\nthe dicts: ");
+        // console.log( label1Marks);
+        // console.log( label2Marks);
+        // console.log("..........................................");
         return pathLabel(deepestNode);
     };
     if ((label1.length() == 0) || (label2.length() == 0)) {
@@ -150,7 +150,7 @@ function longestCommonSublabel(label1, label2) {
     }
 }
 function longestCommonSubstring(s1, s2) {
-    console.log("longestCommonSubstring: in");
+    // console.log("longestCommonSubstring: in");
     return longestCommonSublabel(labelLib.stringToLabelWithSentinel(s1), labelLib.stringToLabelWithSentinel(s2)).toString();
     // return longestCommonSublabel( labelLib.stringToLabel( s1),
     //                               labelLib.stringToLabel( s2)).toString();

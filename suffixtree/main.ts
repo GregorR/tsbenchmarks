@@ -31,19 +31,25 @@ let largeTest : string = "";
 let kcfaTest : string = "";
 
 function main( testExpr: string) : void {
-  // let strs : string[] = testExpr.split("#");
-  let strs : string[] = debug;
+  let strs : string[] = testExpr.split("#");
+  // let strs : string[] = debug;
   for ( var i : number = 0; i < strs.length; i ++) {
     for ( var j : number = 0; j < strs.length; j ++) {
+      // console.log()
       // console.log( strs[ i])
       // console.log( strs[ j])
-      console.log("the substring is: " + longestCommonSubstring( strs[ i], strs[ j]));
+      // console.log("the substring is: " + longestCommonSubstring( strs[ i], strs[ j]));
+      longestCommonSubstring( strs[ i], strs[ j]);
     }
   }
 }
 
-// main( smallTest);
+main( smallTest);
 // main( largeTest);
 // main( kcfaTest);
 
-console.log("the substring is: " + longestCommonSubstring( "aa", "a"));
+// let str1 : string = "\"No love,\" quoth he, \"but vanity, sets love a task like that.\"";
+// let str2 : string = "Valour and love, and a king above, and the royal beasts below.";
+//
+// // console.log("the substring is: " + longestCommonSubstring( str1, str2));
+// console.log("the substring is: " + longestCommonSubstring( "hello", "ell"));
