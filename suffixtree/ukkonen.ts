@@ -107,7 +107,7 @@ function findNextExtensionPointAndAddSuffixLinkBang ( node: STNode,
   let suffixOffset : number | boolean = tmp[ 1];
 
   // console.log("\nsuffixNode: ")
-  suffixNode.cutePrint("")
+  // suffixNode.cutePrint("")
   // console.log("suffixOffset: " + suffixOffset);
 
   let callVal : number | boolean = -1;
@@ -205,10 +205,10 @@ function extendAtPointBang( anode: STNode, aoffset: number, alabel: Label, ai: n
     let leaf : STNode = tmp[ 1];
     // console.log("\n\nspliceWithInternalNodeBang: splitNode is....")
     // // console.log( splitNode);
-    splitNode.cutePrint("");
+    // splitNode.cutePrint("");
     // console.log("spliceWithInternalNodeBang: and leaf is....")
     // // console.log( leaf);
-    leaf.cutePrint("")
+    // leaf.cutePrint("")
     // console.log("\n\n");
     return splitNode;
   }
@@ -281,7 +281,7 @@ export function suffixTreeAddBang( tree: SuffixTree, label: Label) : void {
 
           // console.log('================================\n      newActiveNode     \n================================')
           // // console.log( newActiveNode);
-          newActiveNode.cutePrint("");
+          // newActiveNode.cutePrint("");
           // console.log('================================\n   endNewActiveNode     \n================================')
           tryToSetSuffixEdgeBang( activeNode, newActiveNode);
           addRestSuffixesLoopBang(
@@ -359,14 +359,14 @@ export function suffixTreeAddBang( tree: SuffixTree, label: Label) : void {
     let startingNode : STNode = pr[ 0];
 
     // console.log("\nthe startingNode after first: ");
-    startingNode.cutePrint("");
+    // startingNode.cutePrint("");
 
     let startingOffset : number = pr[ 1];
     // console.log("startingOffset:" + startingOffset);
     addRestSuffixesBang( label, startingNode, startingOffset);
 
     // console.log("\nthe startingNode after rest: ");
-    startingNode.cutePrint("");
+    // startingNode.cutePrint("");
   }
 
   doConstructionBang( tree, label);

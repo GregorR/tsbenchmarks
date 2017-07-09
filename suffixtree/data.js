@@ -101,12 +101,12 @@ var SuffixTree = (function () {
         // children.  Its suffix link is invalid, but we set it to #f.
         this.root = new STNode(new Label("", 0, 0), undefined, [], undefined);
     }
-    SuffixTree.prototype.cutePrint = function () {
-        // console.log("~~~ Root CUTE PRINT     ~~~")
-        var tabs = "\t";
-        this.root.cutePrint(tabs);
-        // console.log("~~~ End Root CUTE PRINT ~~~")
-    };
+    // cutePrint() {
+    //   // console.log("~~~ Root CUTE PRINT     ~~~")
+    //   let tabs : string = "\t";
+    //   this.root.cutePrint(tabs);
+    //   // console.log("~~~ End Root CUTE PRINT ~~~")
+    // }
     SuffixTree.prototype.printComplete = function () {
         // // console.log("~~~ Root     ~~~")
         this.root.printComplete();
@@ -140,14 +140,14 @@ var STNode = (function () {
         this.spID = nodeID;
         nodeID++;
     }
-    STNode.prototype.cutePrint = function (tl) {
-        var ret = tl + '{ spID:' + this.spID + ', ' + this.upLabel.actualToString() + '}';
-        // console.log(ret);
-        tl = tl + "\t";
-        for (var i = 0; i < this.children.length; i++) {
-            this.children[i].cutePrint(tl);
-        }
-    };
+    // cutePrint( tl) {
+    //   var ret = tl + '{ spID:' + this.spID + ', ' + this.upLabel.actualToString() + '}'
+    //   // console.log(ret);
+    //   tl = tl + "\t";
+    //   for ( var i = 0; i < this.children.length; i++) {
+    //     this.children[ i].cutePrint( tl);
+    //   }
+    // }
     STNode.prototype.printComplete = function () {
         // // console.log('--- ' + this.spID + ': Node     ---')
         // // console.log('    upLabel:');
@@ -266,9 +266,9 @@ var STNode = (function () {
         var leaf = splitNode.addLeafBang(leafLabel);
         // console.log("----------------\nin upSpliceLeaf")
         // console.log("splitNode: ")
-        splitNode.cutePrint("");
+        //splitNode.cutePrint("");
         // console.log("leaf: ")
-        leaf.cutePrint("");
+        //leaf.cutePrint("");
         return [splitNode, leaf];
     };
     STNode.prototype.nodeFollowK = function (originalLabel, matnK, mateK, misnK, miseK) {

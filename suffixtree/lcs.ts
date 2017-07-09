@@ -131,7 +131,7 @@ function longestCommonSublabel( label1: Label, label2: Label) : Label {
     suffixTreeAddBang( tree, label1);
 
     // console.log("after suffixTreeAddBang( tree, label1), tree is:");
-    tree.cutePrint();
+    // tree.cutePrint();
 
     // console.log("\n\n\n\n\n"); // add some space between adds
 
@@ -144,7 +144,7 @@ function longestCommonSublabel( label1: Label, label2: Label) : Label {
     suffixTreeAddBang( tree, label2);
 
     // console.log("after suffixTreeAddBang( tree, label2), tree is:");
-    tree.cutePrint();
+    // tree.cutePrint();
 
     // console.log("\n\n\n\n\n"); // add some space between adds
 

@@ -115,12 +115,12 @@ export class SuffixTree {
                             undefined);
   }
 
-  cutePrint() {
-    // console.log("~~~ Root CUTE PRINT     ~~~")
-    let tabs : string = "\t";
-    this.root.cutePrint(tabs);
-    // console.log("~~~ End Root CUTE PRINT ~~~")
-  }
+  // cutePrint() {
+  //   // console.log("~~~ Root CUTE PRINT     ~~~")
+  //   let tabs : string = "\t";
+  //   this.root.cutePrint(tabs);
+  //   // console.log("~~~ End Root CUTE PRINT ~~~")
+  // }
 
   printComplete() {
     // // console.log("~~~ Root     ~~~")
@@ -170,14 +170,14 @@ export class STNode {
     nodeID++;
   }
 
-  cutePrint( tl) {
-    var ret = tl + '{ spID:' + this.spID + ', ' + this.upLabel.actualToString() + '}'
-    // console.log(ret);
-    tl = tl + "\t";
-    for ( var i = 0; i < this.children.length; i++) {
-      this.children[ i].cutePrint( tl);
-    }
-  }
+  // cutePrint( tl) {
+  //   var ret = tl + '{ spID:' + this.spID + ', ' + this.upLabel.actualToString() + '}'
+  //   // console.log(ret);
+  //   tl = tl + "\t";
+  //   for ( var i = 0; i < this.children.length; i++) {
+  //     this.children[ i].cutePrint( tl);
+  //   }
+  // }
 
   printComplete() {
     // // console.log('--- ' + this.spID + ': Node     ---')
@@ -312,9 +312,9 @@ export class STNode {
 
     // console.log("----------------\nin upSpliceLeaf")
     // console.log("splitNode: ")
-    splitNode.cutePrint("");
+    //splitNode.cutePrint("");
     // console.log("leaf: ")
-    leaf.cutePrint("");
+    //leaf.cutePrint("");
 
     return [ splitNode, leaf]
   }

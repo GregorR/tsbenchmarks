@@ -98,7 +98,7 @@ function findNextExtensionPointAndAddSuffixLinkBang(node, label, initialI, j) {
     var suffixNode = tmp[0];
     var suffixOffset = tmp[1];
     // console.log("\nsuffixNode: ")
-    suffixNode.cutePrint("");
+    // suffixNode.cutePrint("")
     // console.log("suffixOffset: " + suffixOffset);
     var callVal = -1;
     if (typeof suffixOffset == "number") {
@@ -189,10 +189,10 @@ function extendAtPointBang(anode, aoffset, alabel, ai) {
         var leaf = tmp[1];
         // console.log("\n\nspliceWithInternalNodeBang: splitNode is....")
         // // console.log( splitNode);
-        splitNode.cutePrint("");
+        // splitNode.cutePrint("");
         // console.log("spliceWithInternalNodeBang: and leaf is....")
         // // console.log( leaf);
-        leaf.cutePrint("");
+        // leaf.cutePrint("")
         // console.log("\n\n");
         return splitNode;
     };
@@ -254,7 +254,7 @@ function suffixTreeAddBang(tree, label) {
                     var newActiveNode = extendAtPointBang(nextExtensionNode, nextExtensionOffset, label, iStar);
                     // console.log('================================\n      newActiveNode     \n================================')
                     // // console.log( newActiveNode);
-                    newActiveNode.cutePrint("");
+                    // newActiveNode.cutePrint("");
                     // console.log('================================\n   endNewActiveNode     \n================================')
                     tryToSetSuffixEdgeBang(activeNode, newActiveNode);
                     addRestSuffixesLoopBang(label, N, Math.max(iStar, j + 1), j + 1, newActiveNode);
@@ -308,12 +308,12 @@ function suffixTreeAddBang(tree, label) {
         // // // console.log( "pr[0]: "); // // console.log( pr[0]); // DEBUG
         var startingNode = pr[0];
         // console.log("\nthe startingNode after first: ");
-        startingNode.cutePrint("");
+        // startingNode.cutePrint("");
         var startingOffset = pr[1];
         // console.log("startingOffset:" + startingOffset);
         addRestSuffixesBang(label, startingNode, startingOffset);
         // console.log("\nthe startingNode after rest: ");
-        startingNode.cutePrint("");
+        // startingNode.cutePrint("");
     };
     doConstructionBang(tree, label);
 }
