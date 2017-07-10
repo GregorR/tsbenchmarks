@@ -131,9 +131,9 @@ export class SuffixTree {
   // somewhat a simplification of what node-follow does.
   // instead of using continuations, just returns boolean values
   // where appropriate.
-  contains( label: Label) {
-    return this.root.nodeFollowK( label, true, true, false, false)
-  }
+  // contains( label: Label) {
+  //   return this.root.nodeFollowK( label, true, true, false, false)
+  // }
 
 }
 
@@ -319,9 +319,13 @@ export class STNode {
     return [ splitNode, leaf]
   }
 
-  nodeFollowK( originalLabel : Label, matnK: (a:STNode,b:number)=>[STNode,number], mateK: (a:STNode,b:number)=>[STNode,number], misnK: (a:STNode,b:number)=>[STNode,number], miseK: (a:STNode,b:number)=>[STNode,number]) {
+  nodeFollowK(  originalLabel : Label,
+                matnK: (a:STNode)=>[STNode,number],
+                mateK: (a:STNode,b:number)=>[STNode,number],
+                misnK: (a:STNode,b:Label,c:number)=>[STNode,number],
+                miseK: (a:STNode,b:number,c:Label,d:number)=>[STNode,number]) {
 
-    let EDGEk = function( theNode: STNode, label : Label, labelOffset : number) {
+    let EDGEk = function( theNode: STNode, label : Label, labelOffset : number) : [STNode,number] {
       let upLabel = theNode.upLabel;
 
       // dunno about this loop
@@ -345,7 +349,7 @@ export class STNode {
       }
     }
 
-    let NODEk = function( theNode: STNode, label : Label, labelOffset : number) {
+    let NODEk = function( theNode: STNode, label : Label, labelOffset : number) : [STNode, number] {
       if ( label.length() == labelOffset) {
         // // console.log("apple")
         return matnK( theNode)
@@ -367,7 +371,7 @@ export class STNode {
 
   }
 
-  positionAtEnd( offset) : boolean {
+  positionAtEnd( offset : number) : boolean {
     return this.upLabel.labelRefAtEnd( offset);
   }
 

@@ -593,6 +593,7 @@ function main(testExpr) {
             // console.log( strs[ i])
             // console.log( strs[ j])
             // console.log("the substring is: " + longestCommonSubstring( strs[ i], strs[ j]));
+            // console.log( longestCommonSubstring( strs[ i], strs[ j]));
             lcs_1.longestCommonSubstring(strs[i], strs[j]);
             // console.log((i+j) + ": working...")
         }
@@ -602,6 +603,6 @@ function main(testExpr) {
 // unfortunately i needed to remove a line from kcfa cause it was too long
 //  and it was causing call stack size issues. i tried to be (a little too)
 //  similar to the Racket, which causes some issues.
-// main( smallTest);
+main(smallTest);
 // main( largeTest);
-main(kcfaTest);
+// main( kcfaTest);

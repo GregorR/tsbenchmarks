@@ -63,8 +63,10 @@ function pathLabel( node: STNode) : Label {
 }
 
 function longestCommonSublabel( label1: Label, label2: Label) : Label {
-  let label1Marks = {};
-  let label2Marks = {};
+  // let label1Marks : boolean[] = [];
+  // let label2Marks : boolean[] = [];
+  let label1Marks : { [id: string] : boolean } = {}
+  let label2Marks : { [id: string] : boolean } = {}
 
   let deepestNode : STNode = new STNode( new Label( "no lcs"), undefined, [], undefined);
   let deepestDepth : number = 0;
@@ -80,13 +82,6 @@ function longestCommonSublabel( label1: Label, label2: Label) : Label {
         label2Marks[ node.spID] = true;
       }
     }
-
-    // // console.log("BEG Logging in absorbChildrenMarks: ")
-    // // console.log( label1Marks[ node.spID])
-    // // console.log( label2Marks[ node.spID])
-    // // console.log( "depth: " + depth);
-    // // console.log( "deepestDepth: " + deepestDepth);
-    // // console.log("END Logging in absorbChildrenMarks. ")
 
     if ( (label1Marks[ node.spID] && label2Marks[ node.spID]) &&
          (depth > deepestDepth)) {
@@ -159,10 +154,10 @@ function longestCommonSublabel( label1: Label, label2: Label) : Label {
     // console.log("after markUp")
     // // console.log("pre return...")
 
-    // console.log("\n\n\n\n\nthe dicts: ");
-    // console.log( label1Marks);
-    // console.log( label2Marks);
-    // console.log("..........................................");
+    // console.log("\n\n-----------------------------------\n" +
+    //                 " Logging \"dictionaries\": ")
+    // console.log( label1Marks)
+    // console.log( label2Marks)
 
     return pathLabel( deepestNode);
   }

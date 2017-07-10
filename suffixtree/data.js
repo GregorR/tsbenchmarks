@@ -112,12 +112,6 @@ var SuffixTree = (function () {
         this.root.printComplete();
         // // console.log("~~~ End Root ~~~")
     };
-    // somewhat a simplification of what node-follow does.
-    // instead of using continuations, just returns boolean values
-    // where appropriate.
-    SuffixTree.prototype.contains = function (label) {
-        return this.root.nodeFollowK(label, true, true, false, false);
-    };
     return SuffixTree;
 }());
 exports.SuffixTree = SuffixTree;

@@ -595,6 +595,7 @@ function main( testExpr: string) : void {
       // console.log( strs[ i])
       // console.log( strs[ j])
       // console.log("the substring is: " + longestCommonSubstring( strs[ i], strs[ j]));
+      // console.log( longestCommonSubstring( strs[ i], strs[ j]));
       longestCommonSubstring( strs[ i], strs[ j]);
       // console.log((i+j) + ": working...")
     }
@@ -606,6 +607,6 @@ function main( testExpr: string) : void {
 //  and it was causing call stack size issues. i tried to be (a little too)
 //  similar to the Racket, which causes some issues.
 
-// main( smallTest);
+main( smallTest);
 // main( largeTest);
-main( kcfaTest);
+// main( kcfaTest);
