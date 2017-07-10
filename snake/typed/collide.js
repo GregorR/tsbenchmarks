@@ -1,5 +1,5 @@
-"use strict";
 // this is equivalent to collide.rkt
+"use strict";
 exports.__esModule = true;
 /// <reference path='DataClasses.ts'/>
 var gc = require("./GameConsts");

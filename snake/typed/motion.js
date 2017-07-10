@@ -1,5 +1,5 @@
-"use strict";
 // this is equivalent to motion.rkt
+"use strict";
 exports.__esModule = true;
 /// <reference path='DataClasses.ts'/>
 /// <reference path='motion_helpers.ts'/>
@@ -7,6 +7,8 @@ exports.__esModule = true;
 var gc = require("./GameConsts");
 var MH = require("./motion_helpers");
 var DC = require("./DataClasses");
+// declare var require: NodeRequire;
+// import gen = require('random-seed');
 var pls;
 /**
  * Modified from from https://gist.github.com/blixt/f17b47c62508be59987b

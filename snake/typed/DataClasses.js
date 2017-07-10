@@ -1,5 +1,5 @@
-"use strict";
 // equivalent to the data.rkt file from the typed racket version
+"use strict";
 exports.__esModule = true;
 var Pair = (function () {
     function Pair(tx, ty) {

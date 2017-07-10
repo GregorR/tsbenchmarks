@@ -1,5 +1,5 @@
-"use strict";
 // Tetras
+"use strict";
 exports.__esModule = true;
 var bset = require("./bset");
 // Tetra Move: move the tetra by the given x and y

@@ -37,7 +37,7 @@ export class Label {
   }
 
   // no check rn if its a valid sublabel
-  sublabel( start: number, end = undefined) {
+  sublabel( start: number, end: number = undefined): Label {
     if (end == undefined) {
       return this.sublabel( start, this.length())
     } else {
@@ -48,7 +48,7 @@ export class Label {
     }
   }
 
-  sublabelBang( start: number, end = undefined) {
+  sublabelBang( start: number, end: number = undefined) {
     if ( end == undefined) {
       this.sublabelBang(start, this.length());
     } else {
@@ -274,7 +274,7 @@ export class STNode {
   }
 
   // returns the inserted node
-  upSplit( offset) {
+  upSplit( offset: number) {
     let label : Label = this.upLabel;
     let preLabel : Label = label.sublabel( 0, offset);
     let postLabel : Label = label.sublabel( offset);
@@ -319,7 +319,7 @@ export class STNode {
     return [ splitNode, leaf]
   }
 
-  nodeFollowK( originalLabel : Label, matnK, mateK, misnK, miseK) {
+  nodeFollowK( originalLabel : Label, matnK: (a:STNode,b:number)=>[STNode,number], mateK: (a:STNode,b:number)=>[STNode,number], misnK: (a:STNode,b:number)=>[STNode,number], miseK: (a:STNode,b:number)=>[STNode,number]) {
 
     let EDGEk = function( theNode: STNode, label : Label, labelOffset : number) {
       let upLabel = theNode.upLabel;

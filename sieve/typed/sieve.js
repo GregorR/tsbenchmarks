@@ -83,5 +83,6 @@ var t0 = now();
 var computeWith = new InfiniteList();
 var out = computeWith.sieveGetPrime(10000);
 var t1 = now();
-console.log(out);
-console.log("Call took " + (t1 - t0).toFixed(3) + " milliseconds.");
+// console.log(out);
+// console.log("Call took " + (t1 - t0).toFixed(3) + " milliseconds.");
+console.log((t1 - t0).toFixed(6));

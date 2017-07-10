@@ -1,4 +1,3 @@
-"use strict";
 /*
 
   Note: Treating a blockset, BSet (Block Set) as an array
@@ -7,6 +6,7 @@
         there may be some JS stuff for sets already.
 
 */
+"use strict";
 exports.__esModule = true;
 var data = require("./data");
 var block = require("./block");

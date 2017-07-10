@@ -1,6 +1,3 @@
-// imports
-declare function require(input:string)
-
 var levDist = require( './levenshtein')
 import { stringToMorse } from './morse-code-strings'
 

@@ -1,5 +1,5 @@
-"use strict";
 // the game file
+"use strict";
 exports.__esModule = true;
 var data = require("./data");
 var bset = require("./bset");

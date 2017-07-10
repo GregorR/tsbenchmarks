@@ -1,5 +1,5 @@
-"use strict";
 // this is equivalent to main.rkt
+"use strict";
 exports.__esModule = true;
 /// <reference path='handlers.ts'/>
 /// <reference path='motion.ts'/>
@@ -46,9 +46,4 @@ var main = function () {
         //console.log( w0);
     }
 };
-var now = require("performance-now");
-var t0 = now();
 main();
-var t1 = now();
-// console.log("Call took " + (t1 - t0).toFixed(3) + " milliseconds.");
-console.log((t1 - t0).toFixed(6));

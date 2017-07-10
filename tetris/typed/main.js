@@ -1,5 +1,5 @@
-"use strict";
 // the main runner
+"use strict";
 exports.__esModule = true;
 var aux = require("./aux");
 var world = require("./world");
@@ -41,9 +41,5 @@ function main(theStuff) {
     var w0 = world0();
     replay(w0, theStuff);
 }
-var now = require("performance-now");
-var t0 = now();
 main(largeTest);
 // main( smallTestFN)
-var t1 = now();
-console.log((t1 - t0).toFixed(6));

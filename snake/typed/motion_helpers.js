@@ -1,7 +1,7 @@
-"use strict";
 // this is equivalent to motion-helpers.rkt
 // i also put the cut-tail method (from cut-tail.rkt) in here too
 // since there doesn't really seem to be much point of having it in its own file
+"use strict";
 exports.__esModule = true;
 /// <reference path='DataClasses.ts'/>
 var DC = require("./DataClasses");

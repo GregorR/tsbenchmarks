@@ -1,5 +1,5 @@
-"use strict";
 // this is equivalent to handlers.rkt
+"use strict";
 exports.__esModule = true;
 /// <reference path='DataClasses.ts'/>
 /// <reference path='collide.ts'/>

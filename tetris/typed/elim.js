@@ -1,5 +1,5 @@
-"use strict";
 // Eliminate Rows
+"use strict";
 exports.__esModule = true;
 var consts = require("./consts");
 var bset = require("./bset");

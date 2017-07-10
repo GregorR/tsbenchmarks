@@ -1,5 +1,5 @@
-"use strict";
 // File w Data Definitions
+"use strict";
 exports.__esModule = true;
 // (struct posn (x y))
 var Posn = (function () {

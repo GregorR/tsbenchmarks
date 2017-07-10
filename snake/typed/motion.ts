@@ -10,7 +10,7 @@ import * as DC from './DataClasses';
 
 // declare var require: NodeRequire;
 // import gen = require('random-seed');
-var pls;
+var pls: RandGen;
 
 /**
  * Modified from from https://gist.github.com/blixt/f17b47c62508be59987b

@@ -2,9 +2,6 @@
 import * as data from "./data"
 import * as tetras from "./tetras"
 
-// make TS keep its mouth shut
-declare function require(name:string)
-
 // random number generator, seeded as in benchmarks
 class RandGen {
 

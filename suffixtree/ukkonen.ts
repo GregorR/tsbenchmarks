@@ -26,7 +26,7 @@ let dummyNode = new STNode( new Label("dummy"), undefined, [], undefined);
 // }
 
 function skipCountHelper( node: STNode, label: Label, k: number, N: number) : [STNode, number] {
-  let idiomaticRecursiveLoopFun = function( node: STNode, k: number) {
+  let idiomaticRecursiveLoopFun = function( node: STNode, k: number): [STNode, number] {
     // // // console.log(" ---- ------------------------ ----")
     // // // console.log( "looking for: " + label.labelRef( k))
     // // // console.log("\nComplete print:\n")
@@ -154,7 +154,7 @@ function findNextExtensionPointAndAddSuffixLinkBang ( node: STNode,
     }
   }
 
-  var loopGeneral = function( i : number, firstShot : (STNode, number)=>void) : [STNode | boolean, number | boolean, number | boolean]{
+  var loopGeneral = function( i : number, firstShot : (a:STNode, b:number)=>void) : [STNode | boolean, number | boolean, number | boolean]{
     if ( i >= N) {
       return [false, false, false];
     } else {
@@ -177,7 +177,7 @@ function findNextExtensionPointAndAddSuffixLinkBang ( node: STNode,
     }
   }
 
-  var loopRest = function( i) : [STNode | boolean, number | boolean, number | boolean] {
+  var loopRest = function( i: number) : [STNode | boolean, number | boolean, number | boolean] {
     let theLambda = function( skippedNode: STNode, skipOffset: number) : void {
       // nothing
     }
