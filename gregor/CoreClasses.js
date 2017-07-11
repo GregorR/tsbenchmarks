@@ -1,7 +1,7 @@
-"use strict";
 // equivalent to the core_structs.rkt file from the racket version
 // and also the gregor_structs.rkt
 // and also the moment_base.rkt
+"use strict";
 exports.__esModule = true;
 var DTH = require("./DateTimeHelpers");
 // import * as MH from './MomentHelpers';

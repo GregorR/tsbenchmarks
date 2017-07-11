@@ -1,5 +1,5 @@
-"use strict";
 // this file is equivalent to main.rkt
+"use strict";
 exports.__esModule = true;
 var DTH = require("./DateTimeHelpers");
 var DF = require("./Difference");
@@ -69,9 +69,9 @@ var main = function (n) {
     genDates();
     for (var i = 0; i < n; i++) {
         test_difference(HISTORIC_DATES);
-        console.log("Done historic " + i);
+        // console.log( "Done historic " + i);
         test_difference(RANDOM_DATES);
-        console.log("Done random " + i);
+        // console.log( "Done random " + i);
     }
 };
 main(10);

@@ -1,8 +1,8 @@
-"use strict";
 /*  ~
     TS Benchmarks Project -- June 22
     Convert morse code data from Wikipedia into a more usable dictionary.
 */
+"use strict";
 exports.__esModule = true;
 // the regex we need to match
 var theRegexString = "^\\| \\{\\{[^|]*\\|[^|]*\\|(.)\\}\\} \\|\\| '''([^']*)'''";

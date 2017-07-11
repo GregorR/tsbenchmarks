@@ -1,5 +1,5 @@
-"use strict";
 // this file is equivalent to difference.rkt
+"use strict";
 exports.__esModule = true;
 var D = require("./CoreClasses");
 var DTH = require("./DateTimeHelpers");

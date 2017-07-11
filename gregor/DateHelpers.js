@@ -1,8 +1,8 @@
-"use strict";
 // this is equivalent to date.rkt
 // i'm fully aware that these should be member functions in the Date class,
 // but in the interest of keeping this as close to the racket original as possible
 // i figured i'd do it this way
+"use strict";
 exports.__esModule = true;
 var D = require("./CoreClasses");
 var Y = require("./YMD");

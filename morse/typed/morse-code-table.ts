@@ -18,7 +18,7 @@ function cleanPattern( pat: string) : string {
 var wikiList : string[] = wikipedia_text.split("\n")
 
 // iterate over everything in wikiList and match regexps
-var matched : string[], charTable = {}, counter : number = 0
+var matched : string[], charTable: {[index:string]: string} = {}, counter : number = 0
 for (var i : number = 0; i < wikiList.length; i++) {
 
   matched = wikiList[i].match( theRegexString)

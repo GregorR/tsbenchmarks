@@ -7,7 +7,7 @@ export class BigInt {
     sign: number;
     howDecimal: number;
 
-    constructor( v) {
+    constructor( v: number) {
 
         this.howDecimal = 0;
         

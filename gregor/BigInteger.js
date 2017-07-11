@@ -307,4 +307,4 @@ exports.BigInt = BigInt;
 //     // console.log( b);
 //     console.log( (a.divide( b)).multiply( new BigInt( 86400*1000000000)).getValue());
 // }
-// main(); 
+// main();
