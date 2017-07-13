@@ -2,9 +2,10 @@
 // and also the gregor_structs.rkt
 // and also the moment_base.rkt
 
-import * as DTH from './DateTimeHelpers';
+import {DateTimeHelpers as DTH} from './DateTimeHelpers';
 // import * as MH from './MomentHelpers';
 
+export module CoreClasses {
 export class Pair<A, B> {
 	x: A;
 	y: B;
@@ -231,4 +232,4 @@ export class Moment {
 	// 	return MH.moment_to_jd(this).lte( MH.moment_to_jd( m));
 	// }
 };
-
+}

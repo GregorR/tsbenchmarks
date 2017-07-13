@@ -1,9 +1,10 @@
-import * as D from './CoreClasses';
-import * as DTH from './DateTimeHelpers';
-import * as DH from './DateHelpers';
-import * as C from './HMSN';
+import {CoreClasses as D} from './CoreClasses';
+import {DateTimeHelpers as DTH} from './DateTimeHelpers';
+import {DateHelpers as DH} from './DateHelpers';
+import {HMSN as C} from './HMSN';
 
 
+export module YMD {
 export const DAYS_PER_MONTH: number[] = [ 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
 export const CUMULATIVE_MONTH_DAYS: number[] = [ 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
@@ -149,4 +150,5 @@ export function iso_weeks_in_year( y: number): number {
 	} else {
 		return 52;
 	}
+}
 }

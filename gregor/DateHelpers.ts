@@ -3,9 +3,10 @@
 // but in the interest of keeping this as close to the racket original as possible
 // i figured i'd do it this way
 
-import * as D from './CoreClasses';
-import * as Y from './YMD';
+import {CoreClasses as D} from './CoreClasses';
+import {YMD as Y} from './YMD';
 
+export module DateHelpers {
 export function date_hash_proc( x: D.Date, fn: (n: number) => number): number {
 	return fn( x.jdn);
 }
@@ -84,4 +85,4 @@ export function date_to_iso8601( d: D.Date): string {
 
 	return (f( yd, 4) + "-" + f( md, 2) + "-" + f( dd, 2));
 }
-
+}

@@ -1,11 +1,12 @@
 // this file is equivalent to difference.rkt
 
-import * as D from './CoreClasses';
-import * as DTH from './DateTimeHelpers';
-import * as DH from './DateHelpers';
-import * as C from './HMSN';
-import * as B from './BigInteger';
+import {CoreClasses as D} from './CoreClasses';
+import {DateTimeHelpers as DTH} from './DateTimeHelpers';
+import {DateHelpers as DH} from './DateHelpers';
+import {HMSN as C} from './HMSN';
+import { BigInteger as B } from './BigInteger';
 
+export module Difference {
 export function datetime_months_between( dt1: D.DateTime, dt2: D.DateTime): number {
 	if( dt2.lt( dt1)) {
 		return (-1)*datetime_months_between( dt2, dt1);
@@ -117,4 +118,5 @@ export function days_in_month( y: number, m: number): number {
 	} else {
 		return 29;
 	}
+}
 }

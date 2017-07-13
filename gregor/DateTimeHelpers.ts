@@ -3,12 +3,13 @@
 // but in the interest of keeping this as close to the racket original as possible
 // i figured i'd do it this way
 
-import * as D from './CoreClasses';
-import * as DH from './DateHelpers';
-import * as C from './HMSN';
-import * as Y from './YMD';
-import * as T from './TimeHelpers';
+import {CoreClasses as D} from './CoreClasses';
+import {DateHelpers as DH} from './DateHelpers';
+import {HMSN as C} from './HMSN';
+import {YMD as Y} from './YMD';
+import {TimeHelpers as T} from './TimeHelpers';
 
+export module DateTimeHelpers {
 export function datetime_equal_proc( d1: D.DateTime, d2: D.DateTime): boolean {
 	return ((d1.jd.num == d2.jd.num) && (d1.jd.denom == d2.jd.denom)); // this assumes all the fractions are fully reduced (this happens in ExactRational constructor)
 }
@@ -153,4 +154,4 @@ export function dateTime_add_seconds( dt: D.DateTime, n: number): D.DateTime {
 	return dateTime_add_nanoseconds( dt, (new C.Consts()).NS_DAY * n);
 }
 
-
+}

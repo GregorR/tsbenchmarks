@@ -1,12 +1,13 @@
 // this file is equivalent to main.rkt
 
 
-import * as D from './CoreClasses';
-import * as DH from './DateHelpers';
-import * as DTH from './DateTimeHelpers';
-import * as C from './HMSN';
-import * as DF from './Difference';
+import {CoreClasses as D} from './CoreClasses';
+import {DateHelpers as DH} from './DateHelpers';
+import {DateTimeHelpers as DTH} from './DateTimeHelpers';
+import {HMSN as C} from './HMSN';
+import {Difference as DF} from './Difference';
 
+export module main {
 var HISTORIC_DATES: D.DateTime[];
 var RANDOM_DATES: D.DateTime[];
 
@@ -73,16 +74,16 @@ function test_difference( dates: D.DateTime[]): void {
 	}
 }
 
-
-var main = function(n: number) {
+export function setup() {
 	genDates();
-
-	for( var i = 0; i < n; i ++) {
-		test_difference( HISTORIC_DATES);
-		// console.log( "Done historic " + i);
-		test_difference( RANDOM_DATES);
-		// console.log( "Done random " + i);
-	}
 }
 
-main( 10);
+export function main() {
+	test_difference( HISTORIC_DATES);
+	// console.log( "Done historic " + i);
+	test_difference( RANDOM_DATES);
+	// console.log( "Done random " + i);
+}
+
+export const runs = 1;
+}

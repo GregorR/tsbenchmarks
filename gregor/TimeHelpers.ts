@@ -3,14 +3,15 @@
 // but in the interest of keeping this as close to the racket original as possible
 // i figured i'd do it this way
 
-import * as D from './CoreClasses';
-import * as DH from './DateHelpers';
-import * as DTH from './DateTimeHelpers';
-import * as C from './HMSN';
+import {CoreClasses as D} from './CoreClasses';
+import {DateHelpers as DH} from './DateHelpers';
+import {DateTimeHelpers as DTH} from './DateTimeHelpers';
+import {HMSN as C} from './HMSN';
 // import * as Y from './YMD';
 
 
 
+export module TimeHelpers {
 export function time_hash_proc( x: D.Time, fn: (n: number) => number): number {
 	return fn( x.ns);
 }
@@ -70,4 +71,5 @@ export function time_to_iso8601( t: D.Time): string {
 	var pad: string = s >= 0? "" : "0";
 
 	return ( f( h, 2) + ":" + f( m, 2) + ":" + pad + fsec);
+}
 }

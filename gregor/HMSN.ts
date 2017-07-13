@@ -1,6 +1,7 @@
-import * as D from './CoreClasses'
-import * as C from './HMSN';
+import {CoreClasses as D} from './CoreClasses';
+import {HMSN as C} from './HMSN';
 
+export module HMSN {
 export class Consts {
 
 	NS_SECOND: number = 1000000000;
@@ -46,3 +47,4 @@ export class Consts {
 	}
 		
 };
+}

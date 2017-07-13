@@ -1,4 +1,4 @@
-
+export module BigInteger {
 
 export class BigInt {
 
@@ -400,3 +400,4 @@ export class BigInt {
 // }
 
 // main();
+}
