@@ -1,6 +1,8 @@
 // get the charTable from the relevant module
-import { charTable } from './morse-code-table'
+import { MorseCodeTable } from './morse-code-table'
 
+export module MorseCodeStrings {
+const charTable = MorseCodeTable.charTable;
 // lookup in charTable
 function charToDitDahString( theLetter: string) : string {
   return charTable[ theLetter.toUpperCase()]
@@ -9,13 +11,11 @@ function charToDitDahString( theLetter: string) : string {
 // convert an entire string to morse
 // note: no spaces
 // ex:   aa -> .-.- and not .- .-
-function stringToMorse( theString : string) : string {
+export function stringToMorse( theString : string) : string {
   let out : string = ""
   for (var i : number = 0; i < theString.length; i++) {
       out += charToDitDahString( theString[i])
   }
   return out
 }
-
-// make stringToMorse available outside of this module
-export { stringToMorse }
+}
