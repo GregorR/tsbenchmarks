@@ -4,7 +4,7 @@ var main = require("./main.js");
     // 'main' is an export set exporting a module 'main' with a function 'main'
     var bm = main.main.main;
     var setup = main.main.setup;
-    var runs = main.runs;
+    var runs = main.main.runs;
     if (typeof runs !== "number")
         runs = 10;
     var warmupRuns = main.warmupRuns;
