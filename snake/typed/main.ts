@@ -61,5 +61,5 @@ export function main() {
 		//console.log( w0);
 }
 
-export const runs = 2;
+export const runs = 1;
 }
