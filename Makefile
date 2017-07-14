@@ -19,7 +19,7 @@ annotationInfo:
 				printf "%d" `tsc --annotationMangler 00 "$$t" | grep "^$$t:" | cut -d' ' -f2` ; \
 				printf "}, " ; \
 			done ; \
-			printf "null]}" \
+			printf "null]}\\n" \
 		) > "$$b/annotations.json" ; \
 	done
 
