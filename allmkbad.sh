@@ -16,3 +16,4 @@ domkbad() {
 }
 
 domkbad morse/typed
+domkbad sieve/typed
