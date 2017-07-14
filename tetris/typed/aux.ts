@@ -1,7 +1,8 @@
 // auxiliary stuff
-import * as data from "./data"
-import * as tetras from "./tetras"
+import {Data as data} from "./data"
+import {Tetras as tetras} from "./tetras"
 
+export module Aux {
 // random number generator, seeded as in benchmarks
 class RandGen {
 
@@ -31,15 +32,15 @@ class RandGen {
 
 }
 
-function listPickRandom( ls : data.Tetra[]) : data.Tetra {
+export function listPickRandom( ls : data.Tetra[]) : data.Tetra {
   var randGen : RandGen = new RandGen( 43453)
   var index : number = Math.floor( randGen.random() * ls.length)
   return ls[ index]
 }
 
-var neg1 : number = -1 // why
+export var neg1 : number = -1 // why
 
-var tetraBlocks : data.Tetra[] = [
+export var tetraBlocks : data.Tetra[] = [
   tetras.buildTetraBlocks({r:0, g: 0, b:0}, 1/2, -3/2, 0, -1, 0, -2, 1, -1, 1, -2),
   tetras.buildTetraBlocks({r:0, g: 0, b:1},   1,   -1, 0, -1, 1, -1, 2, -1, 3, -1),
   tetras.buildTetraBlocks({r:0, g: 1, b:0},   1,   -1, 0, -1, 1, -1, 2, -1, 2, -2),
@@ -48,5 +49,4 @@ var tetraBlocks : data.Tetra[] = [
   tetras.buildTetraBlocks({r:1, g: 1, b:0},   1,   -1, 0, -1, 1, -1, 1, -2, 2, -2),
   tetras.buildTetraBlocks({r:1, g: 0, b:1},   1,   -1, 0, -2, 1, -2, 1, -1, 2, -1)
 ]
-
-export { listPickRandom, neg1, tetraBlocks }
+}
