@@ -4,6 +4,7 @@
 // the reasoning: try to get it closer to the racket implementation
 // so as to better compare with the original benchmarks
 
+export module main {
 class InfiniteList {
     tList: number[];
     // bList: boolean[]; 
@@ -93,11 +94,12 @@ var eratosthenes = function(n: number): number {
     return output[n - 1];
 };
 
-// compute 10000th prime and print time taken
+export function main() {
+    var computeWith: InfiniteList = new InfiniteList();
+    /* This is reduced from 10000 to 5000 to make it fast enough for simulated
+     * annealing */
+    var out: number = computeWith.sieveGetPrime(5000);
+}
 
-
-var computeWith: InfiniteList = new InfiniteList();
-var out: number = computeWith.sieveGetPrime(10000);
-
-// console.log(out);
-// console.log("Call took " + (t1 - t0).toFixed(3) + " milliseconds.");
+export var runs = 1;
+}
