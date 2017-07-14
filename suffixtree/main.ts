@@ -1,4 +1,10 @@
-import {longestCommonSubstring} from "./lcs"
+//import {longestCommonSubstring} from "./lcs"
+import {LCS} from "./lcs";
+
+declare var print: any;
+
+export module main {
+    const longestCommonSubstring = LCS.longestCommonSubstring;
 
 let smallTest : string = "King Francis was a hearty king, and loved a royal sport, #\
 And one day as his lions fought, sat looking on the court; #\
@@ -586,7 +592,7 @@ let kcfaTest : string =  '   !lang typed/racket/base  #'  +
  '     #'  +
  '    #' ;
 
-function main( testExpr: string) : void {
+function benchmark( testExpr: string) : void {
   let strs : string[] = testExpr.split("#");
   // let strs : string[] = debug;
   for ( var i : number = 0; i < strs.length; i ++) {
@@ -607,6 +613,14 @@ function main( testExpr: string) : void {
 //  and it was causing call stack size issues. i tried to be (a little too)
 //  similar to the Racket, which causes some issues.
 
-main( smallTest);
+// main( smallTest);
 // main( largeTest);
 // main( kcfaTest);
+
+export function main() {
+    // Sliced to be fast enough for simulated annealing
+    benchmark(smallTest.slice(0, 300));
+}
+
+export const runs = 1;
+}

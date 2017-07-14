@@ -1,5 +1,6 @@
-import * as data from "./data"
+import {Data as data} from "./data"
 
+export module Label {
 // all values are considered possible label elements
 function isLabelElement( x : any) : boolean {
   return true
@@ -52,4 +53,5 @@ export function stringToLabel( inVal : string) : data.Label {
 
 export function stringToLabelWithSentinel( inVal : string) : data.Label {
   return new data.Label( inVal + makeSentinel(), 0, inVal.length + 1)
+}
 }

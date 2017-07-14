@@ -1,13 +1,18 @@
-import {Label, SuffixTree, STNode} from "./data"
-import * as labelLib from "./label"
-import {suffixTreeAddBang} from "./ukkonen"
+//import {Label, D.SuffixTree, D.STNode} from "./data"
+import {Data as D} from "./data";
+import {Label as labelLib} from "./label";
+//import {suffixTreeAddBang} from "./ukkonen"
+import {Ukkonen as U} from "./ukkonen";
 
 // this import is for hashing
 
 
-function pathLabel( node: STNode) : Label {
+export module LCS {
+    const suffixTreeAddBang = U.suffixTreeAddBang;
 
-  // let vectorBlitBang = function( srcLabel: Label, dstVector: string[], destOffset: number) : void {
+function pathLabel( node: D.STNode) : D.Label {
+
+  // let vectorBlitBang = function( srcLabel: D.Label, dstVector: string[], destOffset: number) : void {
   //   for ( var i : number = 0; i < srcLabel.length(); i++) {
   //     let index : number = i + destOffset;
   //     if ( i < srcLabel.length()) { // which it is...
@@ -17,7 +22,7 @@ function pathLabel( node: STNode) : Label {
   //   }
   // }
 
-  let buildNewLabel = function( labels: Label[], totalLength: number) : Label {
+  let buildNewLabel = function( labels: D.Label[], totalLength: number) : D.Label {
     let v : string[] = [];
 
     // very safe
@@ -35,18 +40,18 @@ function pathLabel( node: STNode) : Label {
     let retStr : string = "";
 
     for ( var i : number = labels.length - 1; i >= 0; i--) {
-      let curLab : Label = labels[i];
+      let curLab : D.Label = labels[i];
       // console.log( curLab);
       for ( var j : number = 0; j < curLab.length(); j++) {
         retStr += curLab.labelRef( j);
       }
     }
 
-    return new Label(retStr)
+    return new D.Label(retStr)
 
   }
 
-  let collectLoop = function( currentNode: STNode, collectedLabels: Label[], totalLength: number) : Label {
+  let collectLoop = function( currentNode: D.STNode, collectedLabels: D.Label[], totalLength: number) : D.Label {
     if ( currentNode) { // if its not undefined
       collectedLabels.push( currentNode.upLabel);
       return collectLoop( currentNode.parent, collectedLabels, totalLength + currentNode.upLabel.length());
@@ -62,18 +67,18 @@ function pathLabel( node: STNode) : Label {
   return collectLoop( node, [], 0);
 }
 
-function longestCommonSublabel( label1: Label, label2: Label) : Label {
+function longestCommonSublabel( label1: D.Label, label2: D.Label) : D.Label {
   // let label1Marks : boolean[] = [];
   // let label2Marks : boolean[] = [];
   let label1Marks : { [id: string] : boolean } = {}
   let label2Marks : { [id: string] : boolean } = {}
 
-  let deepestNode : STNode = new STNode( new Label( "no lcs"), undefined, [], undefined);
+  let deepestNode : D.STNode = new D.STNode( new D.Label( "no lcs"), undefined, [], undefined);
   let deepestDepth : number = 0;
 
-  let absorbChildrenMarks = function( node: STNode, depth: number) {
+  let absorbChildrenMarks = function( node: D.STNode, depth: number) {
     for ( var i : number = 0; i < node.children.length; i++) {
-      let child : STNode = node.children[ i];
+      let child : D.STNode = node.children[ i];
       // // // console.log( "label1Marks[ child.spID]: " + label1Marks[ child.spID])
       if ( label1Marks[ child.spID]) { // if its marked
         label1Marks[ node.spID] = true;
@@ -91,7 +96,7 @@ function longestCommonSublabel( label1: Label, label2: Label) : Label {
     }
   }
 
-  let markUpInnerNodesBang = function( node: STNode, depth: number) : void {
+  let markUpInnerNodesBang = function( node: D.STNode, depth: number) : void {
     // // console.log("..............hello?")
     // // console.log("node.children: ");
     // // console.log(node.children);
@@ -107,7 +112,7 @@ function longestCommonSublabel( label1: Label, label2: Label) : Label {
       }
     } else {
       for ( var i : number = 0; i < node.children.length; i++) {
-        let child : STNode = node.children[ i];
+        let child : D.STNode = node.children[ i];
         let k : number = depth + child.upLabel.length();
         markUpInnerNodesBang( child, k);
       }
@@ -116,9 +121,9 @@ function longestCommonSublabel( label1: Label, label2: Label) : Label {
     }
   }
 
-  var main = function() : Label {
+  var main = function() : D.Label {
     // console.log("longestCommonSublabel.main: in");
-    let tree : SuffixTree = new SuffixTree();
+    let tree : D.SuffixTree = new D.SuffixTree();
     // // console.log(" -----------------------------------------------------------------");
     // // console.log("label1: " + label1);
     // // console.log("label2: " + label2);
@@ -165,7 +170,7 @@ function longestCommonSublabel( label1: Label, label2: Label) : Label {
   if ( (label1.length() == 0) || (label2.length() == 0)) {
     return labelLib.stringToLabel("");
   } else {
-    let ret: Label = main();
+    let ret: D.Label = main();
     return ret;
   }
 }
@@ -176,4 +181,5 @@ export function longestCommonSubstring( s1: string, s2: string) : string {
                                 labelLib.stringToLabelWithSentinel( s2)).toString();
   // return longestCommonSublabel( labelLib.stringToLabel( s1),
   //                               labelLib.stringToLabel( s2)).toString();
+}
 }

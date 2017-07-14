@@ -1,5 +1,6 @@
 // many functions defined in label.rkt were included
 // here as members of the Label class.
+export module Data {
 export class Label {
   datum : string
   i : number
@@ -376,4 +377,5 @@ export class STNode {
   }
 
 
+}
 }
