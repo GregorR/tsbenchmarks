@@ -96,10 +96,8 @@ var eratosthenes = function(n: number): number {
 
 export function main() {
     var computeWith: InfiniteList = new InfiniteList();
-    /* This is reduced from 10000 to 5000 to make it fast enough for simulated
-     * annealing */
-    var out: number = computeWith.sieveGetPrime(5000);
+    var out: number = computeWith.sieveGetPrime(10000);
 }
 
-export var runs = 1;
+export const runs = 4;
 }
