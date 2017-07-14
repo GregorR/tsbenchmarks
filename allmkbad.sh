@@ -18,3 +18,4 @@ domkbad() {
 domkbad morse/typed
 domkbad sieve/typed
 domkbad snake/typed
+domkbad suffixtree
