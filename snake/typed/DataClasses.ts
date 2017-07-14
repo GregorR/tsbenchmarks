@@ -1,5 +1,6 @@
 // equivalent to the data.rkt file from the typed racket version
 
+export module DataClasses {
 export class Pair<A, B> {
 	x: A;
 	y: B;
@@ -55,4 +56,5 @@ export class World {
 		this.snake = s;
 		this.food = f;
 	}
+}
 }

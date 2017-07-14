@@ -3,8 +3,10 @@
 // since there doesn't really seem to be much point of having it in its own file
 
 /// <reference path='DataClasses.ts'/>
-import * as DC from './DataClasses';
 
+import {DataClasses as DC} from './DataClasses';
+
+export module MotionHelpers {
 // compute the next position for head
 export function next_head( seg: DC.Posn, dir: DC.Dir): DC.Posn {
 
@@ -60,4 +62,4 @@ export function snake_grow( snk: DC.Snake): DC.Snake {
 
 	return newSnk;
 }
-
+}

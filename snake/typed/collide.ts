@@ -2,9 +2,10 @@
 
 /// <reference path='DataClasses.ts'/>
 
-import gc = require('./GameConsts');
-import * as DC from './DataClasses';
+import {GameConsts as gc} from './GameConsts';
+import {DataClasses as DC} from './DataClasses';
 
+export module Collide {
 // is the snake colliding with any of the walls?
 
 export function is_snake_wall_collide( snk: DC.Snake): boolean {
@@ -32,4 +33,5 @@ export function is_segs_collide( p: DC.Posn, lp: DC.Posn[]): boolean {
 	}
 
 	return (p.equals( lp[ 0]) || is_segs_collide( p, lp.slice( 1, -1)));
+}
 }

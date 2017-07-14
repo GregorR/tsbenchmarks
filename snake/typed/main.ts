@@ -4,12 +4,13 @@
 /// <reference path='motion.ts'/>
 /// <reference path='DataClasses.ts'/>
 
-import gc = require('./GameConsts');
+import {GameConsts as gc} from './GameConsts';
 
-import * as Mo from './motion';
-import * as Ha from './handlers';
-import * as DC from './DataClasses';
+import {Motion as Mo} from './motion';
+import {Handlers as Ha} from './handlers';
+import {DataClasses as DC} from './DataClasses';
 
+export module main {
 var replay = function( w0: DC.World, Thist: any[]): void {
 	Mo.reset();
 	var hist: any[] = Thist.slice();
@@ -43,21 +44,22 @@ var replay = function( w0: DC.World, Thist: any[]): void {
 	}
 }
 
-var main = function() {
+var g: gc.GameConsts;
 
-	var g: gc.GameConsts = new gc.GameConsts();
+export function setup() {
+	g = new gc.GameConsts();
+}
 
+export function main() {
 	var w0: DC.World = gc.GameConsts.WORLD;	
 	var raw_hist: string[] = gc.GameConsts.plsAr;
 
-	//console.log("HOLY BOI");
-	for( var i: number = 0; i < 100; i ++) {
 		// console.log(raw_hist.length);
 		//console.log( "Here!");
 		//console.log( raw_hist.length);
 		replay( w0, raw_hist); // don't need to reverse bc read backwards in loop
 		//console.log( w0);
-	}
 }
 
-main();
+export const runs = 2;
+}

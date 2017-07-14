@@ -4,10 +4,11 @@
 /// <reference path='motion_helpers.ts'/>
 
 // import mh = require('./motion_helpers');
-import gc = require('./GameConsts');
-import * as MH from './motion_helpers';
-import * as DC from './DataClasses';
+import {GameConsts as gc} from './GameConsts';
+import {MotionHelpers as MH} from './motion_helpers';
+import {DataClasses as DC} from './DataClasses';
 
+export module Motion {
 // declare var require: NodeRequire;
 // import gen = require('random-seed');
 var pls: RandGen;
@@ -88,4 +89,5 @@ export function snake_eat( w: DC.World): DC.World {
 	var j: number = Math.floor( pls.random() * gc.GameConsts.BOARD_HEIGHT);
 
 	return new DC.World( MH.snake_grow( w.snake), new DC.Posn( i, j));
+}
 }

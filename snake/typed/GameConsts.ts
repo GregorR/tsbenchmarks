@@ -2,7 +2,9 @@
 
 /// <reference path='DataClasses.ts'/>
 
-import * as DC from './DataClasses';
+import {DataClasses as DC} from './DataClasses';
+
+export module GameConsts {
 
 export class GameConsts {
 	static GRID_SIZE: number;
@@ -31,3 +33,4 @@ export class GameConsts {
 	} 
 	 
 };
+}
