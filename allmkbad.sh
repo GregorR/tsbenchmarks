@@ -10,6 +10,11 @@ domkbad() {
     do
         (
             cd "$bm"
+            (
+                ln -s $BASE/runtime runtime
+                ln -s $BASE/stdlib stdlib
+                ln -s $BASE/benchmark.js benchmark.js
+            ) > /dev/null 2>&1
             node "$BASE/mkbad.js" `nproc --all` 
         ) | tee mkbad-results/$bm/$i.csv
     done
