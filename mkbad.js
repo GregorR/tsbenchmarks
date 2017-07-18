@@ -34,11 +34,14 @@ function bitify(arr) {
 
 function mangle(anns, then) {
     var annsB = bitify(anns);
-    fs.mkdirSync("tmp-" + annsB);
 
-    // Symlink in runtime files for higgs
-    fs.symlinkSync("../runtime", "tmp-" + annsB + "/runtime");
-    fs.symlinkSync("../stdlib", "tmp-" + annsB + "/stdlib");
+    try {
+        fs.mkdirSync("tmp-" + annsB);
+
+        // Symlink in runtime files for higgs
+        fs.symlinkSync("../runtime", "tmp-" + annsB + "/runtime");
+        fs.symlinkSync("../stdlib", "tmp-" + annsB + "/stdlib");
+    } catch (ex) {}
 
     // First mangle the annotations
     var casDone = 0, annsPrefix = 0;
@@ -54,6 +57,7 @@ function mangle(anns, then) {
             "--outFile", "tmp-" + annsB + "/" + file.name,
             file.name]);
         cas[ai].on("close", mangleHandler);
+        cas[ai].on("error", ()=>{});
     }
 
     function mangleHandler() {
@@ -65,6 +69,7 @@ function mangle(anns, then) {
                 cbArgs.push(annotations.files[ai].name);
             var cb = cp.spawn("tsc", cbArgs, {"cwd": "tmp-" + annsB});
             cb.on("close", then);
+            cb.on("error", ()=>{});
         }
     }
 }
@@ -79,10 +84,11 @@ function run(anns, then) {
         out += chunk.toString("utf8");
     });
     ca.on("close", ()=>{
-        cp.spawn("rm", ["-r", "tmp-" + annsB]).on("close", () => {
+        cp.spawn("rm", ["-rf", "tmp-" + annsB]).on("close", () => {
             then(+out);
         });
     });
+    ca.on("error", ()=>{});
 }
 
 // Start with a random set
