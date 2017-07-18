@@ -79,9 +79,10 @@ export function setup() {
 }
 
 export function main() {
-	test_difference( HISTORIC_DATES);
+	// Slices are to make this fast enough for simulated annealing
+	test_difference( HISTORIC_DATES.slice(0, 2));
 	// console.log( "Done historic " + i);
-	test_difference( RANDOM_DATES);
+	test_difference( RANDOM_DATES.slice(0, 2));
 	// console.log( "Done random " + i);
 }
 
