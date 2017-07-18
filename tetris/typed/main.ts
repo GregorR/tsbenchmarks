@@ -54,4 +54,6 @@ function benchmark( theStuff : string[]) : void {
 export function main() {
     benchmark(largeTest);
 }
+
+export const runs = 100;
 }
