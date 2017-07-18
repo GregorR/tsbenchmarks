@@ -1,9 +1,10 @@
 // Eliminate Rows
 
-import * as data from "./data"
-import * as consts from "./consts"
-import * as bset from "./bset"
+import {Data as data} from "./data"
+import {Consts as consts} from "./consts"
+import {BSet as bset} from "./bset"
 
+export module Elim {
 // helper for elimiateFullRows
 function elimRow( bs : data.Block[], i : number, offset : number) : void {
   if (i < 0) {
@@ -23,9 +24,8 @@ function elimRow( bs : data.Block[], i : number, offset : number) : void {
 }
 
 // eliminate all full rows
-function eliminateFullRows( bs : data.Block[]) : void {
+export function eliminateFullRows( bs : data.Block[]) : void {
   // console.log("Here. eliminateFullRows") // DEBUG
   elimRow( bs, consts.boardHeight, 0)
 }
-
-export { eliminateFullRows }
+}

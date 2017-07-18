@@ -1,12 +1,13 @@
 // the game file
 
-import * as data from "./data"
-import * as bset from "./bset"
-import * as tetras from "./tetras"
-import * as aux from "./aux"
-import * as elim from "./elim"
-import * as consts from "./consts"
+import {Data as data} from "./data"
+import {BSet as bset} from "./bset"
+import {Tetras as tetras} from "./tetras"
+import {Aux as aux} from "./aux"
+import {Elim as elim} from "./elim"
+import {Consts as consts} from "./consts"
 
+export module World {
 // this changes w
 // add the current tetra's blocks onto the world's block list
 function touchdown( w : data.World) : void {
@@ -49,7 +50,7 @@ function worldJumpDown( w : data.World) : void {
   }
 }
 
-function nextWorld( w : data.World) : void {
+export function nextWorld( w : data.World) : void {
   if (didLanded( w)) {
     touchdown( w)
   } else {
@@ -90,7 +91,7 @@ function worldRotateCW( w : data.World) : void {
   tryNewTetra( w, tmpTetra)
 }
 
-function ghostBlocks( w : data.World) : data.Tetra {
+export function ghostBlocks( w : data.World) : data.Tetra {
   var tmpTetra : data.Tetra= data.tetraCopy( w.tetra)
   tetras.tetraChangeColor( tmpTetra, {r:1, g:1, b:1})
 
@@ -103,7 +104,7 @@ function ghostBlocks( w : data.World) : data.Tetra {
   return tmpWorld.tetra
 }
 
-function worldKeyMove( w : data.World, k : string) : void {
+export function worldKeyMove( w : data.World, k : string) : void {
   switch( k) {
     case "left": {
       worldMove( aux.neg1, 0, w)
@@ -131,5 +132,4 @@ function worldKeyMove( w : data.World, k : string) : void {
     }
   }
 }
-
-export { worldKeyMove, nextWorld, ghostBlocks }
+}

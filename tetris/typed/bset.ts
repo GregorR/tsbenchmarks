@@ -7,12 +7,13 @@
 
 */
 
-import * as data from "./data"
-import * as block from "./block"
-import * as consts from "./consts"
+import {Data as data} from "./data"
+import {Block as block} from "./block"
+import {Consts as consts} from "./consts"
 
+export module BSet {
 // does blockset bs contain b?
-function blocksContains( bs : data.Block[], b : data.Block) : boolean {
+export function blocksContains( bs : data.Block[], b : data.Block) : boolean {
   for (var i : number = 0; i < blocksCount( bs); i++) {
     if (block.blocksEqual( b, bs[i]))
       return true
@@ -30,12 +31,12 @@ function isBlocksSubset( bs1 : data.Block[], bs2 : data.Block[]) : boolean {
 }
 
 // are blocksets bs1 and bs2 equal?
-function blockSetsEqual( bs1 : data.Block[], bs2 : data.Block[]) : boolean {
+export function blockSetsEqual( bs1 : data.Block[], bs2 : data.Block[]) : boolean {
   return isBlocksSubset( bs1, bs2) && isBlocksSubset( bs2, bs1)
 }
 
 // return bs1 intersect bs2
-function blocksIntersect( bs1 : data.Block[], bs2 : data.Block[]) : data.Block[] {
+export function blocksIntersect( bs1 : data.Block[], bs2 : data.Block[]) : data.Block[] {
   let r : data.Block[] = []
   for (var i : number = 0; i < blocksCount( bs1); i++) {
     if( blocksContains( bs2, bs1[i])) {
@@ -46,26 +47,26 @@ function blocksIntersect( bs1 : data.Block[], bs2 : data.Block[]) : data.Block[]
 }
 
 // how many blocks in blockset
-function blocksCount( bs : data.Block[]) : number {
+export function blocksCount( bs : data.Block[]) : number {
   return bs.length
 }
 
 // move each block in blockset by diven displacement
-function blocksMove( dx : number, dy : number, bs : data.Block[]) : void {
+export function blocksMove( dx : number, dy : number, bs : data.Block[]) : void {
   for ( var i : number = 0; i < blocksCount( bs); i++) {
     bs[i] = block.blockMove( dx, dy, bs[i])
   }
 }
 
 // rotate all blocks ccw
-function blocksRotateCCW( c : data.Posn, bs : data.Block[]) : void {
+export function blocksRotateCCW( c : data.Posn, bs : data.Block[]) : void {
   for ( var i : number = 0; i < blocksCount( bs); i++) {
     bs[i] = block.blockRotateCCW( c, bs[i])
   }
 }
 
 // rotate all blocks cw
-function blocksRotateCW( c : data.Posn, bs : data.Block[]) : void {
+export function blocksRotateCW( c : data.Posn, bs : data.Block[]) : void {
   for ( var i : number = 0; i < blocksCount( bs); i++) {
     bs[i] = block.blockRotateCW( c, bs[i])
   }
@@ -73,14 +74,14 @@ function blocksRotateCW( c : data.Posn, bs : data.Block[]) : void {
 
 // change color of all blocks
 // c: Color, bs: BlockSet
-function blocksChangeColor( bs : data.Block[], c : data.Color) : void {
+export function blocksChangeColor( bs : data.Block[], c : data.Color) : void {
   for ( var i : number = 0; i < blocksCount( bs); i++) {
     bs[i] = {x: bs[i].x, y: bs[i].y, color: data.colorCopy( c)}
   }
 }
 
 // return all blocks in a row
-function blocksRow( bs : data.Block[], i : number) : data.Block[] {
+export function blocksRow( bs : data.Block[], i : number) : data.Block[] {
   var r : data.Block[] = []
   for ( var k : number = 0; k < blocksCount( bs); k++) {
     if ( bs[k].x == i)
@@ -91,7 +92,7 @@ function blocksRow( bs : data.Block[], i : number) : data.Block[] {
 
 // produce true if there are boardWidth number of blocks
 // in a row
-function isFullRow( bs : data.Block[], i : number) : boolean {
+export function isFullRow( bs : data.Block[], i : number) : boolean {
   return blocksRow( bs, i).length == consts.boardWidth
 }
 
@@ -105,7 +106,7 @@ function isBlocksOverflow( bs : data.Block[]) : boolean {
 }
 
 // union two block sets
-function blocksUnion( bs1 : data.Block[], bs2 : data.Block[]) : data.Block[] {
+export function blocksUnion( bs1 : data.Block[], bs2 : data.Block[]) : data.Block[] {
   var r : data.Block[] = bs1
   for ( var i : number = 0; i < blocksCount( bs2); i++) {
     if (!blocksContains( r, bs2[i])) {
@@ -116,7 +117,7 @@ function blocksUnion( bs1 : data.Block[], bs2 : data.Block[]) : data.Block[] {
 }
 
 // return max y of board bs, or 0 if bs is empty
-function blocksMaxY( bs : data.Block[]) : number {
+export function blocksMaxY( bs : data.Block[]) : number {
   var maxY : number = blocksCount(bs) == 0 ? 0 : bs[0].y
   for ( var i : number = 0; i < blocksCount( bs); i++) {
     if ( bs[i].y > maxY)
@@ -126,7 +127,7 @@ function blocksMaxY( bs : data.Block[]) : number {
 }
 
 // return min x of board bs, or boardWidth if bs empty
-function blocksMinX( bs : data.Block[]) : number {
+export function blocksMinX( bs : data.Block[]) : number {
   var minX : number = blocksCount(bs) == 0 ? consts.boardWidth : bs[0].x
   for ( var i : number = 0; i < blocksCount( bs); i++) {
     if ( bs[i].x < minX)
@@ -136,7 +137,7 @@ function blocksMinX( bs : data.Block[]) : number {
 }
 
 // return max x of board bs, or 0 if bs is empty
-function blocksMaxX( bs : data.Block[]) : number {
+export function blocksMaxX( bs : data.Block[]) : number {
   var maxX : number= blocksCount(bs) == 0 ? 0 : bs[0].x
   for ( var i : number = 0; i < blocksCount( bs); i++) {
     if ( bs[i].x > maxX)
@@ -144,8 +145,4 @@ function blocksMaxX( bs : data.Block[]) : number {
   }
   return maxX
 }
-
-export { blocksContains, blockSetsEqual, isBlocksSubset, blocksIntersect,
-         blocksCount, isBlocksOverflow, blocksMove, blocksRotateCW,
-         blocksRotateCCW, blocksChangeColor, blocksRow, isFullRow,
-         blocksUnion, blocksMaxY, blocksMinX, blocksMaxX }
+}

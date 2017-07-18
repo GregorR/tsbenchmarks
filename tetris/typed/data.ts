@@ -1,30 +1,31 @@
 // File w Data Definitions
 
+export module Data {
 // (struct posn (x y))
-class Posn {
+export class Posn {
   x: number
   y: number
 }
 
-function posnCopy( p : Posn) : Posn {
+export function posnCopy( p : Posn) : Posn {
   return {
     x: p.x,
     y: p.y
   }
 }
 
-function equalPosns(p1 : Posn, p2 : Posn) : boolean {
+export function equalPosns(p1 : Posn, p2 : Posn) : boolean {
   return p1.x == p2.x && p1.y == p2.y
 }
 
 // (struct block (x y color))
-class Block {
+export class Block {
   x: number
   y: number
   color: Color // TODO: not sure here, maybe a triple
 }
 
-function blockCopy( b : Block) : Block {
+export function blockCopy( b : Block) : Block {
    return {
     x: b.x,
     y: b.y,
@@ -36,7 +37,7 @@ function blockCopy( b : Block) : Block {
   }
 }
 
-function blocksCopy( bs : Block[]) : Block[] {
+export function blocksCopy( bs : Block[]) : Block[] {
   var newBlocks : Block[] = []
   for ( var i : number = 0; i < bs.length; i++) {
     newBlocks.push( blockCopy( bs[i]))
@@ -45,12 +46,12 @@ function blocksCopy( bs : Block[]) : Block[] {
 }
 
 // (struct tetra (center blocks))
-class Tetra {
+export class Tetra {
   center: Posn
   blocks: Block[]
 }
 
-function tetraCopy( t : Tetra) : Tetra {
+export function tetraCopy( t : Tetra) : Tetra {
   return {
     center: posnCopy( t.center),
     blocks: blocksCopy( t.blocks)
@@ -58,12 +59,12 @@ function tetraCopy( t : Tetra) : Tetra {
 }
 
 // (struct world (tetra blocks))
-class World {
+export class World {
   tetra: Tetra
   blocks: Block[]
 }
 
-function worldCopy( w : World) : World {
+export function worldCopy( w : World) : World {
   return {
     tetra: tetraCopy( w.tetra),
     blocks: blocksCopy( w.blocks)
@@ -71,20 +72,17 @@ function worldCopy( w : World) : World {
 }
 
 // this is b/c I don't think JS has a color library
-class Color {
+export class Color {
   r: number
   g: number
   b: number
 }
 
-function colorCopy( c : Color) : Color {
+export function colorCopy( c : Color) : Color {
   return {
     r: c.r,
     g: c.g,
     b: c.b
   }
 }
-
-export {  Posn, Block, Tetra, World, equalPosns, Color,
-          colorCopy, worldCopy, tetraCopy, blocksCopy,
-          blockCopy, posnCopy}
+}

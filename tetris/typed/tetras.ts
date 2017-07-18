@@ -1,12 +1,13 @@
 // Tetras
 
-import * as data from "./data"
-import * as block from "./block"
-import * as consts from "./consts"
-import * as bset from "./bset"
+import {Data as data} from "./data"
+import {Block as block} from "./block"
+import {Consts as consts} from "./consts"
+import {BSet as bset} from "./bset"
 
+export module Tetras {
 // Tetra Move: move the tetra by the given x and y
-function tetraMove( dx : number, dy : number, t : data.Tetra) : void {
+export function tetraMove( dx : number, dy : number, t : data.Tetra) : void {
   t = { center : { x : t.center.x + dx,
                    y : t.center.y + dy },
         blocks : t.blocks }
@@ -14,27 +15,27 @@ function tetraMove( dx : number, dy : number, t : data.Tetra) : void {
 }
 
 // Rotate all blocks in tetra t ccw
-function tetraRotateCCW( t : data.Tetra) : void {
+export function tetraRotateCCW( t : data.Tetra) : void {
   bset.blocksRotateCCW( t.center, t.blocks)
 }
 
 // Rotate all blocks in tetra t cw
-function tetraRotateCW( t : data.Tetra) : void {
+export function tetraRotateCW( t : data.Tetra) : void {
   bset.blocksRotateCW( t.center, t.blocks)
 }
 
 // Stub
-function doesTetraOverlapsBlocks( t : data.Tetra, bs : data.Block[]) : boolean {
+export function doesTetraOverlapsBlocks( t : data.Tetra, bs : data.Block[]) : boolean {
   return ! bset.blocksIntersect( t.blocks, bs)
 }
 
 // Stub
-function tetraChangeColor( t : data.Tetra, c : data.Color) : void {
+export function tetraChangeColor( t : data.Tetra, c : data.Color) : void {
   bset.blocksChangeColor( t.blocks, c)
 }
 
 // Stub
-function buildTetraBlocks(  color : data.Color, xc : number, yc : number,
+export function buildTetraBlocks(  color : data.Color, xc : number, yc : number,
                             x1 : number, y1 : number, x2 : number,
                             y2 : number, x3 : number, y3 : number,
                             x4 : number, y4 : number) : data.Tetra {
@@ -47,7 +48,4 @@ function buildTetraBlocks(  color : data.Color, xc : number, yc : number,
   tetraMove( 3, 0, t) //
   return t
 }
-
-export {  tetraMove, tetraRotateCW, tetraRotateCCW,
-          doesTetraOverlapsBlocks, buildTetraBlocks,
-          tetraChangeColor }
+}
