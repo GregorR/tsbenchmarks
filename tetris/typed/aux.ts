@@ -38,7 +38,8 @@ export function listPickRandom( ls : data.Tetra[]) : data.Tetra {
   return ls[ index]
 }
 
-export var neg1 : number = -1 // why
+// this is just to stay true to the TypedRacket implementation
+export var neg1 : number = -1;
 
 export var tetraBlocks : data.Tetra[] = [
   tetras.buildTetraBlocks({r:0, g: 0, b:0}, 1/2, -3/2, 0, -1, 0, -2, 1, -1, 1, -2),

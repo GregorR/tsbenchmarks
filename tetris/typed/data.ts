@@ -22,7 +22,7 @@ export function equalPosns(p1 : Posn, p2 : Posn) : boolean {
 export class Block {
   x: number
   y: number
-  color: Color // TODO: not sure here, maybe a triple
+  color: Color
 }
 
 export function blockCopy( b : Block) : Block {
@@ -71,7 +71,6 @@ export function worldCopy( w : World) : World {
   }
 }
 
-// this is b/c I don't think JS has a color library
 export class Color {
   r: number
   g: number

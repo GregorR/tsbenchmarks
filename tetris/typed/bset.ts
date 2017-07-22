@@ -1,7 +1,7 @@
 /*
 
   Note: Treating a blockset, BSet (Block Set) as an array
-        of blocks, keeping mind not to add duplicates.
+        of blocks, keeping mind not to add duplicates. (*)
         It may be worthwhile to wrap it in a class, or
         there may be some JS stuff for sets already.
 

@@ -13,7 +13,7 @@ function isLabelElementEqual( x: any, y: any) : boolean {
 
 let sentinelFlag : boolean = false;
 
-// for now, # will be our sentinel character
+// sentinels are # or $, they are inserted at the end of the strings
 function makeSentinel( ) : string {
   sentinelFlag = !sentinelFlag;
   if ( sentinelFlag) {
@@ -23,7 +23,6 @@ function makeSentinel( ) : string {
   }
 }
 
-// not sure what the point of this is
 function isSentinel( datum : any) : boolean {
   return (datum == "#") || (datum == "$");
 }
@@ -41,7 +40,7 @@ export function vectorToLabel( inVal : string[]) : data.Label {
   return new data.Label( theDatum, 0, theDatum.length)
 }
 
-// stick a sentinel on the end of the character
+// stick a sentinel on the end of the string
 export function vectorToLabelWithSentinel( inVal : string[]) : data.Label {
   let theDatum : string = catenateStrings( inVal);
   return new data.Label( theDatum + makeSentinel(), 0, theDatum.length)

@@ -3,6 +3,7 @@ import { MorseCodeTable } from './morse-code-table'
 
 export module MorseCodeStrings {
 const charTable = MorseCodeTable.charTable;
+
 // lookup in charTable
 function charToDitDahString( theLetter: string) : string {
   return charTable[ theLetter.toUpperCase()]

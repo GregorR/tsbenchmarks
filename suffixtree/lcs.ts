@@ -1,47 +1,20 @@
-//import {Label, D.SuffixTree, D.STNode} from "./data"
+
 import {Data as D} from "./data";
 import {Label as labelLib} from "./label";
-//import {suffixTreeAddBang} from "./ukkonen"
 import {Ukkonen as U} from "./ukkonen";
-
-// this import is for hashing
-
 
 export module LCS {
     const suffixTreeAddBang = U.suffixTreeAddBang;
 
 function pathLabel( node: D.STNode) : D.Label {
 
-  // let vectorBlitBang = function( srcLabel: D.Label, dstVector: string[], destOffset: number) : void {
-  //   for ( var i : number = 0; i < srcLabel.length(); i++) {
-  //     let index : number = i + destOffset;
-  //     if ( i < srcLabel.length()) { // which it is...
-  //       dstVector[ index] = srcLabel.labelRef( i);
-  //       // loop
-  //     }
-  //   }
-  // }
-
   let buildNewLabel = function( labels: D.Label[], totalLength: number) : D.Label {
     let v : string[] = [];
-
-    // very safe
-    // let i : number = 0;
-    // while( true) {
-    //   //// console.log("safety first")
-    //   if ( i >= labels.length) {
-    //     return labelLib.vectorToLabel( v);
-    //   } else {
-    //     vectorBlitBang( labels[i], v, i);
-    //     i += labels[i].length();
-    //   }
-    // }
 
     let retStr : string = "";
 
     for ( var i : number = labels.length - 1; i >= 0; i--) {
       let curLab : D.Label = labels[i];
-      // console.log( curLab);
       for ( var j : number = 0; j < curLab.length(); j++) {
         retStr += curLab.labelRef( j);
       }
@@ -56,10 +29,6 @@ function pathLabel( node: D.STNode) : D.Label {
       collectedLabels.push( currentNode.upLabel);
       return collectLoop( currentNode.parent, collectedLabels, totalLength + currentNode.upLabel.length());
     } else {
-      // // console.log("collected labels:");
-      // // console.log(collectedLabels)
-      // // console.log(totalLength)
-      // // console.log( collectedLabels);
       return buildNewLabel( collectedLabels, totalLength);
     }
   }
@@ -68,8 +37,6 @@ function pathLabel( node: D.STNode) : D.Label {
 }
 
 function longestCommonSublabel( label1: D.Label, label2: D.Label) : D.Label {
-  // let label1Marks : boolean[] = [];
-  // let label2Marks : boolean[] = [];
   let label1Marks : { [id: string] : boolean } = {}
   let label2Marks : { [id: string] : boolean } = {}
 
@@ -79,7 +46,6 @@ function longestCommonSublabel( label1: D.Label, label2: D.Label) : D.Label {
   let absorbChildrenMarks = function( node: D.STNode, depth: number) {
     for ( var i : number = 0; i < node.children.length; i++) {
       let child : D.STNode = node.children[ i];
-      // // // console.log( "label1Marks[ child.spID]: " + label1Marks[ child.spID])
       if ( label1Marks[ child.spID]) { // if its marked
         label1Marks[ node.spID] = true;
       }
@@ -97,17 +63,11 @@ function longestCommonSublabel( label1: D.Label, label2: D.Label) : D.Label {
   }
 
   let markUpInnerNodesBang = function( node: D.STNode, depth: number) : void {
-    // // console.log("..............hello?")
-    // // console.log("node.children: ");
-    // // console.log(node.children);
     if ( node.children.length == 0) {
-      // // // console.log("48712947892173490128309128301283 PLS")
       if ( node.upLabel.isSourceEqual( label1)) {
-        // // console.log( "marked 1");
         label1Marks[ node.spID] = true;
       }
       if ( node.upLabel.isSourceEqual( label2)) {
-        // // console.log( "marked 2");
         label2Marks[ node.spID] = true;
       }
     } else {
@@ -117,52 +77,17 @@ function longestCommonSublabel( label1: D.Label, label2: D.Label) : D.Label {
         markUpInnerNodesBang( child, k);
       }
       absorbChildrenMarks( node, depth);
-      // // console.log("left absorbChildrenMarks");
     }
   }
 
   var main = function() : D.Label {
-    // console.log("longestCommonSublabel.main: in");
     let tree : D.SuffixTree = new D.SuffixTree();
-    // // console.log(" -----------------------------------------------------------------");
-    // // console.log("label1: " + label1);
-    // // console.log("label2: " + label2);
-    // // console.log("                                          BEFORE  1 !!!!!")
+
+    // add both words to the suffixtree
     suffixTreeAddBang( tree, label1);
-
-    // console.log("after suffixTreeAddBang( tree, label1), tree is:");
-    // tree.cutePrint();
-
-    // console.log("\n\n\n\n\n"); // add some space between adds
-
-    // // console.log(" ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-    // // console.log(" +++++ After first label added: ");
-    //tree.printComplete();
-    // tree.cutePrint();
-
-    // // console.log("                                          BETWEEN 1 and 2")
     suffixTreeAddBang( tree, label2);
 
-    // console.log("after suffixTreeAddBang( tree, label2), tree is:");
-    // tree.cutePrint();
-
-    // console.log("\n\n\n\n\n"); // add some space between adds
-
-    // // // console.log("+++++ After second label added: ")
-    // tree.printComplete();
-
-    // // console.log("                                          AFTER   2 !!!!!")
-    // // // console.log("Logging tree...:")
-    // tree.printComplete();
-    // console.log("before markUp")
     markUpInnerNodesBang( tree.root, 0);
-    // console.log("after markUp")
-    // // console.log("pre return...")
-
-    // console.log("\n\n-----------------------------------\n" +
-    //                 " Logging \"dictionaries\": ")
-    // console.log( label1Marks)
-    // console.log( label2Marks)
 
     return pathLabel( deepestNode);
   }
@@ -176,10 +101,7 @@ function longestCommonSublabel( label1: D.Label, label2: D.Label) : D.Label {
 }
 
 export function longestCommonSubstring( s1: string, s2: string) : string {
-  // console.log("longestCommonSubstring: in");
   return longestCommonSublabel( labelLib.stringToLabelWithSentinel( s1),
                                 labelLib.stringToLabelWithSentinel( s2)).toString();
-  // return longestCommonSublabel( labelLib.stringToLabel( s1),
-  //                               labelLib.stringToLabel( s2)).toString();
 }
 }

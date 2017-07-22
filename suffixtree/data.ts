@@ -43,7 +43,7 @@ export class Label {
       return this.sublabel( start, this.length())
     } else {
       if (!(start <= end)) {
-        // // console.log("there's a problem???");
+        // do nothing, there's a problem.
       }
       return new Label( this.datum, start + this.i, end + this.i)
     }
@@ -115,27 +115,6 @@ export class SuffixTree {
                             [],
                             undefined);
   }
-
-  // cutePrint() {
-  //   // console.log("~~~ Root CUTE PRINT     ~~~")
-  //   let tabs : string = "\t";
-  //   this.root.cutePrint(tabs);
-  //   // console.log("~~~ End Root CUTE PRINT ~~~")
-  // }
-
-  printComplete() {
-    // // console.log("~~~ Root     ~~~")
-    this.root.printComplete();
-    // // console.log("~~~ End Root ~~~")
-  }
-
-  // somewhat a simplification of what node-follow does.
-  // instead of using continuations, just returns boolean values
-  // where appropriate.
-  // contains( label: Label) {
-  //   return this.root.nodeFollowK( label, true, true, false, false)
-  // }
-
 }
 
 function deepCopyLabelSTNodeArray( a : STNode[]) : STNode[]{
@@ -171,50 +150,9 @@ export class STNode {
     nodeID++;
   }
 
-  // cutePrint( tl) {
-  //   var ret = tl + '{ spID:' + this.spID + ', ' + this.upLabel.actualToString() + '}'
-  //   // console.log(ret);
-  //   tl = tl + "\t";
-  //   for ( var i = 0; i < this.children.length; i++) {
-  //     this.children[ i].cutePrint( tl);
-  //   }
-  // }
-
-  printComplete() {
-    // // console.log('--- ' + this.spID + ': Node     ---')
-    // // console.log('    upLabel:');
-    // // console.log( this.upLabel.simpleToString());
-    if ( this.suffixLink) {
-      // // console.log('    sufLink:');
-      // // console.log( this.suffixLink.simpleStr());
-    }
-    // // console.log('    children: {\n');
-    for (var i = 0; i < this.children.length; i++) {
-      this.children[ i].printComplete();
-    }
-    // // console.log('}');
-    // // console.log('--- ' + this.spID + ': End Node ---')
-  }
-
   simpleStr() {
     return '{ upLabel: ' + this.upLabel.simpleToString() + ', spID: ' + this.spID + '}'
   }
-
-  // copy() {
-  //   let retNode : STNode;
-  //   if (this.suffixLink != undefined) {
-  //     retNode = new STNode(  this.upLabel.copy(),
-  //                            this.parent,
-  //                            deepCopyLabelSTNodeArray(this.children),
-  //                            this.suffixLink.copy());
-  //   } else {
-  //     retNode = new STNode(  this.upLabel.copy(),
-  //                            this.parent,
-  //                            deepCopyLabelSTNodeArray(this.children),
-  //                            this.suffixLink);
-  //   }
-  //   return retNode;
-  // }
 
   // the root node is the node w/o a parent
   nodeRoot() {
@@ -230,11 +168,6 @@ export class STNode {
 
   addChildBang( iNode : STNode) {
     this.children.push( iNode);
-    // // // console.log("\n\n kiddies: ");
-    // for ( var i = 0 ; i < this.children.length; i++) {
-    //   // // console.log( this.children[ i].simpleStr())
-    // }
-    // // // console.log( this.children);
   }
 
   removeChildBang( iChild : STNode) {
@@ -249,7 +182,6 @@ export class STNode {
   // produces undefined if nothing can be found
   findChild( toFind : Label | string) {
     if ( toFind instanceof Label) {
-      // // console.log("...here????")
       for ( var i : number = 0; i < this.children.length; i++) {
         let tmpLabel : Label = this.children[ i].upLabel;
         if (tmpLabel.labelRef( 0) == toFind.labelRef( 0)) {
@@ -258,20 +190,14 @@ export class STNode {
       }
       return undefined;
     } else if ( typeof toFind == "string") {
-      // // // console.log("here i am dont tread on me")
-      // // // console.log( toFind);
-
       for ( var i : number = 0; i < this.children.length; i++) {
-        // // // console.log("i said here i am dont tread on me")
         let tmpLabel : Label = this.children[ i].upLabel;
-        // // // console.log(tmpLabel.labelRef( 0))
         if (tmpLabel.labelRef( 0) == toFind) {
           return this.children[ i];
         }
       }
       return undefined;
     }
-    // // console.log("this hsould never happen........")
   }
 
   // returns the inserted node
@@ -281,41 +207,21 @@ export class STNode {
     let postLabel : Label = label.sublabel( offset);
     let parent : STNode = this.parent;
     let newNode : STNode = new STNode(  preLabel, parent,
-                                        [this], // heck
+                                        [this],
                                         undefined);
-
-    // console.log( "\n\nin upSplit. printing everything.")
-    // console.log( "first, the node (this)'s children:");
-    // console.log( this.children);
-    // console.log( "label");
-    // console.log( label);
-    // console.log( "preLabel");
-    // console.log( preLabel);
-    // console.log( "postLabel");
-    // console.log( postLabel);
-    // console.log( "parent");
-    // console.log( parent);
-    // console.log( "newNode's children");
-    // console.log( newNode.children);
 
     this.upLabel = postLabel;
     parent.removeChildBang( this);
     this.parent = newNode;
     parent.addChildBang( newNode);
 
-    return newNode; // needed?
+    return newNode;
   }
 
   // return both nodes
   upSpliceLeaf( offset : number, leafLabel : Label) : [STNode, STNode] {
     let splitNode : STNode = this.upSplit( offset);
     let leaf : STNode = splitNode.addLeafBang( leafLabel);
-
-    // console.log("----------------\nin upSpliceLeaf")
-    // console.log("splitNode: ")
-    //splitNode.cutePrint("");
-    // console.log("leaf: ")
-    //leaf.cutePrint("");
 
     return [ splitNode, leaf]
   }
@@ -329,41 +235,31 @@ export class STNode {
     let EDGEk = function( theNode: STNode, label : Label, labelOffset : number) : [STNode,number] {
       let upLabel = theNode.upLabel;
 
-      // dunno about this loop
-      // for ( var k : number = 0; k < originalLabel.length(); k++) {
+
       for ( var k : number = 0; ; k++) {
         let kLabelOffset : number = k + labelOffset;
         if ( k == upLabel.length()) {
           return NODEk( theNode, label, kLabelOffset);
         } else if ( kLabelOffset == label.length()) {
-          // // console.log("coconut")
           return mateK( theNode, k);
-          // return mateK;
         } else if (upLabel.labelRef( k) == label.labelRef( kLabelOffset)) {
-          // // console.log("yooo: " + k + " and " + originalLabel.length());
           // continue
         } else {
-          // // console.log("dragonfruit")
           return miseK( theNode, k, label, kLabelOffset);
-          // return miseK;
         }
       }
     }
 
     let NODEk = function( theNode: STNode, label : Label, labelOffset : number) : [STNode, number] {
       if ( label.length() == labelOffset) {
-        // // console.log("apple")
         return matnK( theNode)
-        // return matnK;
       } else {
         let child : STNode = theNode.findChild( label.labelRef( labelOffset))
         // if child != undefined
         if ( child) {
           return EDGEk( child, label, labelOffset);
         } else {
-          // // console.log("banana")
           return misnK( theNode, label, labelOffset);
-          // return misnK;
         }
       }
     }
