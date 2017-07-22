@@ -3,15 +3,12 @@
 /// <reference path='DataClasses.ts'/>
 /// <reference path='motion_helpers.ts'/>
 
-// import mh = require('./motion_helpers');
 import {GameConsts as gc} from './GameConsts';
 import {MotionHelpers as MH} from './motion_helpers';
 import {DataClasses as DC} from './DataClasses';
 
 export module Motion {
-// declare var require: NodeRequire;
-// import gen = require('random-seed');
-var pls: RandGen;
+var pls: RandGen; // random number generator
 
 /**
  * Modified from from https://gist.github.com/blixt/f17b47c62508be59987b
@@ -84,7 +81,6 @@ export function world_change_direction( w: DC.World, dir: DC.Dir): DC.World {
 
 // eat the food and generate a new one
 export function snake_eat( w: DC.World): DC.World {
-	// console.log( pls.random());
 	var i: number = Math.floor( pls.random() * gc.GameConsts.BOARD_WIDTH);
 	var j: number = Math.floor( pls.random() * gc.GameConsts.BOARD_HEIGHT);
 

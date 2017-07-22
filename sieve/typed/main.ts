@@ -1,13 +1,9 @@
-
-// probably the most inefficient sieve of eratosthenes to 
-// grace the face of this planet
-// the reasoning: try to get it closer to the racket implementation
-// so as to better compare with the original benchmarks
+// sieve of erastosthenes 
+// based on the typed racket version
 
 export module main {
 class InfiniteList {
     tList: number[];
-    // bList: boolean[]; 
 
     constructor() { 
         this.tList = [2]; // start off with 2 as the first prime
@@ -59,39 +55,6 @@ class InfiniteList {
         this.tList.push(curVal);
     }
 
-};
-
-// this is the original code for the sieve, in a more traditional/normal implementation
-// take from stackoverflow post
-// used as a model for the the implementation above (kind of)
-var eratosthenes = function(n: number): number {
-    // Eratosthenes algorithm to find all primes under n
-    var array: boolean[] = [];
-    var upperLimit: number = n*Math.log(n*Math.log(n));
-    var output: number[] = [];
-
-    // Make an array from 2 to (n - 1)
-    for (var i: number = 0; i < upperLimit; i++) {
-        array.push(true);
-    }
-
-    // Remove multiples of primes starting from 2, 3, 5,...
-    for (var i: number = 2; i <= upperLimit; i++) {
-        if (array[i]) {
-            for (var j = i * i; j < upperLimit; j += i) {
-                array[j] = false;
-            }
-        }
-    }
-
-    // All array[i] set to true are primes
-    for (var i = 2; i < upperLimit; i++) {
-        if(array[i]) {
-            output.push(i);
-        }
-    }
-
-    return output[n - 1];
 };
 
 export function main() {

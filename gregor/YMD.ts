@@ -1,3 +1,7 @@
+// helper functions for the YMD class mostly
+// all names match to the racket originals
+// this corresponds to ymd.rkt
+
 import {CoreClasses as D} from './CoreClasses';
 import {DateTimeHelpers as DTH} from './DateTimeHelpers';
 import {DateHelpers as DH} from './DateHelpers';

@@ -1,4 +1,10 @@
 // this file is equivalent to difference.rkt
+// this is the main file which uses the BigInt to avoid precision-based
+// rounding errors
+// note that there are still some rounding errors which occur in the division 
+// at the precision specified; but this was a choice made to have a reasonable running 
+// speed (at the precision necessary to produce the same results as the racket original,
+// the division algorithm was unusably slow)
 
 import {CoreClasses as D} from './CoreClasses';
 import {DateTimeHelpers as DTH} from './DateTimeHelpers';
@@ -42,53 +48,31 @@ export function datetime_months_between( dt1: D.DateTime, dt2: D.DateTime): numb
 }
 
 export function dateTime_days_between( dt1: D.DateTime, dt2: D.DateTime): number {
-	// console.log( "kill me");
-	// console.log( DTH.dateTime_to_jd( dt2));
-	// console.log( "wtf boi");
+
 	return Math.floor( DTH.dateTime_to_jd( dt2).ieEval() - DTH.dateTime_to_jd( dt1).ieEval());
-	// return DTH.dateTime_to_jd( dt2).ieEval() - DTH.dateTime_to_jd( dt1).ieEval();
 }
 
 export function dateTime_nanoseconds_between( dt1: D.DateTime, dt2: D.DateTime): number {
-
+	// here there was some rounding error
+	// so use the BigInt class 
 	var bi1: B.BigInt = new B.BigInt( dateTime_to_jdns( dt1));
 	var bi2: B.BigInt = new B.BigInt( dateTime_to_jdns( dt2));
 	var toRet: B.BigInt = bi2.sub( bi1);
 
-	// console.log( "PLS END MY LIFE");
-	// console.log( bi2.getValue());
-	// console.log( bi1.getValue());
-	// console.log( toRet.getValue());
-	// console.log( toRet.getValue());
-	// console.log( "CLOROX IS MY BEVERAGE OF CHOICE");
-
-	// console.log( toRet.printable());
-	return toRet.getValue(); //Number( toRet.printable());
+	return toRet.getValue(); 
 }
 
 export function dateTime_to_jdns( dt: D.DateTime): number {
 	var c: C.Consts = new C.Consts();
 
+	// also rounding errors were happening here
 	var bNum: B.BigInt = new B.BigInt( DTH.dateTime_to_jd( dt).num);
 	var bDenom: B.BigInt = new B.BigInt( DTH.dateTime_to_jd( dt).denom);
 	var intFrac: B.BigInt = bNum.divide( bDenom);
 
-	// console.log( "Here!!");
-	// console.log( bNum.getValue());
-	// console.log( bDenom.getValue());
-	// console.log( intFrac.getValue());
-	// console.log( c.NS_DAY);
-
 	var end: B.BigInt = intFrac.multiply( new B.BigInt( c.NS_DAY));
 	
-
-
-	
-	// return Math.floor( DTH.dateTime_to_jd( dt).ieEval() * c.NS_DAY);
-	// console.log( "!!!!!!!!!!!!!!!!!!!   " + end.printable());
 	return end.getValue();
-	// console.log( dt);
-	// return DTH.dateTime_to_jd( dt).ieEval() * c.NS_DAY;
 }
 
 export function days_in_month( y: number, m: number): number {

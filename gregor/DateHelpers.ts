@@ -13,6 +13,7 @@ export function date_hash_proc( x: D.Date, fn: (n: number) => number): number {
 
 // this is temporary, and probably needs to take an output channel
 // to better match the racket and to actually make sense
+// but it's unused in the tests so it's fine for now
 export function date_write_proc( d: D.Date): void {
 	console.log( "<date " + date_to_iso8601( d) + ">");
 }

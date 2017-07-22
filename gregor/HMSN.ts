@@ -1,3 +1,6 @@
+// equivalent to hmsn.rkt
+// with some relevant helper functions included as class functions
+
 import {CoreClasses as D} from './CoreClasses';
 import {HMSN as C} from './HMSN';
 

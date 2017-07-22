@@ -1,5 +1,5 @@
-// this is equivalent to date.rkt
-// i'm fully aware that these should be member functions in the Date class,
+// this is equivalent to datetime.rkt
+// i'm fully aware that these should be member functions in the DateTime class,
 // but in the interest of keeping this as close to the racket original as possible
 // i figured i'd do it this way
 
@@ -40,7 +40,7 @@ export function dateTime_to_jd( d: any): D.ExactRational {
 	if (isDateTime( d)) {
 		return (<D.DateTime> d).jd;
 	} 
-	else return new D.ExactRational(-1, 1); // this means error
+	else return new D.ExactRational(-1, 1); // this means error (date should never be negative)
 }
 
 export function dateTime_to_posix( d: D.DateTime): D.ExactRational {
@@ -90,10 +90,6 @@ export function date_and_time_to_jd( d: D.Date, t: D.Time): D.ExactRational {
 	var day_ns: D.ExactRational = new D.ExactRational( consts.hmns_to_day_ns( t.hmsn), 1);
 
 	var toRet = (jdn.add( new D.ExactRational( -1, 2))).add( day_ns.divide(new D.ExactRational( consts.NS_DAY, 1)));
-	// console.log( "KILL ME");
-	// // console.log( day_ns.divide(new D.ExactRational( consts.NS_DAY, 1)));
-	// console.log( toRet);
-	// console.log( "I EMBRACE DEATH");
 
 	return toRet;
 }

@@ -1,9 +1,9 @@
 // equivalent to the core_structs.rkt file from the racket version
 // and also the gregor_structs.rkt
 // and also the moment_base.rkt
+// just a collection of most of the base objects and some of their member functions
 
 import {DateTimeHelpers as DTH} from './DateTimeHelpers';
-// import * as MH from './MomentHelpers';
 
 export module CoreClasses {
 export class Pair<A, B> {
@@ -24,11 +24,6 @@ export class ExactRational {
 		// reduce the fraction -- first make them into integers (they should already be, but just to check)
 		n = Math.floor( n);
 		d = Math.floor( d); 
-
-		// console.log( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-  // 		console.log( n);
-  // 		console.log( d);
-  // 		console.log( "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
 
 		// make sure the fraction is in lowest terms
   		var gcdd: number = this.gcd( n, d);
@@ -220,16 +215,5 @@ export class Moment {
 		return instr;
 	}
 
-	// public equals( m: Moment): boolean {
-	// 	return MH.moment_to_jd(this).equals( MH.moment_to_jd( m));
-	// }
-
-	// public lt( m: Moment): boolean {
-	// 	return MH.moment_to_jd(this).lt( MH.moment_to_jd( m));
-	// }
-
-	// public lte( m: Moment): boolean {
-	// 	return MH.moment_to_jd(this).lte( MH.moment_to_jd( m));
-	// }
 };
 }

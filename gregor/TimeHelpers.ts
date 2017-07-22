@@ -1,4 +1,4 @@
-// this is equivalent to date.rkt
+// this is equivalent to time.rkt
 // i'm fully aware that these should be member functions in the Date class,
 // but in the interest of keeping this as close to the racket original as possible
 // i figured i'd do it this way
@@ -18,6 +18,7 @@ export function time_hash_proc( x: D.Time, fn: (n: number) => number): number {
 
 // this is temporary, and probably needs to take an output channel
 // to better match the racket and to actually make sense
+// but it's not even used in our tests
 export function date_write_proc( d: D.Time): void {
 	console.log( "<time " + time_to_iso8601( d) + ">");
 }

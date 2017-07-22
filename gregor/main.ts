@@ -1,5 +1,11 @@
-// this file is equivalent to main.rkt
-
+// this file is similar to main.rkt
+// runs the tests
+// (but not all the tests equivalent to the original racket tests)
+// differences: due to lack of tz library, only one of the 3 test runs from the original 
+//				racket is implemented here (test_difference is implemented, but not test_clock or test_iso)
+//				instead, this benchmark mainly tests the BigNumber operations that needed 
+//				to be implemented bc of the rounding errors occurring (which wasn't a problem
+//				in the racket)
 
 import {CoreClasses as D} from './CoreClasses';
 import {DateHelpers as DH} from './DateHelpers';
@@ -18,7 +24,7 @@ function genDates(): void {
 					   DTH.datetime( 1944,  6,  6, 6,  6, 6, 6), // D-Day
 					   DTH.datetime( 1984), 				     // 1984
 					   DTH.datetime( 1963, 11, 22, 12, 30), 	 // Kennedy (assassination)
-					   DTH.datetime( 1865,  4, 14, 10),	         // Lincoln ded
+					   DTH.datetime( 1865,  4, 14, 10),	         // Lincoln 
 					   DTH.datetime( 1881,  7,  2), 	         // Garfield
 					   DTH.datetime( 1901,  9,  6), 			 // McKinley
 					   DTH.datetime( 1933,  2, 15),              // Roosevelt	
@@ -62,10 +68,7 @@ function test_difference( dates: D.DateTime[]): void {
 		for( var j: number = 0; j < dates.length; j ++) {
 			var dt1: D.DateTime = dates[ i];
 			var dt2: D.DateTime = dates[ j];
-			// console.log( dt1.lte( dt2));
-			// console.log( DF.datetime_months_between( dt1, dt2));
-			// console.log( DF.dateTime_days_between( dt1, dt2));
-			// console.log( DF.dateTime_nanoseconds_between( dt1, dt2));
+
 			dt1.lte( dt2);
 			DF.datetime_months_between( dt1, dt2);
 			DF.dateTime_days_between( dt1, dt2);
